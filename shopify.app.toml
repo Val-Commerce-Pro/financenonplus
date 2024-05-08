@@ -3,10 +3,12 @@
 client_id = "a6c1a9acfc6859f61ffc9dbe192dc515"
 name = "financenonplus"
 handle = "financenonplus"
-application_url = "https://example.com/"
+application_url = "https://expand-examples-luggage-mode.trycloudflare.com"
 embedded = true
 
 [build]
+automatically_update_urls_on_dev = true
+dev_store_url = "financenonplus.myshopify.com"
 include_config_on_deploy = true
 
 [access_scopes]
@@ -14,7 +16,11 @@ include_config_on_deploy = true
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://expand-examples-luggage-mode.trycloudflare.com/auth/callback",
+  "https://expand-examples-luggage-mode.trycloudflare.com/auth/shopify/callback",
+  "https://expand-examples-luggage-mode.trycloudflare.com/api/auth/callback"
+]
 
 [webhooks]
 api_version = "2024-04"
