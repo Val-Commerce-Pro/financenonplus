@@ -1,18 +1,32 @@
+import type { ActionFunction } from "@remix-run/node";
+import { useSubmit } from "@remix-run/react";
 import { BlockStack, Layout, Page, TextField } from "@shopify/polaris";
 import { useState } from "react";
 import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  console.log("action function called with this data ", formData);
+  const draftorder = createDraftOrder("financenonplus.myshopify.com");
+  console.log("draftOrder: " + draftorder);
+  return null;
+};
+
 export default function Index() {
+  const submit = useSubmit();
   const [pluginConfig, setPluginConfig] = useState({
     laufzeitenTextfield: "",
   });
 
   const handleSave = () => {
-    console.log();
+    console.log("pluginConfig: " + pluginConfig);
   };
   const handleFakeClick = async () => {
-    const draftorder = createDraftOrder("financenonplus.myshopify.com");
-    console.log("draftOrder: " + draftorder);
+    const data = {
+      pluginConfig,
+      _action: "pluginConfig",
+    };
+    submit(data, { method: "POST" });
   };
 
   return (
