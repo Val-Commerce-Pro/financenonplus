@@ -37,7 +37,7 @@ export interface DraftOrderInput {
   lineItems: LineItem[];
 }
 
-export async function createDraftOrder(shop: string, input?: DraftOrderInput) {
+export async function createDraftOrder(shop: string) {
   const graphQlClient = await getGraphqlClient(shop);
 
   const response = await graphQlClient.request(
