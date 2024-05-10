@@ -70,10 +70,12 @@ export async function createDraftOrder(shop: string) {
             zip: "20146",
             countryCode: "DE",
           },
-          lineItems: {
-            quantity: 1,
-            variant_id: "gid://shopify/ProductVariant/45118547165463",
-          },
+          lineItems: [
+            {
+              quantity: 1,
+              variant_id: "gid://shopify/ProductVariant/45118547165463",
+            },
+          ],
         },
       },
     },
