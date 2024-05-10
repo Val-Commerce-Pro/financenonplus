@@ -10,7 +10,7 @@ const appHostName = process.env.SHOPIFY_APP_URL;
 const api = shopifyApi({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey:
-    process.env.SHOPIFY_API_SECRET || "2adee1cd244a0aaf0ae45be8f4efac30",
+    process.env.SHOPIFY_API_SECRET || "a6c1a9acfc6859f61ffc9dbe192dc515",
   apiVersion: LATEST_API_VERSION,
   scopes: process.env.SCOPES?.split(","),
   hostName: appHostName!,
