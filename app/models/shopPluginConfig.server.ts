@@ -17,7 +17,9 @@ export async function updateShopPluginConfig(
   }
 }
 
-export async function createShopPluginConfig(data: ShopPluginConfigData) {
+export async function createOrUpdateShopPluginConfig(
+  data: ShopPluginConfigData,
+) {
   try {
     const existingShop = await db.shopPluginConfig.findUnique({
       where: { shop: data.shop },

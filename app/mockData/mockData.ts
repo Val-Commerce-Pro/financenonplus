@@ -4,7 +4,7 @@ export const shopPluginMockData: ShopPluginConfigData = {
   username: "1pstest",
   vendorId: "8403",
   clientId: "8403",
-  password: "ecec8403",
+  passwort: "ecec8403",
   shop: "financenonplus.myshopify.com",
   hash: "1234567890",
   apiKey: "e93c8c99-34ae-4f96-9a3b-8d761c99f013",

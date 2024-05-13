@@ -10,6 +10,7 @@ import { Switch } from "./components/switch";
 // import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
+  console.log("ACtion function rendered");
   const { session } = await authenticate.admin(request);
   const formData = await request.json();
   console.log("session, formData", session, formData);
@@ -21,19 +22,16 @@ export const action: ActionFunction = async ({ request }) => {
   return null;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({
+  request,
+}): Promise<ShopPluginConfigData> => {
+  console.log("Loader function rendered");
   const { session } = await authenticate.admin(request);
-  console.log("session", session);
-  const pluginConfig = await getShopPluginConfig(session.shop);
-  console.log("pluginConfig", pluginConfig);
-  return null;
-};
+  const pluginConfData = await getShopPluginConfig(session.shop);
 
-export default function Index() {
-  const submit = useSubmit();
-  const loaderData = useLoaderData();
-  console.log("loaderData", loaderData);
-  const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
+  if (pluginConfData) return pluginConfData;
+
+  return {
     username: "",
     vendorId: "",
     apiKey: "",
@@ -41,7 +39,23 @@ export default function Index() {
     clientId: "",
     hash: "",
     passwort: "",
-    shop: "",
+    shop: session.shop,
+  };
+};
+
+export default function Index() {
+  const submit = useSubmit();
+  const loaderData = useLoaderData<ShopPluginConfigData>();
+  console.log("loaderData", loaderData);
+  const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
+    username: loaderData.username ?? "",
+    vendorId: loaderData.vendorId ?? "",
+    apiKey: loaderData.apiKey ?? "",
+    appMode: loaderData.appMode ?? false,
+    clientId: loaderData.clientId ?? "",
+    hash: loaderData.hash ?? "",
+    passwort: loaderData.passwort ?? "",
+    shop: loaderData.shop ?? "",
   });
 
   const handleSave = () => {
