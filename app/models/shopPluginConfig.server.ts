@@ -1,29 +1,35 @@
-// import type { ShopPluginConfig } from "@prisma/client";
+// import { shopPluginMockData } from "~/mockData/mockData";
+import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import db from "../db.server";
 
-export async function createShopPluginConfig() {
-  /** @type {any} */
-
-  const data = {
-    username: "1pstest",
-    vendorId: "8403",
-    clientId: "8403",
-    // laufzeiten: "12,24,6",
-    // zeroMonth: "12",
-    // zinsSaetze: "9.0,9.3,9.5",
-    // aktionszins: 1,
-    // minBestellWert: 11000,
-    shop: "financenonplus.myshopify.com",
-    // hash: "1234567890",
-    apiKey: "e93c8c99-34ae-4f96-9a3b-8d761c99f013",
-    passwort: "",
-    // paymentHandle: "",
-  };
-
-  const Settings = await db.shopPluginConfig.create({ data });
-
-  if (!Settings) {
-    return null;
+export async function updateShopPluginConfig(
+  data: Partial<ShopPluginConfigData>,
+) {
+  if (!data.shop) return { error: "Shop not found" };
+  try {
+    const updatedShopPluginConfig = await db.shopPluginConfig.update({
+      where: { shop: data.shop },
+      data,
+    });
+    return updatedShopPluginConfig;
+  } catch (err) {
+    console.error(err);
   }
-  return Settings;
+}
+
+export async function createShopPluginConfig(data: ShopPluginConfigData) {
+  try {
+    const existingShop = await db.shopPluginConfig.findUnique({
+      where: { shop: data.shop },
+    });
+    console.log("existingShop", existingShop);
+    if (!existingShop) {
+      const settings = await db.shopPluginConfig.create({ data });
+      return settings;
+    }
+    const updatedShopPluginData = await updateShopPluginConfig(data);
+    return updatedShopPluginData;
+  } catch (err) {
+    console.error("err", err);
+  }
 }

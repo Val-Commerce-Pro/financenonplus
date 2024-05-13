@@ -27,11 +27,13 @@ model Session {
 }
 
 model ShopPluginConfig {
-  id       Int    @id @default(autoincrement())
-  username String @map("apiUsername")
-  vendorId String @map("verndorId")
+  id       Int     @id @default(autoincrement())
+  shop     String  @unique
+  username String
+  vendorId String
   clientId String
-  shop     String @unique
   apiKey   String
-  passwort String
+  password String
+  hash     String
+  appMode  Boolean @default(false)
 }
