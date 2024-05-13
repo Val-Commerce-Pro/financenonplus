@@ -33,3 +33,14 @@ export async function createShopPluginConfig(data: ShopPluginConfigData) {
     console.error("err", err);
   }
 }
+
+export async function getShopPluginConfig(shop: ShopPluginConfigData["shop"]) {
+  try {
+    const shopPluginConfig = await db.shopPluginConfig.findUnique({
+      where: { shop },
+    });
+    return shopPluginConfig;
+  } catch (err) {
+    console.error(err);
+  }
+}

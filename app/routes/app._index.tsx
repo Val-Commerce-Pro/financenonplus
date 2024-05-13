@@ -3,6 +3,7 @@ import { useSubmit } from "@remix-run/react";
 import { Button, Card, Page, Text, TextField } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
+import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import { Switch } from "./components/switch";
@@ -23,6 +24,8 @@ export const action: ActionFunction = async ({ request }) => {
 export const loader: LoaderFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   console.log("session", session);
+  const pluginConfig = getShopPluginConfig(session.shop);
+  return pluginConfig;
 };
 
 export default function Index() {
