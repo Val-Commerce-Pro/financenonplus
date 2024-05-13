@@ -24,9 +24,9 @@ export const action: ActionFunction = async ({ request }) => {
 export const loader: LoaderFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   console.log("session", session);
-  const pluginConfig = getShopPluginConfig(session.shop);
+  const pluginConfig = await getShopPluginConfig(session.shop);
   console.log("pluginConfig", pluginConfig);
-  return pluginConfig ?? null;
+  return null;
 };
 
 export default function Index() {
