@@ -33,7 +33,7 @@ model ShopPluginConfig {
   vendorId String
   clientId String
   apiKey   String
-  password String
+  passwort String
   hash     String
   appMode  Boolean @default(false)
 }
