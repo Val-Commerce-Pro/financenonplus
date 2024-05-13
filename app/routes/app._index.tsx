@@ -1,5 +1,5 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { useSubmit } from "@remix-run/react";
+import { useLoaderData, useSubmit } from "@remix-run/react";
 import { Button, Card, Page, Text, TextField } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
@@ -25,11 +25,14 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   console.log("session", session);
   const pluginConfig = getShopPluginConfig(session.shop);
-  return pluginConfig;
+  console.log("pluginConfig", pluginConfig);
+  return pluginConfig ?? null;
 };
 
 export default function Index() {
   const submit = useSubmit();
+  const loaderData = useLoaderData();
+  console.log("loaderData", loaderData);
   const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
     username: "",
     vendorId: "",
