@@ -3,7 +3,10 @@ import { useLoaderData, useSubmit } from "@remix-run/react";
 import { Button, Card, Page, Text, TextField } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
+import {
+  createOrUpdateShopPluginConfig,
+  getShopPluginConfig,
+} from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import { Switch } from "./components/switch";
@@ -19,6 +22,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   const dataActionForm = formatData(values, true) as ShopPluginConfigData;
   console.log("format data", dataActionForm);
+  const shopConfigPlugin = await createOrUpdateShopPluginConfig(dataActionForm);
+  console.log("shopConfigPlugin", shopConfigPlugin);
   // const formData = await request.formData();
   // const { _action, ...values } = Object.fromEntries(formData);
   // console.log("action function called with this data ", formData);
@@ -74,9 +79,9 @@ export default function Index() {
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    console.log("handleAppMode value and Id", value, name);
-    const updatedPluginData = { ...pluginConfig, [name]: value };
+    const { name, checked } = e.target;
+    console.log("handleAppMode checked and Id", checked, name);
+    const updatedPluginData = { ...pluginConfig, [name]: checked };
     console.log("updatedPluginData", updatedPluginData);
     setPluginConfig(updatedPluginData);
   };
