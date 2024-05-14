@@ -12,7 +12,7 @@ import { Switch } from "./components/switch";
 export const action: ActionFunction = async ({ request }) => {
   console.log("ACtion function rendered");
   const { session } = await authenticate.admin(request);
-  const formData = await request.json();
+  const formData = await request.formData();
   console.log("session, formData", session, formData);
   // const formData = await request.formData();
   // const { _action, ...values } = Object.fromEntries(formData);
@@ -59,10 +59,13 @@ export default function Index() {
   });
 
   const handleSave = () => {
-    console.log("pluginConfig", pluginConfig);
-    submit(JSON.stringify(pluginConfig), {
-      method: "POST",
-    });
+    console.log("pluginConfig", { ...pluginConfig });
+    submit(
+      { ...pluginConfig },
+      {
+        method: "POST",
+      },
+    );
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
