@@ -7,6 +7,7 @@ import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import { Switch } from "./components/switch";
+import { formatData } from "./utils/formatData";
 // import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -15,6 +16,9 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const { ...values } = Object.fromEntries(formData);
   console.log("session, formData, values", session, formData, values);
+
+  const dataActionForm = formatData(values, true) as ShopPluginConfigData;
+  console.log("format data", dataActionForm);
   // const formData = await request.formData();
   // const { _action, ...values } = Object.fromEntries(formData);
   // console.log("action function called with this data ", formData);
@@ -71,7 +75,9 @@ export default function Index() {
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
+    console.log("handleAppMode value and Id", value, name);
     const updatedPluginData = { ...pluginConfig, [name]: value };
+    console.log("updatedPluginData", updatedPluginData);
     setPluginConfig(updatedPluginData);
   };
 
@@ -85,15 +91,24 @@ export default function Index() {
       <ui-title-bar title="Einstellungen"> </ui-title-bar>
       {/* <HorizontalGrid gap="4" columns={3}> */}
       <Card>
-        <Text as="h2" variant="headingMd">
-          Consors EFI
-          <Switch
-            name={"appMode"}
-            label="App Mode:"
-            handleOnChange={handleAppMode}
-            checkboxValue={pluginConfig.appMode}
-          />
-        </Text>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "10px",
+          }}
+        >
+          <Text as="h2" variant="headingMd">
+            Consors EFI
+            <Switch
+              name="appMode"
+              label="App Mode:"
+              handleOnChange={handleAppMode}
+              checkboxValue={pluginConfig.appMode}
+            />
+          </Text>
+        </div>
         <TextField
           id="username"
           label="username"
