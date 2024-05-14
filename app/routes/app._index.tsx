@@ -13,7 +13,8 @@ export const action: ActionFunction = async ({ request }) => {
   console.log("ACtion function rendered");
   const { session } = await authenticate.admin(request);
   const formData = await request.formData();
-  console.log("session, formData", session, formData);
+  const { ...values } = Object.fromEntries(formData);
+  console.log("session, formData, values", session, formData, values);
   // const formData = await request.formData();
   // const { _action, ...values } = Object.fromEntries(formData);
   // console.log("action function called with this data ", formData);
@@ -28,6 +29,7 @@ export const loader: LoaderFunction = async ({
   console.log("Loader function rendered");
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
+  console.log("pluginConfData", pluginConfData);
 
   if (pluginConfData) return pluginConfData;
 
@@ -46,7 +48,6 @@ export const loader: LoaderFunction = async ({
 export default function Index() {
   const submit = useSubmit();
   const loaderData = useLoaderData<ShopPluginConfigData>();
-  console.log("loaderData", loaderData);
   const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
     username: loaderData.username ?? "",
     vendorId: loaderData.vendorId ?? "",
@@ -59,7 +60,7 @@ export default function Index() {
   });
 
   const handleSave = () => {
-    console.log("pluginConfig", { ...pluginConfig });
+    console.log("handle save called pluginConfig", { ...pluginConfig });
     submit(
       { ...pluginConfig },
       {
