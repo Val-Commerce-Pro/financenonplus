@@ -1,6 +1,13 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
-import { Button, Card, Page, Text, TextField } from "@shopify/polaris";
+import {
+  Badge,
+  BlockStack,
+  Box,
+  Button,
+  Spinner,
+  TextField,
+} from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 import {
@@ -10,6 +17,7 @@ import {
 import { authenticate } from "~/shopify.server";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import { Switch } from "./components/switch";
+import { getConsorsClient } from "./consors/consorsApi";
 import { formatData } from "./utils/formatData";
 // import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
@@ -32,50 +40,78 @@ export const action: ActionFunction = async ({ request }) => {
   return null;
 };
 
+type LoaderResponseI = {
+  pluginConfData: {
+    username: string;
+    vendorId: string;
+    apiKey: string;
+    appMode: boolean;
+    clientId: string;
+    hash: string;
+    passwort: string;
+    shop: string;
+  };
+  clientDataOk?: boolean;
+};
+
 export const loader: LoaderFunction = async ({
   request,
-}): Promise<ShopPluginConfigData> => {
+}): Promise<LoaderResponseI> => {
   console.log("Loader function rendered");
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
-  console.log("pluginConfData", pluginConfData);
 
-  if (pluginConfData) return pluginConfData;
+  const consorsClient = await getConsorsClient(session.shop);
+  const clientAuth = await consorsClient?.jwt();
+
+  const defaultResponse = {
+    pluginConfData: {
+      username: "",
+      vendorId: "",
+      apiKey: "",
+      appMode: false,
+      clientId: "",
+      hash: "",
+      passwort: "",
+      shop: session.shop,
+    },
+    clientDataOk: undefined,
+  };
+
+  if (!pluginConfData) return defaultResponse;
 
   return {
-    username: "",
-    vendorId: "",
-    apiKey: "",
-    appMode: false,
-    clientId: "",
-    hash: "",
-    passwort: "",
-    shop: session.shop,
+    pluginConfData,
+    clientDataOk: !!clientAuth,
   };
 };
 
 export default function Index() {
   const submit = useSubmit();
-  const loaderData = useLoaderData<ShopPluginConfigData>();
+  const [savingConfig, setSavingCofig] = useState(false);
+  const loaderData = useLoaderData<LoaderResponseI>();
+  const { clientDataOk, pluginConfData } = loaderData;
   const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
-    username: loaderData.username ?? "",
-    vendorId: loaderData.vendorId ?? "",
-    apiKey: loaderData.apiKey ?? "",
-    appMode: loaderData.appMode ?? false,
-    clientId: loaderData.clientId ?? "",
-    hash: loaderData.hash ?? "",
-    passwort: loaderData.passwort ?? "",
-    shop: loaderData.shop ?? "",
+    username: pluginConfData.username ?? "",
+    vendorId: pluginConfData.vendorId ?? "",
+    apiKey: pluginConfData.apiKey ?? "",
+    appMode: pluginConfData.appMode ?? false,
+    clientId: pluginConfData.vendorId ?? "",
+    hash: pluginConfData.hash ?? "",
+    passwort: pluginConfData.passwort ?? "",
+    shop: pluginConfData.shop ?? "",
   });
 
   const handleSave = () => {
     console.log("handle save called pluginConfig", { ...pluginConfig });
+    setSavingCofig(true);
     submit(
       { ...pluginConfig },
       {
         method: "POST",
       },
     );
+    setSavingCofig(false);
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -92,97 +128,114 @@ export default function Index() {
   };
 
   return (
-    <Page>
-      <ui-title-bar title="Einstellungen"> </ui-title-bar>
-      {/* <HorizontalGrid gap="4" columns={3}> */}
-      <Card>
+    <div
+      style={{
+        padding: "32px",
+      }}
+    >
+      <Box
+        background="bg-fill"
+        padding={{ md: "600" }}
+        width="400px"
+        borderRadius="300"
+      >
+        <ui-title-bar title="Einstellungen"> </ui-title-bar>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: "10px",
+            marginBottom: "10px",
           }}
         >
-          <Text as="h2" variant="headingMd">
-            Consors EFI
-            <Switch
-              name="appMode"
-              label="App Mode:"
-              handleOnChange={handleAppMode}
-              checkboxValue={pluginConfig.appMode}
-            />
-          </Text>
-        </div>
-        <TextField
-          id="username"
-          label="username"
-          autoComplete="off"
-          value={pluginConfig.username}
-          onChange={handleOnChange}
-          // onBlur={() => handleSave()}
-          // error={errors.title}
-        />
-        <TextField
-          id="vendorId"
-          label="vendorId"
-          autoComplete="off"
-          value={pluginConfig.vendorId}
-          onChange={handleOnChange}
-          // onBlur={() => handleSave()}
-          //error={errors.title}
-        />
-
-        <TextField
-          id="passwort"
-          label="Passwort"
-          autoComplete="off"
-          value={pluginConfig.passwort}
-          onChange={handleOnChange}
-          // onBlur={() => handleSave()}
-          //error={errors.title}
-        />
-        <TextField
-          id="apiKey"
-          label="ApiKey"
-          autoComplete="off"
-          value={pluginConfig.apiKey}
-          onChange={handleOnChange}
-          // onBlur={() => handleSave()}
-          //error={errors.title}
-        />
-        <TextField
-          id="hash"
-          label="Hash"
-          autoComplete="off"
-          value={pluginConfig.hash}
-          onChange={handleOnChange}
-          // onBlur={() => handleSave()}
-          //error={errors.title}
-        />
-        <Button variant="primary" onClick={handleSave}>
-          Save
-        </Button>
-        {/* <ChoiceList
-            title="App Mode"
+          <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
+          <Switch
             name="appMode"
-            allowMultiple={false}
-            selected={["live"]}
-            choices={[
-              // {value: "demo", label: "Demo Mode"},
-              { value: "live", label: "Live Betrieb" },
-              { value: "off", label: "Abgeschaltet" },
-            ]}
-            onChange={(value) => {
-              // console.log(`onChange event with value: ${value}`);
-              // TODO: can value be of another length then 1 ?
-              if (value.length === 1) {
-                setModeDropDown(value[0]);
-              }
-            }}
-          /> */}
-      </Card>
-      {/* </HorizontalGrid> */}
-    </Page>
+            label="App Mode:"
+            handleOnChange={handleAppMode}
+            checkboxValue={pluginConfig.appMode}
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
+            alt="consors banner"
+            style={{ maxHeight: "80px", maxWidth: "160px" }}
+          />
+        </div>
+
+        <BlockStack gap={"300"}>
+          <TextField
+            id="vendorId"
+            label="VendorID"
+            autoComplete="off"
+            value={pluginConfig.vendorId}
+            onChange={handleOnChange}
+            requiredIndicator
+          />
+          <TextField
+            id="username"
+            label="Username"
+            autoComplete="off"
+            value={pluginConfig.username}
+            onChange={handleOnChange}
+            requiredIndicator
+          />
+          <TextField
+            id="passwort"
+            label="Password"
+            autoComplete="off"
+            value={pluginConfig.passwort}
+            onChange={handleOnChange}
+            requiredIndicator
+          />
+          <TextField
+            id="apiKey"
+            label="Api Key"
+            autoComplete="off"
+            value={pluginConfig.apiKey}
+            onChange={handleOnChange}
+            requiredIndicator
+          />
+          <TextField
+            id="hash"
+            label="Notification Hash Key"
+            autoComplete="off"
+            value={pluginConfig.hash}
+            onChange={handleOnChange}
+            requiredIndicator
+          />
+        </BlockStack>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: "10px",
+          }}
+        >
+          {clientDataOk === undefined ? (
+            <></>
+          ) : clientDataOk ? (
+            <Badge size="medium" tone="success">
+              Credentials Success
+            </Badge>
+          ) : (
+            <Badge size="medium" tone="attention">
+              Credentials Error
+            </Badge>
+          )}
+          {savingConfig ? (
+            <div
+              style={{
+                marginRight: "25px",
+              }}
+            >
+              <Spinner size="small" accessibilityLabel="Loading Saving data" />
+            </div>
+          ) : (
+            <Button onClick={handleSave}>Save</Button>
+          )}
+        </div>
+      </Box>
+    </div>
   );
 }
