@@ -1,0 +1,21 @@
+{% comment %} 
+
+<style>
+#ah-cart-redirect {
+    {% if cart.total_price < 50000 %}
+        display: none;
+    {%  endif %}
+}
+</style> {% endcomment %}
+
+<div id="ah-cart-redirect">
+    <h3>Consors EFI</h3>
+    <a class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finance</a>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Consors-EFI",
+  "target": "section"
+}
+{% endschema %}

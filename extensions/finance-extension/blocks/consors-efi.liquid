@@ -1,0 +1,14 @@
+{{ 'finance-extension-style.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'finance-extension-script.js' | asset_url }}" defer="defer"></script>
+<div id="shopDomain" style="visibility: hidden;">{{ shop.domain }}</div>
+<div id="shopSecureUrl" style="visibility: hidden;">{{ shop.secure_url }}</div>
+
+<div id="root"></div>
+
+{% schema %}
+{
+  "name": "Consors EFI",
+  "target": "section"
+}
+{% endschema %}
+
