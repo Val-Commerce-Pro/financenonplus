@@ -1,4 +1,3 @@
-// import { shopPluginMockData } from "~/mockData/mockData";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
 import db from "../db.server";
 
