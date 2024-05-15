@@ -16,9 +16,9 @@ import {
 } from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
 import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
-import { Switch } from "./components/switch";
-import { getConsorsClient } from "./consors/consorsApi";
-import { formatData } from "./utils/formatData";
+import { Switch } from "../components/switch";
+import { getConsorsClient } from "../consors/consorsApi";
+import { formatData } from "../utils/formatData";
 // import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -128,16 +128,16 @@ export default function Index() {
   };
 
   return (
-    <div
-      style={{
-        padding: "32px",
-      }}
+    <Box
+      background="bg-fill"
+      padding={{ md: "600" }}
+      width="400px"
+      borderRadius="300"
     >
-      <Box
-        background="bg-fill"
-        padding={{ md: "600" }}
-        width="400px"
-        borderRadius="300"
+      <div
+        style={{
+          padding: "32px",
+        }}
       >
         <ui-title-bar title="Einstellungen"> </ui-title-bar>
         <div
@@ -151,7 +151,6 @@ export default function Index() {
           <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
           <Switch
             name="appMode"
-            label="App Mode:"
             handleOnChange={handleAppMode}
             checkboxValue={pluginConfig.appMode}
           />
@@ -162,80 +161,87 @@ export default function Index() {
           />
         </div>
 
-        <BlockStack gap={"300"}>
-          <TextField
-            id="vendorId"
-            label="VendorID"
-            autoComplete="off"
-            value={pluginConfig.vendorId}
-            onChange={handleOnChange}
-            requiredIndicator
-          />
-          <TextField
-            id="username"
-            label="Username"
-            autoComplete="off"
-            value={pluginConfig.username}
-            onChange={handleOnChange}
-            requiredIndicator
-          />
-          <TextField
-            id="passwort"
-            label="Password"
-            autoComplete="off"
-            value={pluginConfig.passwort}
-            onChange={handleOnChange}
-            requiredIndicator
-          />
-          <TextField
-            id="apiKey"
-            label="Api Key"
-            autoComplete="off"
-            value={pluginConfig.apiKey}
-            onChange={handleOnChange}
-            requiredIndicator
-          />
-          <TextField
-            id="hash"
-            label="Notification Hash Key"
-            autoComplete="off"
-            value={pluginConfig.hash}
-            onChange={handleOnChange}
-            requiredIndicator
-          />
-        </BlockStack>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: "10px",
-          }}
-        >
-          {clientDataOk === undefined ? (
-            <></>
-          ) : clientDataOk ? (
-            <Badge size="medium" tone="success">
-              Credentials Success
-            </Badge>
-          ) : (
-            <Badge size="medium" tone="attention">
-              Credentials Error
-            </Badge>
-          )}
-          {savingConfig ? (
+        {pluginConfData.appMode && (
+          <>
+            <BlockStack gap={"300"}>
+              <TextField
+                id="vendorId"
+                label="VendorID"
+                autoComplete="off"
+                value={pluginConfig.vendorId}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="username"
+                label="Username"
+                autoComplete="off"
+                value={pluginConfig.username}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="passwort"
+                label="Password"
+                autoComplete="off"
+                value={pluginConfig.passwort}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="apiKey"
+                label="Api Key"
+                autoComplete="off"
+                value={pluginConfig.apiKey}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="hash"
+                label="Notification Hash Key"
+                autoComplete="off"
+                value={pluginConfig.hash}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+            </BlockStack>
             <div
               style={{
-                marginRight: "25px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: "10px",
               }}
             >
-              <Spinner size="small" accessibilityLabel="Loading Saving data" />
+              {clientDataOk === undefined ? (
+                <></>
+              ) : clientDataOk ? (
+                <Badge size="medium" tone="success">
+                  Credentials Success
+                </Badge>
+              ) : (
+                <Badge size="medium" tone="attention">
+                  Credentials Error
+                </Badge>
+              )}
+              {savingConfig ? (
+                <div
+                  style={{
+                    marginRight: "25px",
+                  }}
+                >
+                  <Spinner
+                    size="small"
+                    accessibilityLabel="Loading Saving data"
+                  />
+                </div>
+              ) : (
+                <Button onClick={handleSave}>Save</Button>
+              )}
             </div>
-          ) : (
-            <Button onClick={handleSave}>Save</Button>
-          )}
-        </div>
-      </Box>
-    </div>
+          </>
+        )}
+      </div>
+    </Box>
   );
 }
