@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 
-import { ClientFormDataI } from "../../types/extensionPage";
+import { ClientFormDataI } from "../../types/clientForm";
 import { isDate21orMoreYearsOld } from "../../utils/formValidation";
 import { Box } from "../box";
 
@@ -48,11 +48,10 @@ export const ClientForm = ({
             handleChange={handleSelectChange}
             name="salutation"
             label="Salutation"
-            defaultText="Anrede auswählen"
             selectedValue={clientFormData.salutation}
             options={[
-              { id: 1, bezeichnung: "HERR" },
-              { id: 2, bezeichnung: "FRAU" },
+              { id: "HERR", bezeichnung: "Herr" },
+              { id: "FRAU", bezeichnung: "Frau" },
             ]}
             required
           />
@@ -94,6 +93,16 @@ export const ClientForm = ({
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
             textFieldValue={clientFormData.street}
+            required
+          />
+          <TextField
+            name="housenumber"
+            label="Hausnummer"
+            type="text"
+            handleOnChange={handleInputChange}
+            handleOnBlur={handleSave}
+            handleKeyDown={handleSave}
+            textFieldValue={clientFormData.housenumber}
             required
           />
           <TextField

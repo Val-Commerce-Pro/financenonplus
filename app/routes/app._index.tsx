@@ -22,7 +22,6 @@ import { formatData } from "../utils/formatData";
 // import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("ACtion function rendered");
   const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const { ...values } = Object.fromEntries(formData);
@@ -32,11 +31,7 @@ export const action: ActionFunction = async ({ request }) => {
   console.log("format data", dataActionForm);
   const shopConfigPlugin = await createOrUpdateShopPluginConfig(dataActionForm);
   console.log("shopConfigPlugin", shopConfigPlugin);
-  // const formData = await request.formData();
-  // const { _action, ...values } = Object.fromEntries(formData);
-  // console.log("action function called with this data ", formData);
-  // const draftorder = await createDraftOrder("financenonplus.myshopify.com");
-  // console.log("session, draftOrder, values", session, draftorder, values);
+
   return null;
 };
 

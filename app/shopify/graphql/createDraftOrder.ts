@@ -44,7 +44,8 @@ export async function createDraftOrder(shop: string) {
     `mutation draftOrderCreate($input: DraftOrderInput!) {
       draftOrderCreate(input: $input) {
         draftOrder {
-          id
+          id,
+          name
         }
       }
     }`,

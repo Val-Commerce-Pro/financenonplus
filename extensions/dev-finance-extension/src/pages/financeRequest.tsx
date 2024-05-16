@@ -1,13 +1,25 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../components/pagetitle";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 import { PluginConfigI } from "../types/pluginConfig";
 
+import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
-import { ClientForm } from "../components/sectionCompanyManager";
-import { ClientFormDataI } from "../types/extensionPage";
+import { ClientFormDataI } from "../types/clientForm";
+import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
+import { getConsorsLink } from "../utils/getConsorsLink";
 import { deleteCartItem, updateCartData } from "../utils/shopifyAjaxApi";
+
+type DraftOrderResponse = {
+  draftOrderCreate: {
+    draftOrder: {
+      id: string;
+      name: string;
+    };
+  };
+};
 
 type FinanceRequestProps = {
   cartData: ShoppingCart;
@@ -15,10 +27,11 @@ type FinanceRequestProps = {
 };
 
 const initialClientFormData: ClientFormDataI = {
-  salutation: "1",
+  salutation: "HERR",
   firstName: "",
   lastName: "",
   street: "",
+  housenumber: "",
   zipCode: "",
   city: "",
   mobile: "",
@@ -27,9 +40,9 @@ const initialClientFormData: ClientFormDataI = {
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
+  const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("cartData, pluginConfData", cartData, pluginConfData);
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
@@ -59,10 +72,32 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
     setCartItems(updatedCartData);
   };
 
-  const handleFowardClientToConsors = () => {
+  const handleFowardClientToConsors = async () => {
     console.log("clientFormData", clientFormData);
     console.log("cartItems", cartItems);
     console.log("pluginConfData", pluginConfData);
+
+    const lineItems: LineItem[] = cartData.items.map((item) => ({
+      variantId: `gid://shopify/ProductVariant/${item.id}`,
+      quantity: item.quantity,
+    }));
+    const draftOrderResponse = await createEfiDraftOrder(
+      clientFormData,
+      lineItems,
+    );
+    const { data: draftOrderData }: { data?: DraftOrderResponse } =
+      draftOrderResponse;
+    console.log("draftOrderData", draftOrderData);
+
+    const consorsParams = getConsorsLink(
+      clientFormData,
+      cartData.total_price,
+      draftOrderData?.draftOrderCreate.draftOrder.name ?? "random key",
+      pluginConfData,
+    );
+    navigate(
+      `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+    );
   };
 
   return (
