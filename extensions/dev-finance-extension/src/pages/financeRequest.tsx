@@ -95,6 +95,12 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
       draftOrderData?.draftOrderCreate.draftOrder.name ?? "random key",
       pluginConfData,
     );
+    console.log(
+      "consorsLink",
+      JSON.stringify(
+        `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+      ),
+    );
     navigate(
       `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
     );

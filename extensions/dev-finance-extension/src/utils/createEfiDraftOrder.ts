@@ -15,7 +15,7 @@ export const createEfiDraftOrder = async (
     const shop = "financenonplus.myshopify.com";
     const body = JSON.stringify({
       shop,
-      clientData,
+      draftOrderData: clientData,
       lineItems,
     });
     const response = await fetch(`${backendUrl()}/api/createDraftOrder`, {
