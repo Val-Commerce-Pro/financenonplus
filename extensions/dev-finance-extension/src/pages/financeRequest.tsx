@@ -15,21 +15,20 @@ type FinanceRequestProps = {
 };
 
 const initialClientFormData: ClientFormDataI = {
-  anrede: "1",
-  vorname: "",
-  nachname: "",
-  strasseGF: "",
-  plzGF: "",
-  ortGF: "",
-  telGF: "",
-  geburtsdatum: "",
+  salutation: "1",
+  firstName: "",
+  lastName: "",
+  street: "",
+  zipCode: "",
+  city: "",
+  mobile: "",
+  dataOfBirth: "",
   email: "",
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("Extension is running, this is the current data");
   console.log("cartData, pluginConfData", cartData, pluginConfData);
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
@@ -60,6 +59,12 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
     setCartItems(updatedCartData);
   };
 
+  const handleFowardClientToConsors = () => {
+    console.log("clientFormData", clientFormData);
+    console.log("cartItems", cartItems);
+    console.log("pluginConfData", pluginConfData);
+  };
+
   return (
     <>
       <div className="max-w-[1280px] mx-auto p-[16px]">
@@ -79,7 +84,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         {isModalOpen && (
           <Modal
             onClose={() => setIsModalOpen(false)}
-            // onSubmit={handleFormSubmit}
+            onSubmit={handleFowardClientToConsors}
             // isLoading={isLoading}
             // responseApp={createAlbisApp}
           />

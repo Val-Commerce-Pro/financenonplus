@@ -46,34 +46,34 @@ export const ClientForm = ({
         <div className="overflow-x-auto shadow-md sm:rounded-lg p-[12px] flex flex-col gap-[16px]">
           <Select
             handleChange={handleSelectChange}
-            name="anrede"
-            label="Anrede"
+            name="salutation"
+            label="Salutation"
             defaultText="Anrede auswählen"
-            selectedValue={clientFormData.anrede}
+            selectedValue={clientFormData.salutation}
             options={[
-              { id: 1, bezeichnung: "Herr" },
-              { id: 2, bezeichnung: "Frau" },
+              { id: 1, bezeichnung: "HERR" },
+              { id: 2, bezeichnung: "FRAU" },
             ]}
             required
           />
           <TextField
-            name="vorname"
-            label="Vorname"
+            name="firstName"
+            label="First Name"
             type="text"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.vorname}
+            textFieldValue={clientFormData.firstName}
             required
           />
           <TextField
-            name="nachname"
-            label="Nachname"
+            name="lastName"
+            label="Last Name"
             type="text"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.nachname}
+            textFieldValue={clientFormData.lastName}
             required
           />
           <TextField
@@ -87,51 +87,51 @@ export const ClientForm = ({
             required
           />
           <TextField
-            name="strasseGF"
-            label="Strasse (GF)"
+            name="street"
+            label="Street"
             type="text"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.strasseGF}
+            textFieldValue={clientFormData.street}
             required
           />
           <TextField
-            name="plzGF"
-            label="Postleitzahl (GF)"
+            name="zipCode"
+            label="Zipcode"
             type="number"
             min={0}
             pattern="[0-9]{5}"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.plzGF}
+            textFieldValue={clientFormData.zipCode}
             required
           />
           <TextField
-            name="telGF"
-            label="Telefon (GF)"
+            name="mobile"
+            label="Telephone (Mobile)"
             type="tel"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.telGF}
+            textFieldValue={clientFormData.mobile}
             required
           />
           <TextField
-            name="ortGF"
-            label="Ort (GF)"
+            name="city"
+            label="City"
             type="text"
             handleOnChange={handleInputChange}
             handleOnBlur={handleSave}
             handleKeyDown={handleSave}
-            textFieldValue={clientFormData.ortGF}
+            textFieldValue={clientFormData.city}
             required
           />
 
           <TextField
-            name="geburtsdatum"
-            label="Geburtsdatum"
+            name="dataOfBirth"
+            label="Date of Birth"
             type="date"
             max={isDate21orMoreYearsOld()}
             handleOnChange={handleInputChange}

@@ -1,11 +1,11 @@
 export type ClientFormDataI = {
-  anrede: string;
-  geburtsdatum: string;
-  nachname: string;
-  ortGF: string;
-  plzGF: string;
-  strasseGF: string;
-  telGF: string;
-  vorname: string;
+  salutation: string;
+  dataOfBirth: string;
+  lastName: string;
+  city: string;
+  zipCode: string;
+  street: string;
+  mobile: string;
+  firstName: string;
   email: string;
 };

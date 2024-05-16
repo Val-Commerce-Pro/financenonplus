@@ -139,116 +139,108 @@ export default function Index() {
         width="500px"
         borderRadius="300"
       >
+        <ui-title-bar title="Einstellungen"> </ui-title-bar>
         <div
           style={{
-            padding: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "10px",
           }}
         >
-          <ui-title-bar title="Einstellungen"> </ui-title-bar>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "10px",
-            }}
-          >
-            <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
-              Consors BNPL
-            </h2>
-            <Switch
-              name="appMode"
-              handleOnChange={handleAppMode}
-              checkboxValue={pluginConfig.appMode}
-            />
-            <img
-              src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
-              alt="consors banner"
-              style={{ maxHeight: "80px", maxWidth: "160px" }}
-            />
-          </div>
-
-          {pluginConfData.appMode && (
-            <>
-              <BlockStack gap={"300"}>
-                <TextField
-                  id="vendorId"
-                  label="VendorID"
-                  autoComplete="off"
-                  value={pluginConfig.vendorId}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-                <TextField
-                  id="username"
-                  label="Username"
-                  autoComplete="off"
-                  value={pluginConfig.username}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-                <TextField
-                  id="passwort"
-                  label="Password"
-                  autoComplete="off"
-                  value={pluginConfig.passwort}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-                <TextField
-                  id="apiKey"
-                  label="Api Key"
-                  autoComplete="off"
-                  value={pluginConfig.apiKey}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-                <TextField
-                  id="hash"
-                  label="Notification Hash Key"
-                  autoComplete="off"
-                  value={pluginConfig.hash}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-              </BlockStack>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginTop: "10px",
-                }}
-              >
-                {clientDataOk === undefined ? (
-                  <></>
-                ) : clientDataOk ? (
-                  <Badge size="medium" tone="success">
-                    Credentials Success
-                  </Badge>
-                ) : (
-                  <Badge size="medium" tone="attention">
-                    Credentials Error
-                  </Badge>
-                )}
-                {savingConfig ? (
-                  <div
-                    style={{
-                      marginRight: "25px",
-                    }}
-                  >
-                    <Spinner
-                      size="small"
-                      accessibilityLabel="Loading Saving data"
-                    />
-                  </div>
-                ) : (
-                  <Button onClick={handleSave}>Save</Button>
-                )}
-              </div>
-            </>
-          )}
+          <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
+          <Switch
+            name="appMode"
+            handleOnChange={handleAppMode}
+            checkboxValue={pluginConfig.appMode}
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
+            alt="consors banner"
+            style={{ maxHeight: "80px", maxWidth: "160px" }}
+          />
         </div>
+
+        {pluginConfData.appMode && (
+          <>
+            <BlockStack gap={"300"}>
+              <TextField
+                id="vendorId"
+                label="VendorID"
+                autoComplete="off"
+                value={pluginConfig.vendorId}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="username"
+                label="Username"
+                autoComplete="off"
+                value={pluginConfig.username}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="passwort"
+                label="Password"
+                autoComplete="off"
+                value={pluginConfig.passwort}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="apiKey"
+                label="Api Key"
+                autoComplete="off"
+                value={pluginConfig.apiKey}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+              <TextField
+                id="hash"
+                label="Notification Hash Key"
+                autoComplete="off"
+                value={pluginConfig.hash}
+                onChange={handleOnChange}
+                requiredIndicator
+              />
+            </BlockStack>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
+            >
+              {clientDataOk === undefined ? (
+                <></>
+              ) : clientDataOk ? (
+                <Badge size="medium" tone="success">
+                  Credentials Success
+                </Badge>
+              ) : (
+                <Badge size="medium" tone="attention">
+                  Credentials Error
+                </Badge>
+              )}
+              {savingConfig ? (
+                <div
+                  style={{
+                    marginRight: "25px",
+                  }}
+                >
+                  <Spinner
+                    size="small"
+                    accessibilityLabel="Loading Saving data"
+                  />
+                </div>
+              ) : (
+                <Button onClick={handleSave}>Save</Button>
+              )}
+            </div>
+          </>
+        )}
       </Box>
     </div>
   );

@@ -1,37 +1,39 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { clearCartData } from "../../utils/shopifyAjaxApi";
-// import { Spinner } from "../spinner";
-// import { SuccessIcon } from "../successIcon";
-// import { MdDoneOutline } from "react-icons/md";
-// import { VscError } from "react-icons/vsc";
+import { useState } from "react";
+import { MdDoneOutline } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
+import { clearCartData } from "../../utils/shopifyAjaxApi";
+import { Spinner } from "../spinner";
 
 type ModalProps = {
-  // onSubmit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onSubmit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClose: () => void;
-  // isLoading: boolean;
-  // responseApp: {
-  //   responseSuccess: boolean;
-  //   responseText: string;
-  // };
+  isLoading?: boolean;
+  responseApp?: {
+    responseSuccess: boolean;
+    responseText: string;
+  };
 };
 
 export const Modal = ({
-  // onSubmit,
-  // isLoading = false,
-  // responseApp,
+  onSubmit,
   onClose,
+  isLoading = false,
+  responseApp = {
+    responseSuccess: false,
+    responseText: "Test",
+  },
 }: ModalProps) => {
-  // const [submitted, setSubmitted] = useState(false);
-  // const navigate = useNavigate();
-  // // const { responseSuccess, responseText } = responseApp;
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const { responseSuccess, responseText } = responseApp;
 
-  // const handleFinishClick = async (): Promise<void> => {
-  //   localStorage.clear();
-  //   await clearCartData();
-  //   navigate("/");
-  //   location.reload();
-  // };
+  const handleFinishClick = async (): Promise<void> => {
+    localStorage.clear();
+    await clearCartData();
+    navigate("/");
+    location.reload();
+  };
 
   return (
     <div
@@ -48,12 +50,12 @@ export const Modal = ({
             </h3>
           </div>
           <div className="p-[16px] md:p-[20px] space-y-[16px] min-h-[120px] flex items-center justify-center">
-            {/* {isLoading && (
+            {isLoading && (
               <p className="text-base leading-relaxed text-gray-200">
                 Wir senden ihre Anfrage an ALBIS, bitte warten Sie einen Moment.
               </p>
-            )} */}
-            {/* {!isLoading && submitted && (
+            )}
+            {!isLoading && submitted && (
               <div className="flex items-center gap-[8px] text-gray-200">
                 {responseSuccess ? (
                   <div className="w-full flex flex-col gap-[4px]">
@@ -72,14 +74,14 @@ export const Modal = ({
                   </div>
                 )}
               </div>
-            )} */}
-            {/* {!isLoading && !submitted && (
+            )}
+            {!isLoading && !submitted && (
               <p className="text-base leading-relaxed text-gray-200">
                 Sie sind kurz davor eine Leasinganfrage an ALBIS Leasing zu
                 senden. Sind Sie sicher, dass ihre Daten korrekt sind? Die
                 Leasinganfrage kann im Nachhinein nicht verändert werden.
               </p>
-            )} */}
+            )}
           </div>
           <div className="flex gap-[8px] items-center justify-end p-[16px] md:p-[20px] border-t rounded-b-[4px] border-gray-600">
             <button
@@ -91,7 +93,7 @@ export const Modal = ({
             >
               Abbrechen
             </button>
-            {/* {submitted && !isLoading && responseSuccess ? (
+            {submitted && !isLoading && responseSuccess ? (
               <button
                 onClick={handleFinishClick}
                 data-modal-hide="static-modal"
@@ -113,7 +115,7 @@ export const Modal = ({
               >
                 {isLoading ? <Spinner /> : "Anfrage senden"}
               </button>
-            )} */}
+            )}
           </div>
         </div>
       </div>
