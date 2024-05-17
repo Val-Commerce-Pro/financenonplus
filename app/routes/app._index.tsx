@@ -1,51 +1,102 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useSubmit } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+import { PluginCredentialsForm } from "~/components/pluginCredentialsForm";
 import {
-  Badge,
-  BlockStack,
-  Box,
-  Button,
-  Spinner,
-  TextField,
-} from "@shopify/polaris";
-import type { ChangeEvent } from "react";
-import { useState } from "react";
-import {
-  createOrUpdateShopPluginConfig,
+  createOrUpdateShopPluginCredentials,
   getShopPluginConfig,
+  updateShopPluginConfigurator,
+  updateShopPluginCredentials,
 } from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
-import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
-import { Switch } from "../components/switch";
+import type {
+  ShopPluginConfiguratorData,
+  ShopPluginCredentialsData,
+} from "~/types/databaseInterfaces";
+
+import { PluginConfiguratorForm } from "~/components/pluginConfiguratorForm";
 import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";
-// import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const formData = await request.formData();
-  const { ...values } = Object.fromEntries(formData);
+  const { _action, ...values } = Object.fromEntries(formData);
   console.log("session, formData, values", session, formData, values);
 
-  const dataActionForm = formatData(values, true) as ShopPluginConfigData;
-  console.log("format data", dataActionForm);
-  const shopConfigPlugin = await createOrUpdateShopPluginConfig(dataActionForm);
-  console.log("shopConfigPlugin", shopConfigPlugin);
+  switch (_action) {
+    case "credentialsMode":
+      const credentialsModeActionForm = formatData(
+        values,
+        true,
+      ) as Partial<ShopPluginCredentialsData>;
 
-  return null;
+      const updatedCredentialsModePluginBdData =
+        await updateShopPluginCredentials(credentialsModeActionForm);
+      console.log(
+        "updatedCredentialsModePluginBdData",
+        updatedCredentialsModePluginBdData,
+      );
+
+      return updatedCredentialsModePluginBdData
+        ? null
+        : { error: "Error saving client form data" };
+
+    case "configuratorMode":
+      const configuratorModeActionForm = formatData(
+        values,
+        true,
+      ) as Partial<ShopPluginConfiguratorData>;
+
+      const updatedConfiguratorModePluginBdData =
+        await updateShopPluginConfigurator(configuratorModeActionForm);
+      console.log(
+        "updatedConfiguratorModePluginBdData",
+        updatedConfiguratorModePluginBdData,
+      );
+
+      return updatedConfiguratorModePluginBdData
+        ? null
+        : { error: "Error saving client form data" };
+
+    case "credentialsForm":
+      const credentialsActionForm = formatData(
+        values,
+        true,
+      ) as ShopPluginCredentialsData;
+
+      const credentialsPluginBdData = await createOrUpdateShopPluginCredentials(
+        credentialsActionForm,
+      );
+      console.log("credentialsPluginBdData", credentialsPluginBdData);
+
+      return credentialsPluginBdData
+        ? null
+        : { error: "Error saving client form data" };
+
+    case "configuratorForm":
+      console.log("Processing configuratorForm");
+      const configuratorActionForm = formatData(values, true);
+      console.log(
+        "Formatted Configurator Action Form: ",
+        configuratorActionForm,
+      );
+
+      // const configuratorPluginBdData =
+      //   await createOrUpdateShopPluginConfigurator(configuratorActionForm);
+      // console.log("configuratorPluginBdData", configuratorPluginBdData);
+
+      // return configuratorPluginBdData
+      //   ? null
+      //   : { error: "Error saving client form data" };
+      return null;
+    default:
+      return null;
+  }
 };
 
-type LoaderResponseI = {
-  pluginConfData: {
-    username: string;
-    vendorId: string;
-    apiKey: string;
-    appMode: boolean;
-    clientId: string;
-    hash: string;
-    passwort: string;
-    shop: string;
-  };
+export type LoaderResponseI = {
+  pluginCredentialsData: ShopPluginCredentialsData;
+  pluginConfiguratorData: ShopPluginConfiguratorData;
   clientDataOk?: boolean;
 };
 
@@ -56,11 +107,13 @@ export const loader: LoaderFunction = async ({
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
 
+  console.log("pluginConfData form DB", pluginConfData);
+
   const consorsClient = await getConsorsClient(session.shop);
   const clientAuth = await consorsClient?.jwt();
 
   const defaultResponse = {
-    pluginConfData: {
+    pluginCredentialsData: {
       username: "",
       vendorId: "",
       apiKey: "",
@@ -70,57 +123,33 @@ export const loader: LoaderFunction = async ({
       passwort: "",
       shop: session.shop,
     },
+    pluginConfiguratorData: {
+      shop: "",
+      appMode: false,
+      minOrderValue: 100,
+      terms: "",
+      zeroPercent: "",
+      interestRate: "",
+      promotionalInterestRate: 0,
+      aktionsZinsMonate: 0,
+      ShopPluginCredentials: null, // Assuming this is an object or can be null
+    },
     clientDataOk: undefined,
   };
 
   if (!pluginConfData) return defaultResponse;
 
   return {
-    pluginConfData,
+    pluginCredentialsData: defaultResponse.pluginCredentialsData,
+    pluginConfiguratorData: defaultResponse.pluginConfiguratorData,
     clientDataOk: !!clientAuth,
   };
 };
 
 export default function Index() {
-  const submit = useSubmit();
-  const [savingConfig, setSavingCofig] = useState(false);
   const loaderData = useLoaderData<LoaderResponseI>();
-  const { clientDataOk, pluginConfData } = loaderData;
-  const [pluginConfig, setPluginConfig] = useState<ShopPluginConfigData>({
-    username: pluginConfData.username ?? "",
-    vendorId: pluginConfData.vendorId ?? "",
-    apiKey: pluginConfData.apiKey ?? "",
-    appMode: pluginConfData.appMode ?? false,
-    clientId: pluginConfData.vendorId ?? "",
-    hash: pluginConfData.hash ?? "",
-    passwort: pluginConfData.passwort ?? "",
-    shop: pluginConfData.shop ?? "",
-  });
-
-  const handleSave = () => {
-    console.log("handle save called pluginConfig", { ...pluginConfig });
-    setSavingCofig(true);
-    submit(
-      { ...pluginConfig },
-      {
-        method: "POST",
-      },
-    );
-    setSavingCofig(false);
-  };
-
-  const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, checked } = e.target;
-    console.log("handleAppMode checked and Id", checked, name);
-    const updatedPluginData = { ...pluginConfig, [name]: checked };
-    console.log("updatedPluginData", updatedPluginData);
-    setPluginConfig(updatedPluginData);
-  };
-
-  const handleOnChange = (value: string, id: string) => {
-    console.log("OncHange value and Id", value, id);
-    setPluginConfig((prev) => ({ ...prev, [id]: value }));
-  };
+  const { clientDataOk, pluginConfiguratorData, pluginCredentialsData } =
+    loaderData;
 
   return (
     <div
@@ -128,115 +157,18 @@ export default function Index() {
         padding: "24px",
       }}
     >
-      <Box
-        background="bg-fill"
-        padding={{ md: "600" }}
-        width="500px"
-        borderRadius="300"
-      >
-        <ui-title-bar title="Einstellungen"> </ui-title-bar>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "10px",
-          }}
-        >
-          <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
-          <Switch
-            name="appMode"
-            handleOnChange={handleAppMode}
-            checkboxValue={pluginConfig.appMode}
-          />
-          <img
-            src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
-            alt="consors banner"
-            style={{ maxHeight: "80px", maxWidth: "160px" }}
-          />
-        </div>
-
-        {pluginConfData.appMode && (
-          <>
-            <BlockStack gap={"300"}>
-              <TextField
-                id="vendorId"
-                label="VendorID"
-                autoComplete="off"
-                value={pluginConfig.vendorId}
-                onChange={handleOnChange}
-                requiredIndicator
-              />
-              <TextField
-                id="username"
-                label="Username"
-                autoComplete="off"
-                value={pluginConfig.username}
-                onChange={handleOnChange}
-                requiredIndicator
-              />
-              <TextField
-                id="passwort"
-                label="Password"
-                autoComplete="off"
-                value={pluginConfig.passwort}
-                onChange={handleOnChange}
-                requiredIndicator
-              />
-              <TextField
-                id="apiKey"
-                label="Api Key"
-                autoComplete="off"
-                value={pluginConfig.apiKey}
-                onChange={handleOnChange}
-                requiredIndicator
-              />
-              <TextField
-                id="hash"
-                label="Notification Hash Key"
-                autoComplete="off"
-                value={pluginConfig.hash}
-                onChange={handleOnChange}
-                requiredIndicator
-              />
-            </BlockStack>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: "10px",
-              }}
-            >
-              {clientDataOk === undefined ? (
-                <></>
-              ) : clientDataOk ? (
-                <Badge size="medium" tone="success">
-                  Credentials Success
-                </Badge>
-              ) : (
-                <Badge size="medium" tone="attention">
-                  Credentials Error
-                </Badge>
-              )}
-              {savingConfig ? (
-                <div
-                  style={{
-                    marginRight: "25px",
-                  }}
-                >
-                  <Spinner
-                    size="small"
-                    accessibilityLabel="Loading Saving data"
-                  />
-                </div>
-              ) : (
-                <Button onClick={handleSave}>Save</Button>
-              )}
-            </div>
-          </>
-        )}
-      </Box>
+      {pluginCredentialsData.appMode && (
+        <PluginCredentialsForm
+          clientDataOk={clientDataOk}
+          pluginCredentialsData={pluginCredentialsData}
+        />
+      )}
+      {pluginConfiguratorData.appMode && (
+        <PluginConfiguratorForm
+          clientDataOk={clientDataOk}
+          pluginConfiguratorData={pluginConfiguratorData}
+        />
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
+import type { ShopPluginCredentialsData } from "~/types/databaseInterfaces";
 
-export const shopPluginMockData: ShopPluginConfigData = {
+export const shopPluginMockData: ShopPluginCredentialsData = {
   username: "1pstest",
   vendorId: "8403",
   clientId: "8403",

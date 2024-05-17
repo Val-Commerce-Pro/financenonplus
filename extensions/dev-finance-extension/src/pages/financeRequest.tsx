@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../components/pagetitle";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
@@ -40,7 +39,6 @@ const initialClientFormData: ClientFormDataI = {
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
-  const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -101,9 +99,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
       ),
     );
-    navigate(
-      `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
-    );
+    //   window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
   };
 
   return (
@@ -122,6 +118,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
             handleModalState={handleModalState}
           />
         </div>
+
         {isModalOpen && (
           <Modal
             onClose={() => setIsModalOpen(false)}

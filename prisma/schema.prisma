@@ -26,14 +26,37 @@ model Session {
   userId      BigInt?
 }
 
-model ShopPluginConfig {
-  id       Int     @id @default(autoincrement())
-  shop     String  @unique
-  username String
-  vendorId String
-  clientId String
-  apiKey   String
-  passwort String
-  hash     String
-  appMode  Boolean @default(false)
+model ShopPluginCredentials {
+  id                     Int                     @id @default(autoincrement())
+  shop                   String                  @unique
+  username               String
+  vendorId               String
+  clientId               String
+  apiKey                 String
+  passwort               String
+  hash                   String
+  appMode                Boolean                 @default(false)
+  ShopPluginConfigurator ShopPluginConfigurator?
+}
+
+model ShopPluginConfigurator {
+  id                      Int                   @id @default(autoincrement())
+  shop                    String                @unique
+  appMode                 Boolean               @default(false)
+  minOrderValue           Int                   @default(100)
+  terms                   String
+  zeroPercent             String
+  interestRate            String
+  promotionalInterestRate Int                   @default(0)
+  ShopPluginCredentials   ShopPluginCredentials @relation(fields: [shop], references: [shop])
+}
+
+model ConsorsEfiNotifications {
+  id             Int    @id @default(autoincrement())
+  order_id       String @unique //Draft Order Id
+  transaction_id String @unique
+  status         String
+  status_detail  String
+  campaign       String
+  creditAmount   String
 }

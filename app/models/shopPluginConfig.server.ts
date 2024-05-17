@@ -1,44 +1,113 @@
-import type { ShopPluginConfigData } from "~/types/databaseInterfaces";
+import type {
+  ShopPluginConfiguratorData,
+  ShopPluginCredentialsData,
+} from "~/types/databaseInterfaces";
 import db from "../db.server";
 
-export async function updateShopPluginConfig(
-  data: Partial<ShopPluginConfigData>,
+export async function updateShopPluginCredentials(
+  data: Partial<ShopPluginCredentialsData>,
 ) {
   if (!data.shop) return { error: "Shop not found" };
   try {
-    const updatedShopPluginConfig = await db.shopPluginConfig.update({
+    const updatedShopPluginCredentials = await db.shopPluginCredentials.update({
       where: { shop: data.shop },
       data,
     });
-    return updatedShopPluginConfig;
+    return updatedShopPluginCredentials;
   } catch (err) {
     console.error(err);
   }
 }
 
-export async function createOrUpdateShopPluginConfig(
-  data: ShopPluginConfigData,
+export async function updateShopPluginConfigurator(
+  data: Partial<ShopPluginConfiguratorData>,
+) {
+  if (!data.shop) return { error: "Shop not found" };
+  try {
+    const updatedShopPluginConfigurator =
+      await db.shopPluginConfigurator.update({
+        where: { shop: data.shop },
+        data,
+      });
+    return updatedShopPluginConfigurator;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function createOrUpdateShopPluginCredentials(
+  data: ShopPluginCredentialsData,
 ) {
   try {
-    const existingShop = await db.shopPluginConfig.findUnique({
+    const existingShop = await db.shopPluginCredentials.findUnique({
       where: { shop: data.shop },
     });
-    console.log("existingShop", existingShop);
+
     if (!existingShop) {
-      const settings = await db.shopPluginConfig.create({ data });
+      const settings = await db.shopPluginCredentials.create({ data });
       return settings;
     }
-    const updatedShopPluginData = await updateShopPluginConfig(data);
+
+    const updatedShopPluginData = await updateShopPluginCredentials(data);
     return updatedShopPluginData;
   } catch (err) {
     console.error("err", err);
   }
 }
 
-export async function getShopPluginConfig(shop: ShopPluginConfigData["shop"]) {
+// export async function createOrUpdateShopPluginConfigurator(
+//   data: ShopPluginConfiguratorData,
+// ) {
+//   const { shop } = data;
+//   try {
+//     const existingShop = await db.shopPluginCredentials.findUnique({
+//       where: { shop },
+//     });
+
+//     if (!existingShop) return { error: "Credentials not found for the shop" };
+
+//     const existingConfigurator = await db.shopPluginConfigurator.findUnique({
+//       where: { shop },
+//     });
+
+//     const configuratorData = {
+//       appMode: data.appMode,
+//       minOrderValue: data.minOrderValue,
+//       terms: data.terms,
+//       zeroPercent: data.zeroPercent,
+//       interestRate: data.interestRate,
+//       promotionalInterestRate: data.promotionalInterestRate,
+//       shop, // Ensure shop field is correctly handled
+//     };
+
+//     if (!existingConfigurator) {
+//       const configurator = await db.shopPluginConfigurator.create({
+//         data: {
+//           ...configuratorData,
+//           ShopPluginCredentials: {
+//             connect: { shop },
+//           },
+//         },
+//       });
+//       return configurator;
+//     }
+
+//     const updatedConfigurator = await updateShopPluginConfigurator(data);
+//     return updatedConfigurator;
+//   } catch (err) {
+//     console.error("err", err);
+//   }
+// }
+
+export async function getShopPluginConfig(
+  shop: ShopPluginCredentialsData["shop"],
+) {
   try {
-    const shopPluginConfig = await db.shopPluginConfig.findUnique({
+    const shopPluginConfig = await db.shopPluginCredentials.findUnique({
       where: { shop },
+      include: {
+        ShopPluginConfigurator: true,
+      },
     });
     return shopPluginConfig;
   } catch (err) {

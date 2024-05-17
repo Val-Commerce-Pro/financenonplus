@@ -5,10 +5,19 @@ export const action: LoaderFunction = async ({ request }) => {
   console.log("notification route render");
   const requestedURL = new URL(request.url);
   console.log("requestedURL", requestedURL);
-  const orderId = requestedURL.searchParams.get("orderId");
+  const orderId = requestedURL.searchParams.get("order_id");
+  const transactionId = requestedURL.searchParams.get("transaction_id");
+  const statusDetail = requestedURL.searchParams.get("status_detail");
   const status = requestedURL.searchParams.get("status");
   const hash = requestedURL.searchParams.get("hash");
-  console.log("orderId, status, hash", orderId, status, hash);
+  console.log(
+    "orderId, status, hash",
+    orderId,
+    transactionId,
+    statusDetail,
+    status,
+    hash,
+  );
 
   // if (orderId === null || status === null) {
   //   throw new Response(

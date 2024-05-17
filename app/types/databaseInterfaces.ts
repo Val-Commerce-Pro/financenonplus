@@ -1,3 +1,10 @@
-import type { ShopPluginConfig } from "@prisma/client";
+import type {
+  ShopPluginConfigurator,
+  ShopPluginCredentials,
+} from "@prisma/client";
 
-export type ShopPluginConfigData = Omit<ShopPluginConfig, "id">;
+export type ShopPluginCredentialsData = Omit<ShopPluginCredentials, "id">;
+export type ShopPluginConfiguratorData = Omit<
+  ShopPluginConfigurator,
+  "id" | "ShopPluginCredentials"
+>;
