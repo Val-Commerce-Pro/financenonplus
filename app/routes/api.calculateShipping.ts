@@ -1,8 +1,7 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { DraftOrderInputShipping, draftOrderCalculate } from "~/shopify/graphql/calculateShipping";
-
-import type { DraftOrderInput } from "~/shopify/graphql/createDraftOrder";
+import type { DraftOrderInputShipping } from "~/shopify/graphql/calculateShipping";
+import { draftOrderCalculate } from "~/shopify/graphql/calculateShipping";
 
 type CalculateShippingResponse = {
   calculatedDraftOrder: {
@@ -12,15 +11,18 @@ type CalculateShippingResponse = {
   };
 };
 
-
 export const action: ActionFunction = async ({ request }) => {
   const data: DraftOrderInputShipping = await request.json();
-  const { shop,  lineItems, shippingAddress } = data;
+  const { shop, lineItems, shippingAddress } = data;
 
-  console.log("Shipping calculator Route", shop, shippingAddress, lineItems);
+  console.log(
+    "Shipping calculator Route - shop, shippingAddress, lineItems",
+    shop,
+    shippingAddress,
+    lineItems,
+  );
   try {
     const calculateShippingResponse = await draftOrderCalculate(data);
-    console.log("draftOrderCalculate", calculateShippingResponse);
     if (!calculateShippingResponse) {
       return json(calculateShippingResponse, {
         headers: {
@@ -29,7 +31,7 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
     const { data: shippingCost }: { data?: CalculateShippingResponse } =
-    calculateShippingResponse;
+      calculateShippingResponse;
     console.log("shippingCost", shippingCost);
     return json(calculateShippingResponse, {
       headers: {

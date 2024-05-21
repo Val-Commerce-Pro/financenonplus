@@ -36,7 +36,6 @@ export const PluginCredentialsForm = ({
   });
 
   const handleOnChange = (value: string, id: string) => {
-    console.log("OncHange value and Id", value, id);
     setPluginConfig((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -45,13 +44,12 @@ export const PluginCredentialsForm = ({
 
     const actionData: ShopPluginCredentialsData = {
       ...pluginConfig,
-      clientId: pluginConfig.vendorId
-    }
+      clientId: pluginConfig.vendorId,
+    };
     const data = {
-       ...actionData,
+      ...actionData,
       _action: "credentialsForm",
     };
-    console.log("handle save called PluginCredentialsForm", { ...data });
     submit(data, {
       method: "POST",
     });
@@ -61,7 +59,6 @@ export const PluginCredentialsForm = ({
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
     const updatedPluginData = { ...pluginConfig, [name]: checked };
-    console.log("updatedPluginData", updatedPluginData);
     setPluginConfig(updatedPluginData);
   };
 

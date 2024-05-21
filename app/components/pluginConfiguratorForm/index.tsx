@@ -32,8 +32,7 @@ export const PluginConfiguratorForm = ({
     terms: pluginConfiguratorData.terms,
     zeroPercent: pluginConfiguratorData.zeroPercent,
     interestRate: pluginConfiguratorData.interestRate,
-    promotionalInterestRate:
-      pluginConfiguratorData.promotionalInterestRate,
+    promotionalInterestRate: pluginConfiguratorData.promotionalInterestRate,
   });
 
   const handleOnChange = (value: string, id: string) => {
@@ -55,7 +54,6 @@ export const PluginConfiguratorForm = ({
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
     const updatedPluginData = { ...pluginConfig, [name]: checked };
-    console.log("updatedPluginData", updatedPluginData);
     setPluginConfig(updatedPluginData);
   };
 

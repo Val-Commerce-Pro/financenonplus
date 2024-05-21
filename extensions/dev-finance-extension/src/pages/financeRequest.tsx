@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageTitle } from "../components/pagetitle";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
@@ -7,20 +7,14 @@ import { PluginConfigI } from "../types/pluginConfig";
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
 import { ClientFormDataI } from "../types/clientForm";
+import {
+  DraftOrderCalculate,
+  DraftOrderResponse,
+} from "../types/shopifyResponses";
+import { calculateShippingCost } from "../utils/calculateShippingCost";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 import { deleteCartItem, updateCartData } from "../utils/shopifyAjaxApi";
-import { calculateShippingCost } from "../utils/calculateShippingCost";
-
-
-type DraftOrderResponse = {
-  draftOrderCreate: {
-    draftOrder: {
-      id: string;
-      name: string;
-    };
-  };
-};
 
 type FinanceRequestProps = {
   cartData: ShoppingCart;
@@ -43,10 +37,10 @@ const initialClientFormData: ClientFormDataI = {
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
+  const [shippingPrice, setShippingPrice] = useState("");
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
-
-  console.log("first cartData", cartData);
 
   const handleClientFormChange = (newData: ClientFormDataI) => {
     setClientFormData(newData);
@@ -75,45 +69,72 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   };
 
   const handleFowardClientToConsors = async () => {
-    console.log("clientFormData", clientFormData);
-    console.log("cartItems", cartItems);
-    console.log("pluginConfData", pluginConfData);
+    try {
+      setIsFinanceSubmitted(true);
+      console.log("clientFormData", clientFormData);
+      console.log("cartItems", cartItems);
+      console.log("pluginConfData", pluginConfData);
 
-    const lineItems: LineItem[] = cartData.items.map((item) => ({
-      variantId: `gid://shopify/ProductVariant/${item.id}`,
-      quantity: item.quantity,
-    }));
-    const draftOrderResponse = await createEfiDraftOrder(
-      clientFormData,
-      lineItems,
-    );
-    const { data: draftOrderData }: { data?: DraftOrderResponse } =
-      draftOrderResponse;
-    console.log("draftOrderData", draftOrderData);
+      const lineItems: LineItem[] = cartData.items.map((item) => ({
+        variantId: `gid://shopify/ProductVariant/${item.id}`,
+        quantity: item.quantity,
+      }));
+      const draftOrderResponse = await createEfiDraftOrder(
+        clientFormData,
+        lineItems,
+      );
+      const { data: draftOrderData }: { data?: DraftOrderResponse } =
+        draftOrderResponse;
+      console.log("draftOrderData", draftOrderData);
 
-    const consorsParams = getConsorsLink(
-      clientFormData,
-      cartData.total_price,
-      draftOrderData?.draftOrderCreate.draftOrder.name ?? "random key",
-      pluginConfData,
-    );
-    console.log(
-      "consorsLink",
-      JSON.stringify(
-        `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
-      ),
-    );
-    //   window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
+      if (!draftOrderData?.draftOrderCreate.draftOrder.name) return;
+
+      const consorsParams = getConsorsLink(
+        clientFormData,
+        cartData.total_price,
+        draftOrderData?.draftOrderCreate.draftOrder.name,
+        pluginConfData,
+      );
+      console.log(
+        "consorsLink",
+        JSON.stringify(
+          `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+        ),
+      );
+      window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsFinanceSubmitted(false);
+    }
   };
+  useEffect(() => {
+    if (
+      clientFormData.city &&
+      clientFormData.street &&
+      clientFormData.zipCode
+    ) {
+      handleShippingCost();
+    }
+  }, [clientFormData]);
 
   async function handleShippingCost() {
-    const {city, street, zipCode} = clientFormData
+    const { city, street, zipCode } = clientFormData;
     const lineItems: LineItem[] = cartData.items.map((item) => ({
       variantId: `gid://shopify/ProductVariant/${item.id}`,
       quantity: item.quantity,
     }));
-    const currentShippingCost = await calculateShippingCost({ address1: street, city, zip: zipCode, countryCode: "DE"}, lineItems)
+    const currentShippingCost: DraftOrderCalculate =
+      await calculateShippingCost(
+        { address1: street, city, zip: zipCode, countryCode: "DE" },
+        lineItems,
+      );
     console.log("currentShippingCost", currentShippingCost);
+    const { amount } =
+      currentShippingCost.data.draftOrderCalculate.calculatedDraftOrder
+        .availableShippingRates[0].price;
+    console.log("amount", amount);
+    setShippingPrice(amount);
   }
 
   return (
@@ -124,13 +145,13 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
           cartData={cartItems}
           handleUpdateItemQuantity={handleUpdateItemQuantity}
           handleDeleteCartItem={handleDeleteCartItem}
+          shippingPrice={shippingPrice}
         />
         <div className="mt-[20px]">
           <ClientForm
             clientFormData={clientFormData}
             handleClientFormChange={handleClientFormChange}
             handleModalState={handleModalState}
-            handleShippingCost={handleShippingCost}
           />
         </div>
 
@@ -138,7 +159,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
           <Modal
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleFowardClientToConsors}
-            // isLoading={isLoading}
+            isLoading={isFinanceSubmitted}
             // responseApp={createAlbisApp}
           />
         )}

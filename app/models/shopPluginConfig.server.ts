@@ -38,8 +38,6 @@ export async function updateShopPluginConfigurator(
 export async function createOrUpdateShopPluginCredentials(
   data: ShopPluginCredentialsData,
 ) {
-  console.log("Data to create credentials", data)
-  console.log("Data to create credentials ... ", {...data})
   try {
     const existingShop = await db.shopPluginCredentials.findUnique({
       where: { shop: data.shop },

@@ -2,17 +2,20 @@ import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { ShoppingCart, ShoppingCartItem } from "../../types/cartTypes";
 import { formatDecimalNumber } from "../../utils/formatValues";
 import { Box } from "../box";
+import { Spinner } from "../spinner";
 
 type SectionCartItemsProps = {
   cartData: ShoppingCart;
   handleUpdateItemQuantity: (item: ShoppingCartItem, type?: "plus") => void;
   handleDeleteCartItem: (item: ShoppingCartItem) => void;
+  shippingPrice?: string;
 };
 
 export const SectionCartItems = ({
   cartData,
   handleUpdateItemQuantity,
   handleDeleteCartItem,
+  shippingPrice,
 }: SectionCartItemsProps) => {
   const tableHeaders = ["Image", "Quantity", "TItle", "Price", "Actions"];
   return (
@@ -80,6 +83,19 @@ export const SectionCartItems = ({
                 </td>
               </tr>
             ))}
+            <tr>
+              <td
+                colSpan={3}
+                className="px-[24px] py-[16px] text-right font-medium text-gray-900"
+              >
+                Shipping Cost
+              </td>
+              <td className="px-[24px] py-[16px] text-gray-500">
+                {shippingPrice ? shippingPrice : <Spinner />}
+              </td>
+              <td className="px-[24px] py-[16px]"></td>{" "}
+              {/* Empty cell for the Actions column */}
+            </tr>
             <tr>
               <td
                 colSpan={3}

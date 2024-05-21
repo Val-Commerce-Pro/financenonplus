@@ -18,10 +18,10 @@ import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";
 
 export const action: ActionFunction = async ({ request }) => {
-  const { session } = await authenticate.admin(request);
+  // const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
-   
+
   switch (_action) {
     case "credentialsForm":
       const credentialsActionForm = formatData(
@@ -62,7 +62,7 @@ export const loader: LoaderFunction = async ({
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
 
-  if (!pluginConfData) return getLoaderResponse({shop: session.shop});
+  if (!pluginConfData) return getLoaderResponse({ shop: session.shop });
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
@@ -74,7 +74,6 @@ export const loader: LoaderFunction = async ({
     vendorId: pluginConfData?.vendorId,
   });
   const clientAuth = await consorsClient?.jwt();
-  console.log("clientAuth", clientAuth)
 
   return getLoaderResponse({
     pluginCredentialsData: credentials,
