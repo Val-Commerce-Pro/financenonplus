@@ -64,8 +64,10 @@ export const loader: LoaderFunction = async ({
   console.log("Loader function rendered");
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
+  console.log("pluginConfData", pluginConfData)
+  console.log("session.shop", session.shop)
 
-  if (!pluginConfData) return getLoaderResponse({});
+  if (!pluginConfData) return getLoaderResponse({shop: session.shop});
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
