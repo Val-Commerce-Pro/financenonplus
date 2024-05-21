@@ -21,23 +21,17 @@ export const action: ActionFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
-  console.log("_action, formData, values", _action, formData, values);
-  console.log("username:", formData.get("username"));
    
   switch (_action) {
     case "credentialsForm":
-      console.log("credentialsForm was called")
       const credentialsActionForm = formatData(
         values,
         true,
       ) as ShopPluginCredentialsData;
 
-      console.log("credentialsActionForm ...", {...credentialsActionForm})
-
       const credentialsPluginBdData = await createOrUpdateShopPluginCredentials(
         credentialsActionForm,
       );
-      console.log("credentialsPluginBdData", credentialsPluginBdData);
 
       return credentialsPluginBdData
         ? null
@@ -65,30 +59,20 @@ export type LoaderResponseI = {
 export const loader: LoaderFunction = async ({
   request,
 }): Promise<LoaderResponseI> => {
-  console.log("Loader function rendered");
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
-  console.log("pluginConfData", pluginConfData)
-  console.log("session.shop", session.shop)
 
   if (!pluginConfData) return getLoaderResponse({shop: session.shop});
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
-  console.log("pluginConfData form DB", pluginConfData);
-
-  const consorsClientData = {
-      shop: session.shop,
-      apiKey: pluginConfData?.apiKey,
-      passwort: pluginConfData?.passwort,
-      username: pluginConfData?.username,
-      vendorId: pluginConfData?.vendorId,
-    }
-
-    console.log("getConsorsClient", getConsorsClient)
-  
-
-  const consorsClient = await getConsorsClient(consorsClientData);
+  const consorsClient = await getConsorsClient({
+    shop: session.shop,
+    apiKey: pluginConfData?.apiKey,
+    passwort: pluginConfData?.passwort,
+    username: pluginConfData?.username,
+    vendorId: pluginConfData?.vendorId,
+  });
   const clientAuth = await consorsClient?.jwt();
   console.log("clientAuth", clientAuth)
 

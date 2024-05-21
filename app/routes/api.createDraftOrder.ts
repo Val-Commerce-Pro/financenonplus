@@ -4,6 +4,20 @@ import { json } from "@remix-run/node";
 import type { DraftOrderInput } from "~/shopify/graphql/createDraftOrder";
 import { createDraftOrder } from "~/shopify/graphql/createDraftOrder";
 
+
+export type ClientFormDataI = {
+  salutation: string;
+  dataOfBirth?: string;
+  lastName: string;
+  city: string;
+  zipCode: string;
+  street: string;
+  housenumber: string;
+  mobile: string;
+  firstName: string;
+  email: string;
+};
+
 type DraftOrderResponse = {
   draftOrderCreate: {
     draftOrder: {
@@ -20,16 +34,40 @@ interface LineItem {
 
 type EfiDraftOrder = {
   shop: string;
-  draftOrderData: DraftOrderInput;
+  draftOrderData: ClientFormDataI;
   lineItems: LineItem[];
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { shop, draftOrderData, lineItems }: EfiDraftOrder = data;
-  console.log("EFI Draft Order Route", shop, draftOrderData, lineItems);
   try {
-    const draftOrderResponse = await createDraftOrder(shop, draftOrderData);
+    const draftOrderInfo: DraftOrderInput = {
+      note: "Consors EFI Test",
+      email: draftOrderData.email,
+      phone: draftOrderData.mobile,
+      taxExempt: true,
+      tags: "Consors EFI",
+      shippingAddress: {
+        address1: draftOrderData.street,
+        city: draftOrderData.city,
+        countryCode: "DE",
+        zip: draftOrderData.zipCode
+      },
+      billingAddress: {
+        address1: draftOrderData.street,
+        city: draftOrderData.city,
+        countryCode: "DE",
+        zip: draftOrderData.zipCode
+      },
+      customAttributes: [{
+        key: "customAttributes",value: "random value"
+      }],
+      lineItems: lineItems,
+    }
+    console.log("draftOrderInfo", draftOrderInfo);
+
+    const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
     console.log("draftOrderResponse", draftOrderResponse);
     if (!draftOrderResponse) {
       return json(draftOrderResponse, {

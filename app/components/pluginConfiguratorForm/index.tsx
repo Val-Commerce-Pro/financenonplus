@@ -41,10 +41,9 @@ export const PluginConfiguratorForm = ({
   };
 
   const handleSave = () => {
-    console.log("handle save called pluginConfig", { ...pluginConfig });
     setSavingConfig(true);
     const data = {
-      pluginConfig,
+      ...pluginConfig,
       _action: "configuratorForm",
     };
     submit(data, {

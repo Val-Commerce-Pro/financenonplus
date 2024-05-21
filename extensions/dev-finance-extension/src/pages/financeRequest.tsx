@@ -46,6 +46,8 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
+  console.log("first cartData", cartData);
+
   const handleClientFormChange = (newData: ClientFormDataI) => {
     setClientFormData(newData);
   };
