@@ -26,14 +26,14 @@ export const PluginConfiguratorForm = ({
   const submit = useSubmit();
   const [savingConfig, setSavingConfig] = useState(false);
   const [pluginConfig, setPluginConfig] = useState<ShopPluginConfiguratorData>({
-    shop: pluginConfiguratorData.shop ?? "",
-    appMode: pluginConfiguratorData.appMode ?? false,
-    minOrderValue: pluginConfiguratorData.minOrderValue ?? 100,
-    terms: pluginConfiguratorData.terms ?? "",
-    zeroPercent: pluginConfiguratorData.zeroPercent ?? "",
-    interestRate: pluginConfiguratorData.interestRate ?? "",
+    shop: pluginConfiguratorData.shop,
+    appMode: pluginConfiguratorData.appMode,
+    minOrderValue: pluginConfiguratorData.minOrderValue,
+    terms: pluginConfiguratorData.terms,
+    zeroPercent: pluginConfiguratorData.zeroPercent,
+    interestRate: pluginConfiguratorData.interestRate,
     promotionalInterestRate:
-      pluginConfiguratorData.promotionalInterestRate ?? 0,
+      pluginConfiguratorData.promotionalInterestRate,
   });
 
   const handleOnChange = (value: string, id: string) => {

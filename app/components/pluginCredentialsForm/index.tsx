@@ -25,14 +25,14 @@ export const PluginCredentialsForm = ({
   const submit = useSubmit();
   const [savingConfig, setSavingConfig] = useState(false);
   const [pluginConfig, setPluginConfig] = useState<ShopPluginCredentialsData>({
-    username: pluginCredentialsData.username ?? "",
-    vendorId: pluginCredentialsData.vendorId ?? "",
-    apiKey: pluginCredentialsData.apiKey ?? "",
-    appMode: pluginCredentialsData.appMode ?? false,
-    clientId: pluginCredentialsData.vendorId ?? "",
-    hash: pluginCredentialsData.hash ?? "",
-    passwort: pluginCredentialsData.passwort ?? "",
-    shop: pluginCredentialsData.shop ?? "",
+    username: pluginCredentialsData.username,
+    vendorId: pluginCredentialsData.vendorId,
+    apiKey: pluginCredentialsData.apiKey,
+    appMode: pluginCredentialsData.appMode,
+    clientId: pluginCredentialsData.vendorId,
+    hash: pluginCredentialsData.hash,
+    passwort: pluginCredentialsData.passwort,
+    shop: pluginCredentialsData.shop,
   });
 
   const handleOnChange = (value: string, id: string) => {

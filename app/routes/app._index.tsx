@@ -21,14 +21,17 @@ export const action: ActionFunction = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
-  console.log("session, formData, values", session, formData, values);
+  console.log("_action, formData, values", _action, formData, values);
 
   switch (_action) {
     case "credentialsForm":
+      console.log("credentialsForm was called")
       const credentialsActionForm = formatData(
         values,
         true,
       ) as ShopPluginCredentialsData;
+
+      console.log("credentialsActionForm", credentialsActionForm)
 
       const credentialsPluginBdData = await createOrUpdateShopPluginCredentials(
         credentialsActionForm,
