@@ -41,12 +41,16 @@ export const PluginCredentialsForm = ({
   };
 
   const handleSave = () => {
-    console.log("handle save called pluginConfig", { ...pluginConfig });
     setSavingConfig(true);
+    
     const data = {
-      pluginConfig,
+      actionData: {
+        ...pluginConfig,
+        clientId: pluginConfig.vendorId
+      },
       _action: "credentialsForm",
     };
+    console.log("handle save called PluginCredentialsForm", { ...data });
     submit(data, {
       method: "POST",
     });

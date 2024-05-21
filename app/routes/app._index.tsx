@@ -22,7 +22,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
   console.log("_action, formData, values", _action, formData, values);
-
+  console.log("username:", formData.get("username"));
+   
   switch (_action) {
     case "credentialsForm":
       console.log("credentialsForm was called")

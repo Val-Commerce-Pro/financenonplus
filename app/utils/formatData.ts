@@ -20,6 +20,7 @@ export const formatData = (
     },
     {} as { [key: string]: string | boolean },
   );
+  console.log("formated data", castedValues)
   return castedValues;
 };
 
