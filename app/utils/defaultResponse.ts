@@ -7,12 +7,14 @@ export type getLoaderResponse = {
   pluginCredentialsData?: ShopPluginCredentialsData | null;
   pluginConfiguratorData?: ShopPluginConfiguratorData | null;
   clientDataOk?: boolean | null;
+  shop: string
 };
 
 export const getLoaderResponse = ({
   pluginCredentialsData,
   pluginConfiguratorData,
   clientDataOk,
+  shop
 }: getLoaderResponse) => {
   const defaultLoaderResponse = {
     pluginCredentialsData: {
@@ -23,10 +25,10 @@ export const getLoaderResponse = ({
       clientId: pluginCredentialsData?.clientId ?? "",
       hash: pluginCredentialsData?.hash ?? "",
       passwort: pluginCredentialsData?.passwort ?? "",
-      shop: pluginCredentialsData?.shop ?? "",
+      shop: pluginCredentialsData?.shop ?? shop,
     },
     pluginConfiguratorData: {
-      shop: pluginConfiguratorData?.shop ?? "",
+      shop: pluginConfiguratorData?.shop ?? shop,
       appMode: pluginConfiguratorData?.appMode ?? false,
       minOrderValue: pluginConfiguratorData?.minOrderValue ?? 100,
       terms: pluginConfiguratorData?.terms ?? "",

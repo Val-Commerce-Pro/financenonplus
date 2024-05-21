@@ -36,6 +36,7 @@ export const PluginCredentialsForm = ({
   });
 
   const handleOnChange = (value: string, id: string) => {
+    console.log("OncHange value and Id", value, id);
     setPluginConfig((prev) => ({ ...prev, [id]: value }));
   };
 

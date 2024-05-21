@@ -84,6 +84,7 @@ export const loader: LoaderFunction = async ({
     pluginCredentialsData: credentials,
     pluginConfiguratorData: ShopPluginConfigurator,
     clientDataOk: !!clientAuth,
+    shop: session.shop,
   });
 };
 
