@@ -25,24 +25,25 @@ export const PluginConfiguratorForm = ({
 }: PluginConfiguratorFormProps) => {
   const submit = useSubmit();
   const [savingConfig, setSavingConfig] = useState(false);
-  const [pluginConfig, setPluginConfig] = useState<ShopPluginConfiguratorData>({
-    shop: pluginConfiguratorData.shop,
-    appMode: pluginConfiguratorData.appMode,
-    minOrderValue: pluginConfiguratorData.minOrderValue,
-    terms: pluginConfiguratorData.terms,
-    zeroPercent: pluginConfiguratorData.zeroPercent,
-    interestRate: pluginConfiguratorData.interestRate,
-    promotionalInterestRate: pluginConfiguratorData.promotionalInterestRate,
-  });
+  const [configuratorFormData, setConfiguratorFormData] =
+    useState<ShopPluginConfiguratorData>({
+      shop: pluginConfiguratorData.shop,
+      appMode: pluginConfiguratorData.appMode,
+      minOrderValue: pluginConfiguratorData.minOrderValue,
+      terms: pluginConfiguratorData.terms,
+      zeroPercent: pluginConfiguratorData.zeroPercent,
+      interestRate: pluginConfiguratorData.interestRate,
+      promotionalInterestRate: pluginConfiguratorData.promotionalInterestRate,
+    });
 
   const handleOnChange = (value: string, id: string) => {
-    setPluginConfig((prev) => ({ ...prev, [id]: value }));
+    setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
     setSavingConfig(true);
     const data = {
-      ...pluginConfig,
+      ...configuratorFormData,
       _action: "configuratorForm",
     };
     submit(data, {
@@ -53,8 +54,8 @@ export const PluginConfiguratorForm = ({
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
-    const updatedPluginData = { ...pluginConfig, [name]: checked };
-    setPluginConfig(updatedPluginData);
+    const updatedPluginData = { ...configuratorFormData, [name]: checked };
+    setConfiguratorFormData(updatedPluginData);
   };
 
   return (
@@ -77,7 +78,7 @@ export const PluginConfiguratorForm = ({
         <Switch
           name="appMode"
           handleOnChange={handleAppMode}
-          checkboxValue={pluginConfig.appMode}
+          checkboxValue={configuratorFormData.appMode}
           disabled={!clientDataOk}
         />
         <img
@@ -86,14 +87,14 @@ export const PluginConfiguratorForm = ({
           style={{ maxHeight: "80px", maxWidth: "160px" }}
         />
       </div>
-      {pluginConfig.appMode && (
+      {configuratorFormData.appMode && (
         <>
           <BlockStack gap={"300"}>
             <TextField
               id="shop"
               label="Shop"
               autoComplete="off"
-              value={pluginConfig.shop}
+              value={configuratorFormData.shop}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -102,7 +103,7 @@ export const PluginConfiguratorForm = ({
               label="Minimum Order Value"
               type="number"
               autoComplete="off"
-              value={pluginConfig.minOrderValue.toString()}
+              value={configuratorFormData.minOrderValue.toString()}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -110,7 +111,7 @@ export const PluginConfiguratorForm = ({
               id="terms"
               label="Terms"
               autoComplete="off"
-              value={pluginConfig.terms}
+              value={configuratorFormData.terms}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -118,7 +119,7 @@ export const PluginConfiguratorForm = ({
               id="zeroPercent"
               label="Zero Percent Financing"
               autoComplete="off"
-              value={pluginConfig.zeroPercent}
+              value={configuratorFormData.zeroPercent}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -126,7 +127,7 @@ export const PluginConfiguratorForm = ({
               id="interestRate"
               label="Interest Rate"
               autoComplete="off"
-              value={pluginConfig.interestRate}
+              value={configuratorFormData.interestRate}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -135,7 +136,7 @@ export const PluginConfiguratorForm = ({
               label="Promotional Interest Rate"
               type="number"
               autoComplete="off"
-              value={pluginConfig.promotionalInterestRate.toString()}
+              value={configuratorFormData.promotionalInterestRate.toString()}
               onChange={handleOnChange}
               requiredIndicator
             />

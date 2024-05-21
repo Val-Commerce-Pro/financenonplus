@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../components/pagetitle";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
@@ -35,6 +36,7 @@ const initialClientFormData: ClientFormDataI = {
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
+  const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
@@ -44,9 +46,6 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
 
   const handleClientFormChange = (newData: ClientFormDataI) => {
     setClientFormData(newData);
-  };
-  const handleModalState = (newModalState: boolean) => {
-    setIsModalOpen(newModalState);
   };
 
   const handleUpdateItemQuantity = async (
@@ -87,12 +86,13 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         draftOrderResponse;
       console.log("draftOrderData", draftOrderData);
 
-      if (!draftOrderData?.draftOrderCreate.draftOrder.name) return;
+      // if (!draftOrderData?.draftOrderCreate.draftOrder.name) return;
 
+      //todo: Fix foward link
       const consorsParams = getConsorsLink(
         clientFormData,
         cartData.total_price,
-        draftOrderData?.draftOrderCreate.draftOrder.name,
+        draftOrderData?.draftOrderCreate.draftOrder.name ?? "test",
         pluginConfData,
       );
       console.log(
@@ -102,6 +102,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         ),
       );
       window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
+      setIsModalOpen(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -151,8 +152,31 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
           <ClientForm
             clientFormData={clientFormData}
             handleClientFormChange={handleClientFormChange}
-            handleModalState={handleModalState}
           />
+        </div>
+        <div className="mt-[20px]">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => navigate(-1)}
+              type="button"
+              data-modal-target="static-modal"
+              id="modal-button"
+              data-modal-toggle="static-modal"
+              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[250px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+            >
+              Zurück
+            </button>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              type="button"
+              data-modal-target="static-modal"
+              id="modal-button"
+              data-modal-toggle="static-modal"
+              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[250px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+            >
+              Senden
+            </button>
+          </div>
         </div>
 
         {isModalOpen && (

@@ -3,25 +3,25 @@ import type {
   ShopPluginCredentialsData,
 } from "~/types/databaseInterfaces";
 
-export type getLoaderResponse = {
+export type GetLoaderResponse = {
   pluginCredentialsData?: ShopPluginCredentialsData | null;
   pluginConfiguratorData?: ShopPluginConfiguratorData | null;
   clientDataOk?: boolean | null;
-  shop: string
+  shop: string;
 };
 
 export const getLoaderResponse = ({
   pluginCredentialsData,
   pluginConfiguratorData,
   clientDataOk,
-  shop
-}: getLoaderResponse) => {
+  shop,
+}: GetLoaderResponse) => {
   const defaultLoaderResponse = {
     pluginCredentialsData: {
       username: pluginCredentialsData?.username ?? "",
       vendorId: pluginCredentialsData?.vendorId ?? "",
       apiKey: pluginCredentialsData?.apiKey ?? "",
-      appMode: pluginConfiguratorData?.appMode ?? false,
+      appMode: pluginCredentialsData?.appMode ?? false,
       clientId: pluginCredentialsData?.vendorId ?? "",
       hash: pluginCredentialsData?.hash ?? "",
       passwort: pluginCredentialsData?.passwort ?? "",

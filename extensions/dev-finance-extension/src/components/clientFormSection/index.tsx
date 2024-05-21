@@ -8,14 +8,12 @@ import { Select } from "../select";
 import { TextField } from "../textfield";
 
 type ClientFormProps = {
-  handleModalState: (value: boolean) => void;
   handleClientFormChange: (clientFormData: ClientFormDataI) => void;
   clientFormData: ClientFormDataI;
 };
 
 export const ClientForm = ({
   clientFormData,
-  handleModalState,
   handleClientFormChange,
 }: ClientFormProps) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,18 +25,6 @@ export const ClientForm = ({
     const { name, value } = event.target;
     handleClientFormChange({ ...clientFormData, [name]: value });
   };
-
-  function handleSave() {
-    // const localStorageData = localStorage.getItem("cp@albisLeasing");
-    // const localStorageJSON: LocalStorageI = JSON.parse(localStorageData ?? "");
-    // localStorage.setItem(
-    //   "cp@albisLeasing",
-    //   JSON.stringify({
-    //     ...localStorageJSON,
-    //     companyManagerInfoData: managerInfo,
-    //   }),
-    // );
-  }
 
   return (
     <>
@@ -60,8 +46,6 @@ export const ClientForm = ({
             label="First Name"
             type="text"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.firstName}
             required
           />
@@ -70,8 +54,6 @@ export const ClientForm = ({
             label="Last Name"
             type="text"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.lastName}
             required
           />
@@ -80,8 +62,6 @@ export const ClientForm = ({
             label="E-Mail"
             type="email"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.email}
             required
           />
@@ -90,8 +70,6 @@ export const ClientForm = ({
             label="Street"
             type="text"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.street}
             required
           />
@@ -100,8 +78,6 @@ export const ClientForm = ({
             label="Hausnummer"
             type="text"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.housenumber}
             required
           />
@@ -112,8 +88,6 @@ export const ClientForm = ({
             min={0}
             pattern="[0-9]{5}"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.zipCode}
             required
           />
@@ -122,8 +96,6 @@ export const ClientForm = ({
             label="Telephone (Mobile)"
             type="tel"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.mobile}
             required
           />
@@ -132,8 +104,6 @@ export const ClientForm = ({
             label="City"
             type="text"
             handleOnChange={handleInputChange}
-            handleOnBlur={handleSave}
-            handleKeyDown={handleSave}
             textFieldValue={clientFormData.city}
             required
           />
@@ -144,22 +114,8 @@ export const ClientForm = ({
             type="date"
             max={isDate21orMoreYearsOld()}
             handleOnChange={handleInputChange}
-            handleKeyDown={handleSave}
             required
           />
-        </div>
-        <div className="flex justify-between items-center">
-          <button
-            onClick={() => handleModalState(true)}
-            type="button"
-            data-modal-target="static-modal"
-            id="modal-button"
-            data-modal-toggle="static-modal"
-            className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[250px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
-            // disabled={!isSendenBtnEnable()}
-          >
-            Senden
-          </button>
         </div>
       </Box>
     </>

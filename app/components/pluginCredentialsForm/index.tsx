@@ -24,27 +24,28 @@ export const PluginCredentialsForm = ({
 }: PluginCredentialsFormProps) => {
   const submit = useSubmit();
   const [savingConfig, setSavingConfig] = useState(false);
-  const [pluginConfig, setPluginConfig] = useState<ShopPluginCredentialsData>({
-    username: pluginCredentialsData.username,
-    vendorId: pluginCredentialsData.vendorId,
-    apiKey: pluginCredentialsData.apiKey,
-    appMode: pluginCredentialsData.appMode,
-    clientId: pluginCredentialsData.vendorId,
-    hash: pluginCredentialsData.hash,
-    passwort: pluginCredentialsData.passwort,
-    shop: pluginCredentialsData.shop,
-  });
+  const [credentilasConfig, setCredentilasConfig] =
+    useState<ShopPluginCredentialsData>({
+      username: pluginCredentialsData.username,
+      vendorId: pluginCredentialsData.vendorId,
+      apiKey: pluginCredentialsData.apiKey,
+      appMode: pluginCredentialsData.appMode,
+      clientId: pluginCredentialsData.vendorId,
+      hash: pluginCredentialsData.hash,
+      passwort: pluginCredentialsData.passwort,
+      shop: pluginCredentialsData.shop,
+    });
 
   const handleOnChange = (value: string, id: string) => {
-    setPluginConfig((prev) => ({ ...prev, [id]: value }));
+    setCredentilasConfig((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
     setSavingConfig(true);
 
     const actionData: ShopPluginCredentialsData = {
-      ...pluginConfig,
-      clientId: pluginConfig.vendorId,
+      ...credentilasConfig,
+      clientId: credentilasConfig.vendorId,
     };
     const data = {
       ...actionData,
@@ -58,10 +59,10 @@ export const PluginCredentialsForm = ({
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
-    const updatedPluginData = { ...pluginConfig, [name]: checked };
-    setPluginConfig(updatedPluginData);
+    const updatedPluginData = { ...credentilasConfig, [name]: checked };
+    setCredentilasConfig(updatedPluginData);
   };
-
+  //TODO, change the color to green like the finance app
   return (
     <Box
       background="bg-fill"
@@ -82,7 +83,7 @@ export const PluginCredentialsForm = ({
         <Switch
           name="appMode"
           handleOnChange={handleAppMode}
-          checkboxValue={pluginConfig.appMode}
+          checkboxValue={credentilasConfig.appMode}
         />
         <img
           src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
@@ -90,14 +91,14 @@ export const PluginCredentialsForm = ({
           style={{ maxHeight: "80px", maxWidth: "160px" }}
         />
       </div>
-      {pluginConfig.appMode && (
+      {credentilasConfig.appMode && (
         <>
           <BlockStack gap={"300"}>
             <TextField
               id="vendorId"
               label="VendorID"
               autoComplete="off"
-              value={pluginConfig.vendorId}
+              value={credentilasConfig.vendorId}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -105,7 +106,7 @@ export const PluginCredentialsForm = ({
               id="username"
               label="Username"
               autoComplete="off"
-              value={pluginConfig.username}
+              value={credentilasConfig.username}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -113,7 +114,7 @@ export const PluginCredentialsForm = ({
               id="passwort"
               label="Password"
               autoComplete="off"
-              value={pluginConfig.passwort}
+              value={credentilasConfig.passwort}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -121,7 +122,7 @@ export const PluginCredentialsForm = ({
               id="apiKey"
               label="Api Key"
               autoComplete="off"
-              value={pluginConfig.apiKey}
+              value={credentilasConfig.apiKey}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -129,7 +130,7 @@ export const PluginCredentialsForm = ({
               id="hash"
               label="Notification Hash Key"
               autoComplete="off"
-              value={pluginConfig.hash}
+              value={credentilasConfig.hash}
               onChange={handleOnChange}
               requiredIndicator
             />
