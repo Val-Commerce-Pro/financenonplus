@@ -7,24 +7,19 @@ interface Address {
   countryCode: string;
 }
 
-interface ShippingLine {
-  title: string;
-  price: number;
-}
-
 interface LineItem {
   variantId: string;
   quantity: number;
 }
 
-export interface DraftOrderInput {
-  shippingLine?: ShippingLine;
+export interface DraftOrderInputShipping {
+  shop: string,
   shippingAddress?: Address;
   lineItems: LineItem[];
 }
 
-export async function draftOrderCalculate(shop: string, input: DraftOrderInput) {
-  const graphQlClient = await getGraphqlClient(shop);
+export async function draftOrderCalculate( input: DraftOrderInputShipping) {
+  const graphQlClient = await getGraphqlClient(input.shop);
 
   const response = await graphQlClient.request(
     `mutation draftOrderCalculate($input: DraftOrderInput!) {

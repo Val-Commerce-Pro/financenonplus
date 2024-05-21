@@ -10,6 +10,8 @@ import { ClientFormDataI } from "../types/clientForm";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 import { deleteCartItem, updateCartData } from "../utils/shopifyAjaxApi";
+import { calculateShippingCost } from "../utils/calculateShippingCost";
+
 
 type DraftOrderResponse = {
   draftOrderCreate: {
@@ -102,6 +104,16 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
     //   window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
   };
 
+  async function handleShippingCost() {
+    const {city, street, zipCode} = clientFormData
+    const lineItems: LineItem[] = cartData.items.map((item) => ({
+      variantId: `gid://shopify/ProductVariant/${item.id}`,
+      quantity: item.quantity,
+    }));
+    const currentShippingCost = await calculateShippingCost({ address1: street, city, zip: zipCode, countryCode: "DE"}, lineItems)
+    console.log("currentShippingCost", currentShippingCost);
+  }
+
   return (
     <>
       <div className="max-w-[1280px] mx-auto p-[16px]">
@@ -116,6 +128,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
             clientFormData={clientFormData}
             handleClientFormChange={handleClientFormChange}
             handleModalState={handleModalState}
+            handleShippingCost={handleShippingCost}
           />
         </div>
 

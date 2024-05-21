@@ -37,7 +37,7 @@ export interface DraftOrderInput {
   lineItems: LineItem[];
 }
 
-export async function createDraftOrder(shop: string) {
+export async function createDraftOrder(shop: string, input: DraftOrderInput) {
   const graphQlClient = await getGraphqlClient(shop);
 
   const response = await graphQlClient.request(
@@ -52,31 +52,23 @@ export async function createDraftOrder(shop: string) {
     {
       variables: {
         input: {
-          note: "note",
-          email: "vf@commerce-pro.de",
+          note: input.note,
+          email: input.email,
           taxExempt: true,
-          tags: "FinanceNonPlus",
-          // customAttributes: [
-          //   { key: "name", value: input.customAttributes[0].value },
-          // ],
+          tags: "Consors EFI",
           shippingAddress: {
-            address1: "input.shippingAddress?.address1",
-            city: "hamburg",
-            zip: "20146",
+            address1: input.shippingAddress?.address1,
+            city: input.shippingAddress?.city,
+            zip: input.shippingAddress?.zip,
             countryCode: "DE",
           },
           billingAddress: {
-            address1: "input.shippingAddress?.address1",
-            city: "hamburg",
-            zip: "20146",
+            address1: input.shippingAddress?.address1,
+            city: input.shippingAddress?.city,
+            zip: input.shippingAddress?.zip,
             countryCode: "DE",
           },
-          lineItems: [
-            {
-              quantity: 2,
-              variantId: "gid://shopify/ProductVariant/45578730471653",
-            },
-          ],
+          lineItems: input.lineItems,
         },
       },
     },

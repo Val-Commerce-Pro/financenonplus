@@ -11,12 +11,14 @@ type ClientFormProps = {
   handleModalState: (value: boolean) => void;
   handleClientFormChange: (clientFormData: ClientFormDataI) => void;
   clientFormData: ClientFormDataI;
+  handleShippingCost(): Promise<void>
 };
 
 export const ClientForm = ({
   clientFormData,
   handleModalState,
   handleClientFormChange,
+  handleShippingCost
 }: ClientFormProps) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -39,6 +41,8 @@ export const ClientForm = ({
     //   }),
     // );
   }
+
+  
 
   return (
     <>
@@ -160,6 +164,7 @@ export const ClientForm = ({
           >
             Senden
           </button>
+          <button onClick={handleShippingCost}>FAKE SHIPPING</button>
         </div>
       </Box>
     </>

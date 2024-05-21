@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request }) => {
   const { shop, draftOrderData, lineItems }: EfiDraftOrder = data;
   console.log("EFI Draft Order Route", shop, draftOrderData, lineItems);
   try {
-    const draftOrderResponse = await createDraftOrder(shop);
+    const draftOrderResponse = await createDraftOrder(shop, draftOrderData);
     console.log("draftOrderResponse", draftOrderResponse);
     if (!draftOrderResponse) {
       return json(draftOrderResponse, {
@@ -38,9 +38,9 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-    const { data: draftOrderData }: { data?: DraftOrderResponse } =
-      draftOrderResponse;
-    console.log("draftOrderData", draftOrderData);
+    // const { data: draftOrderData }: { data?: DraftOrderResponse } =
+    //   draftOrderResponse;
+    // console.log("draftOrderData", draftOrderData);
     return json(draftOrderResponse, {
       headers: {
         "Access-Control-Allow-Origin": "*",
