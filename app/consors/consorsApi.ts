@@ -1,4 +1,4 @@
-import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
+// import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
 // import type {
 //   FulfillmentOrderRequest,
 //   RefundOrderRequest,
@@ -187,10 +187,17 @@ export class ConsorsAPI {
 
 const consorsClientCache: { [shop: string]: ConsorsAPI | undefined } = {};
 
-export async function getConsorsClient(shop: string) {
-  const chachedClient = consorsClientCache[shop];
-  const config = await getShopPluginConfig(shop);
+type GetConsorsClientI = {
+  shop: string;
+  apiKey: string;
+  passwort: string;
+  username: string;
+  vendorId: string;
+};
 
+export async function getConsorsClient(config: GetConsorsClientI) {
+  const chachedClient = consorsClientCache[config.shop];
+  // const config = await getShopPluginConfig(shop);
   if (config == undefined) {
     return undefined;
   }
@@ -211,6 +218,6 @@ export async function getConsorsClient(shop: string) {
     vendorId: config.vendorId,
   });
 
-  consorsClientCache[shop] = newClient;
+  consorsClientCache[config.shop] = newClient;
   return newClient;
 }

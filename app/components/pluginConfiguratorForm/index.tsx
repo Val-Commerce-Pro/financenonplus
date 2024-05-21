@@ -9,6 +9,7 @@ import {
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
+
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginConfiguratorData } from "~/types/databaseInterfaces";
 import { Switch } from "../switch";
@@ -36,7 +37,6 @@ export const PluginConfiguratorForm = ({
   });
 
   const handleOnChange = (value: string, id: string) => {
-    console.log("OnChange value and Id", value, id);
     setPluginConfig((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -45,7 +45,7 @@ export const PluginConfiguratorForm = ({
     setSavingConfig(true);
     const data = {
       pluginConfig,
-      _action: "updatePlugin",
+      _action: "configuratorForm",
     };
     submit(data, {
       method: "POST",
@@ -76,7 +76,7 @@ export const PluginConfiguratorForm = ({
       width="420px"
       borderRadius="300"
     >
-      <ui-title-bar title="Einstellungen"> </ui-title-bar>
+      {/* <ui-title-bar title="Einstellungen"> </ui-title-bar> */}
       <div
         style={{
           display: "flex",
@@ -90,6 +90,7 @@ export const PluginConfiguratorForm = ({
           name="appMode"
           handleOnChange={handleAppMode}
           checkboxValue={pluginConfig.appMode}
+          disabled={!clientDataOk}
         />
         <img
           src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
@@ -97,89 +98,96 @@ export const PluginConfiguratorForm = ({
           style={{ maxHeight: "80px", maxWidth: "160px" }}
         />
       </div>
-      <BlockStack gap={"300"}>
-        <TextField
-          id="shop"
-          label="Shop"
-          autoComplete="off"
-          value={pluginConfig.shop}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="minOrderValue"
-          label="Minimum Order Value"
-          type="number"
-          autoComplete="off"
-          value={pluginConfig.minOrderValue.toString()}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="terms"
-          label="Terms"
-          autoComplete="off"
-          value={pluginConfig.terms}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="zeroPercent"
-          label="Zero Percent Financing"
-          autoComplete="off"
-          value={pluginConfig.zeroPercent}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="interestRate"
-          label="Interest Rate"
-          autoComplete="off"
-          value={pluginConfig.interestRate}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="promotionalInterestRate"
-          label="Promotional Interest Rate"
-          type="number"
-          autoComplete="off"
-          value={pluginConfig.promotionalInterestRate.toString()}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-      </BlockStack>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginTop: "10px",
-        }}
-      >
-        {clientDataOk === undefined ? (
-          <></>
-        ) : clientDataOk ? (
-          <Badge size="medium" tone="success">
-            Credentials Success
-          </Badge>
-        ) : (
-          <Badge size="medium" tone="attention">
-            Credentials Error
-          </Badge>
-        )}
-        {savingConfig ? (
+      {pluginConfig.appMode && (
+        <>
+          <BlockStack gap={"300"}>
+            <TextField
+              id="shop"
+              label="Shop"
+              autoComplete="off"
+              value={pluginConfig.shop}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="minOrderValue"
+              label="Minimum Order Value"
+              type="number"
+              autoComplete="off"
+              value={pluginConfig.minOrderValue.toString()}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="terms"
+              label="Terms"
+              autoComplete="off"
+              value={pluginConfig.terms}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="zeroPercent"
+              label="Zero Percent Financing"
+              autoComplete="off"
+              value={pluginConfig.zeroPercent}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="interestRate"
+              label="Interest Rate"
+              autoComplete="off"
+              value={pluginConfig.interestRate}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="promotionalInterestRate"
+              label="Promotional Interest Rate"
+              type="number"
+              autoComplete="off"
+              value={pluginConfig.promotionalInterestRate.toString()}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+          </BlockStack>
           <div
             style={{
-              marginRight: "25px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: "10px",
             }}
           >
-            <Spinner size="small" accessibilityLabel="Loading Saving data" />
+            {clientDataOk === undefined ? (
+              <></>
+            ) : clientDataOk ? (
+              <Badge size="medium" tone="success">
+                Credentials Success
+              </Badge>
+            ) : (
+              <Badge size="medium" tone="attention">
+                Credentials Error
+              </Badge>
+            )}
+            {savingConfig ? (
+              <div
+                style={{
+                  marginRight: "25px",
+                }}
+              >
+                <Spinner
+                  size="small"
+                  accessibilityLabel="Loading Saving data"
+                />
+              </div>
+            ) : (
+              <Button onClick={handleSave}>Save</Button>
+            )}
           </div>
-        ) : (
-          <Button onClick={handleSave}>Save</Button>
-        )}
-      </div>
+        </>
+      )}
     </Box>
   );
 };

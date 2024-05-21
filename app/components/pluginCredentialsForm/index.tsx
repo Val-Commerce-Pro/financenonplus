@@ -45,7 +45,7 @@ export const PluginCredentialsForm = ({
     setSavingConfig(true);
     const data = {
       pluginConfig,
-      _action: "updatePlugin",
+      _action: "credentialsForm",
     };
     submit(data, {
       method: "POST",
@@ -97,79 +97,86 @@ export const PluginCredentialsForm = ({
           style={{ maxHeight: "80px", maxWidth: "160px" }}
         />
       </div>
-      <BlockStack gap={"300"}>
-        <TextField
-          id="vendorId"
-          label="VendorID"
-          autoComplete="off"
-          value={pluginConfig.vendorId}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="username"
-          label="Username"
-          autoComplete="off"
-          value={pluginConfig.username}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="passwort"
-          label="Password"
-          autoComplete="off"
-          value={pluginConfig.passwort}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="apiKey"
-          label="Api Key"
-          autoComplete="off"
-          value={pluginConfig.apiKey}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-        <TextField
-          id="hash"
-          label="Notification Hash Key"
-          autoComplete="off"
-          value={pluginConfig.hash}
-          onChange={handleOnChange}
-          requiredIndicator
-        />
-      </BlockStack>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginTop: "10px",
-        }}
-      >
-        {clientDataOk === undefined ? (
-          <></>
-        ) : clientDataOk ? (
-          <Badge size="medium" tone="success">
-            Credentials Success
-          </Badge>
-        ) : (
-          <Badge size="medium" tone="attention">
-            Credentials Error
-          </Badge>
-        )}
-        {savingConfig ? (
+      {pluginConfig.appMode && (
+        <>
+          <BlockStack gap={"300"}>
+            <TextField
+              id="vendorId"
+              label="VendorID"
+              autoComplete="off"
+              value={pluginConfig.vendorId}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="username"
+              label="Username"
+              autoComplete="off"
+              value={pluginConfig.username}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="passwort"
+              label="Password"
+              autoComplete="off"
+              value={pluginConfig.passwort}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="apiKey"
+              label="Api Key"
+              autoComplete="off"
+              value={pluginConfig.apiKey}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="hash"
+              label="Notification Hash Key"
+              autoComplete="off"
+              value={pluginConfig.hash}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+          </BlockStack>
           <div
             style={{
-              marginRight: "25px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: "10px",
             }}
           >
-            <Spinner size="small" accessibilityLabel="Loading Saving data" />
+            {clientDataOk === undefined ? (
+              <></>
+            ) : clientDataOk ? (
+              <Badge size="medium" tone="success">
+                Credentials Success
+              </Badge>
+            ) : (
+              <Badge size="medium" tone="attention">
+                Credentials Error
+              </Badge>
+            )}
+            {savingConfig ? (
+              <div
+                style={{
+                  marginRight: "25px",
+                }}
+              >
+                <Spinner
+                  size="small"
+                  accessibilityLabel="Loading Saving data"
+                />
+              </div>
+            ) : (
+              <Button onClick={handleSave}>Save</Button>
+            )}
           </div>
-        ) : (
-          <Button onClick={handleSave}>Save</Button>
-        )}
-      </div>
+        </>
+      )}
     </Box>
   );
 };

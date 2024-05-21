@@ -5,12 +5,14 @@ type SwitchProps = {
   handleOnChange: (event: ChangeEvent<HTMLInputElement>) => void;
   checkboxValue?: boolean;
   name: string;
+  disabled?: boolean;
 };
 
 export const Switch = ({
   handleOnChange,
   checkboxValue,
   name,
+  disabled = false,
 }: SwitchProps) => {
   return (
     <div className={styles.switchContainer}>
@@ -22,6 +24,7 @@ export const Switch = ({
           className={styles.toggleCheckbox}
           onChange={(e) => handleOnChange(e)}
           checked={checkboxValue}
+          disabled={disabled}
         />
         <span className={`${styles.slider} ${styles.round}`}></span>
       </label>

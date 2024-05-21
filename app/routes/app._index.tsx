@@ -4,16 +4,16 @@ import { PluginCredentialsForm } from "~/components/pluginCredentialsForm";
 import {
   createOrUpdateShopPluginCredentials,
   getShopPluginConfig,
-  updateShopPluginConfigurator,
-  updateShopPluginCredentials,
 } from "~/models/shopPluginConfig.server";
 import { authenticate } from "~/shopify.server";
 import type {
   ShopPluginConfiguratorData,
+  // ShopPluginConfiguratorData,
   ShopPluginCredentialsData,
 } from "~/types/databaseInterfaces";
 
 import { PluginConfiguratorForm } from "~/components/pluginConfiguratorForm";
+import { getLoaderResponse } from "~/utils/defaultResponse";
 import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";
 
@@ -24,40 +24,6 @@ export const action: ActionFunction = async ({ request }) => {
   console.log("session, formData, values", session, formData, values);
 
   switch (_action) {
-    case "credentialsMode":
-      const credentialsModeActionForm = formatData(
-        values,
-        true,
-      ) as Partial<ShopPluginCredentialsData>;
-
-      const updatedCredentialsModePluginBdData =
-        await updateShopPluginCredentials(credentialsModeActionForm);
-      console.log(
-        "updatedCredentialsModePluginBdData",
-        updatedCredentialsModePluginBdData,
-      );
-
-      return updatedCredentialsModePluginBdData
-        ? null
-        : { error: "Error saving client form data" };
-
-    case "configuratorMode":
-      const configuratorModeActionForm = formatData(
-        values,
-        true,
-      ) as Partial<ShopPluginConfiguratorData>;
-
-      const updatedConfiguratorModePluginBdData =
-        await updateShopPluginConfigurator(configuratorModeActionForm);
-      console.log(
-        "updatedConfiguratorModePluginBdData",
-        updatedConfiguratorModePluginBdData,
-      );
-
-      return updatedConfiguratorModePluginBdData
-        ? null
-        : { error: "Error saving client form data" };
-
     case "credentialsForm":
       const credentialsActionForm = formatData(
         values,
@@ -80,14 +46,6 @@ export const action: ActionFunction = async ({ request }) => {
         "Formatted Configurator Action Form: ",
         configuratorActionForm,
       );
-
-      // const configuratorPluginBdData =
-      //   await createOrUpdateShopPluginConfigurator(configuratorActionForm);
-      // console.log("configuratorPluginBdData", configuratorPluginBdData);
-
-      // return configuratorPluginBdData
-      //   ? null
-      //   : { error: "Error saving client form data" };
       return null;
     default:
       return null;
@@ -107,49 +65,33 @@ export const loader: LoaderFunction = async ({
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getShopPluginConfig(session.shop);
 
+  if (!pluginConfData) return getLoaderResponse({});
+
+  const { ShopPluginConfigurator, ...credentials } = pluginConfData;
+
   console.log("pluginConfData form DB", pluginConfData);
 
-  const consorsClient = await getConsorsClient(session.shop);
+  const consorsClient = await getConsorsClient({
+    shop: session.shop,
+    apiKey: pluginConfData?.apiKey,
+    passwort: pluginConfData?.passwort,
+    username: pluginConfData?.username,
+    vendorId: pluginConfData?.vendorId,
+  });
   const clientAuth = await consorsClient?.jwt();
 
-  const defaultResponse = {
-    pluginCredentialsData: {
-      username: "",
-      vendorId: "",
-      apiKey: "",
-      appMode: false,
-      clientId: "",
-      hash: "",
-      passwort: "",
-      shop: session.shop,
-    },
-    pluginConfiguratorData: {
-      shop: "",
-      appMode: false,
-      minOrderValue: 100,
-      terms: "",
-      zeroPercent: "",
-      interestRate: "",
-      promotionalInterestRate: 0,
-      aktionsZinsMonate: 0,
-      ShopPluginCredentials: null, // Assuming this is an object or can be null
-    },
-    clientDataOk: undefined,
-  };
-
-  if (!pluginConfData) return defaultResponse;
-
-  return {
-    pluginCredentialsData: defaultResponse.pluginCredentialsData,
-    pluginConfiguratorData: defaultResponse.pluginConfiguratorData,
+  return getLoaderResponse({
+    pluginCredentialsData: credentials,
+    pluginConfiguratorData: ShopPluginConfigurator,
     clientDataOk: !!clientAuth,
-  };
+  });
 };
 
 export default function Index() {
   const loaderData = useLoaderData<LoaderResponseI>();
   const { clientDataOk, pluginConfiguratorData, pluginCredentialsData } =
     loaderData;
+  console.log("loaderData", loaderData);
 
   return (
     <div
@@ -157,18 +99,14 @@ export default function Index() {
         padding: "24px",
       }}
     >
-      {pluginCredentialsData.appMode && (
-        <PluginCredentialsForm
-          clientDataOk={clientDataOk}
-          pluginCredentialsData={pluginCredentialsData}
-        />
-      )}
-      {pluginConfiguratorData.appMode && (
-        <PluginConfiguratorForm
-          clientDataOk={clientDataOk}
-          pluginConfiguratorData={pluginConfiguratorData}
-        />
-      )}
+      <PluginCredentialsForm
+        clientDataOk={clientDataOk}
+        pluginCredentialsData={pluginCredentialsData}
+      />
+      <PluginConfiguratorForm
+        clientDataOk={clientDataOk}
+        pluginConfiguratorData={pluginConfiguratorData}
+      />
     </div>
   );
 }
