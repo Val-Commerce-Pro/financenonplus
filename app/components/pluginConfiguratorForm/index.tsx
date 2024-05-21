@@ -85,7 +85,7 @@ export const PluginConfiguratorForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Configurator</h2>
         <Switch
           name="appMode"
           handleOnChange={handleAppMode}

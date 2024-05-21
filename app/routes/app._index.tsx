@@ -97,6 +97,10 @@ export default function Index() {
     <div
       style={{
         padding: "24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "16px",
       }}
     >
       <PluginCredentialsForm
