@@ -1,4 +1,3 @@
-import { ClientFormDataI } from "../types/clientForm";
 import { backendUrl } from "./getConsorsLink";
 
 export interface LineItem {

@@ -36,7 +36,6 @@ export const PluginCredentialsForm = ({
   });
 
   const handleOnChange = (value: string, id: string) => {
-    console.log("OncHange value and Id", value, id);
     setPluginConfig((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -55,18 +54,9 @@ export const PluginCredentialsForm = ({
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
-    console.log("handleAppMode checked and Id", checked, name);
     const updatedPluginData = { ...pluginConfig, [name]: checked };
     console.log("updatedPluginData", updatedPluginData);
     setPluginConfig(updatedPluginData);
-
-    const data = {
-      appMode: updatedPluginData.appMode,
-      _action: "creditialsMode",
-    };
-    submit(data, {
-      method: "POST",
-    });
   };
 
   return (
