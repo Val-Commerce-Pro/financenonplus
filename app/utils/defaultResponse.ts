@@ -22,7 +22,7 @@ export const getLoaderResponse = ({
       vendorId: pluginCredentialsData?.vendorId ?? "",
       apiKey: pluginCredentialsData?.apiKey ?? "",
       appMode: pluginConfiguratorData?.appMode ?? false,
-      clientId: pluginCredentialsData?.clientId ?? "",
+      clientId: pluginCredentialsData?.vendorId ?? "",
       hash: pluginCredentialsData?.hash ?? "",
       passwort: pluginCredentialsData?.passwort ?? "",
       shop: pluginCredentialsData?.shop ?? shop,
