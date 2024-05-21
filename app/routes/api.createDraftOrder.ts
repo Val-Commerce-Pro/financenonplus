@@ -41,6 +41,9 @@ type EfiDraftOrder = {
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { shop, draftOrderData, lineItems }: EfiDraftOrder = data;
+  // TODO: check if address is german otherwise no financing
+  // TODO: check if minimum value is reached test REJECT in firstName 
+  
   try {
     const draftOrderInfo: DraftOrderInput = {
       note: "Consors EFI Test",
