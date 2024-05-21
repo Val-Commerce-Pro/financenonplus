@@ -31,7 +31,7 @@ export const action: ActionFunction = async ({ request }) => {
         true,
       ) as ShopPluginCredentialsData;
 
-      console.log("credentialsActionForm", credentialsActionForm)
+      console.log("credentialsActionForm ...", {...credentialsActionForm})
 
       const credentialsPluginBdData = await createOrUpdateShopPluginCredentials(
         credentialsActionForm,
@@ -76,14 +76,20 @@ export const loader: LoaderFunction = async ({
 
   console.log("pluginConfData form DB", pluginConfData);
 
-  const consorsClient = await getConsorsClient({
-    shop: session.shop,
-    apiKey: pluginConfData?.apiKey,
-    passwort: pluginConfData?.passwort,
-    username: pluginConfData?.username,
-    vendorId: pluginConfData?.vendorId,
-  });
+  const consorsClientData = {
+      shop: session.shop,
+      apiKey: pluginConfData?.apiKey,
+      passwort: pluginConfData?.passwort,
+      username: pluginConfData?.username,
+      vendorId: pluginConfData?.vendorId,
+    }
+
+    console.log("getConsorsClient", getConsorsClient)
+  
+
+  const consorsClient = await getConsorsClient(consorsClientData);
   const clientAuth = await consorsClient?.jwt();
+  console.log("clientAuth", clientAuth)
 
   return getLoaderResponse({
     pluginCredentialsData: credentials,
