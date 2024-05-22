@@ -2,6 +2,14 @@
 <script src="{{ 'finance-extension-script.js' | asset_url }}" defer="defer"></script>
 <div id="shopDomain" style="visibility: hidden;">{{ shop.domain }}</div>
 <div id="shopSecureUrl" style="visibility: hidden;">{{ shop.secure_url }}</div>
+<div id="cf-customer-id" style="visibility: hidden;">{{ customer.id }}</div>
+<div id="cf-customer-fn" style="visibility: hidden;">{{ customer.first_name }}</div>
+<div id="cf-customer-ln" style="visibility: hidden;">{{ customer.last_name }}</div>
+<div id="cf-customer-mail" style="visibility: hidden;">{{ customer.email }}</div>
+<div id="cf-customer-street" style="visibility: hidden;">{{ customer.default_address.address1 }}</div>
+<div id="cf-customer-zip" style="visibility: hidden;">{{ customer.default_address.zip }}</div>
+<div id="cf-customer-city" style="visibility: hidden;">{{ customer.default_address.city }}</div>
+<div id="cf-customer-phone" style="visibility: hidden;">{{ customer.phone }}</div>
 
 <div id="root"></div>
 
