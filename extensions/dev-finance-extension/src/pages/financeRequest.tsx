@@ -1,18 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PageTitle } from "../components/pagetitle";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 import { PluginConfigI } from "../types/pluginConfig";
 
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
+import { useShippingCost } from "../hooks/useShippingCost";
 import { ClientFormDataI } from "../types/clientForm";
-import {
-  DraftOrderCalculate,
-  DraftOrderResponse,
-} from "../types/shopifyResponses";
-import { calculateShippingCost } from "../utils/calculateShippingCost";
+import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 import { deleteCartItem, updateCartData } from "../utils/shopifyAjaxApi";
@@ -40,7 +36,14 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
-  const [shippingPrice, setShippingPrice] = useState("");
+  const shippingPrice = useShippingCost({
+    cartData,
+    clientFormData: {
+      city: clientFormData.city,
+      street: clientFormData.street,
+      zipCode: clientFormData.zipCode,
+    },
+  });
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
@@ -109,39 +112,11 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
       setIsFinanceSubmitted(false);
     }
   };
-  useEffect(() => {
-    if (
-      clientFormData.city &&
-      clientFormData.street &&
-      clientFormData.zipCode
-    ) {
-      handleShippingCost();
-    }
-  }, [clientFormData]);
-
-  async function handleShippingCost() {
-    const { city, street, zipCode } = clientFormData;
-    const lineItems: LineItem[] = cartData.items.map((item) => ({
-      variantId: `gid://shopify/ProductVariant/${item.id}`,
-      quantity: item.quantity,
-    }));
-    const currentShippingCost: DraftOrderCalculate =
-      await calculateShippingCost(
-        { address1: street, city, zip: zipCode, countryCode: "DE" },
-        lineItems,
-      );
-    console.log("currentShippingCost", currentShippingCost);
-    const { amount } =
-      currentShippingCost.data.draftOrderCalculate.calculatedDraftOrder
-        .availableShippingRates[0].price;
-    console.log("amount", amount);
-    setShippingPrice(amount);
-  }
 
   return (
     <>
       <div className="max-w-[1280px] mx-auto p-[16px]">
-        <PageTitle title="Albis Leasing" />
+        {/* <PageTitle title="Albis Leasing" /> */}
         <SectionCartItems
           cartData={cartItems}
           handleUpdateItemQuantity={handleUpdateItemQuantity}
@@ -172,7 +147,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
               data-modal-target="static-modal"
               id="modal-button"
               data-modal-toggle="static-modal"
-              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[250px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+              className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] w-[250px] hover:bg-[#5bb394] disabled:bg-gray-300 disabled:pointer-events-none"
             >
               Senden
             </button>

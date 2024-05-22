@@ -1,8 +1,10 @@
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import { ShoppingCart, ShoppingCartItem } from "../../types/cartTypes";
 import { formatDecimalNumber } from "../../utils/formatValues";
 import { Box } from "../box";
 import { Spinner } from "../spinner";
+import { Tooltip } from "../tooltip";
 
 type SectionCartItemsProps = {
   cartData: ShoppingCart;
@@ -88,10 +90,20 @@ export const SectionCartItems = ({
                 colSpan={3}
                 className="px-[24px] py-[16px] text-right font-medium text-gray-900"
               >
-                Shipping Cost
+                <div className="flex gap-[2px] items-center justify-end">
+                  <div className="group relative">
+                    <IoIosInformationCircleOutline size={16} />
+                    <Tooltip text="Please provide the street, city, and zip code in order to calculate the shipping cost." />
+                  </div>
+                  <span>Shipping Cost</span>
+                </div>
               </td>
-              <td className="px-[24px] py-[16px] text-gray-500">
-                {shippingPrice ? shippingPrice : <Spinner />}
+              <td className="px-[24px] py-[16px] text-gray-500 flex items-center">
+                {shippingPrice ? (
+                  `€${Number(shippingPrice).toFixed(2)}`
+                ) : (
+                  <Spinner size="18" />
+                )}
               </td>
               <td className="px-[24px] py-[16px]"></td>{" "}
               {/* Empty cell for the Actions column */}

@@ -1,19 +1,11 @@
-import { ReactNode } from "react";
-
-interface ToolTipProps {
-  isHovered: boolean;
-  children?: ReactNode;
+interface TooltipProps {
+  text: string;
 }
 
-export const ToolTip = ({ isHovered = false, children }: ToolTipProps) => {
+export const Tooltip = ({ text }: TooltipProps) => {
   return (
-    <div
-      id="tooltip-left"
-      role="tooltip"
-      className={`absolute z-10 inline-block p-[12px] text-sm text-white bg-gray-900 rounded-lg shadow-sm ${isHovered ? "opacity-100 visible" : "opacity-0 invisible"} tooltip dark:bg-gray-700`}
-    >
-      {children}
-      <div className="tooltip-arrow" data-popper-arrow></div>
+    <div className="absolute bottom-full mb-2 hidden w-max max-w-xs p-[12px] text-sm text-left text-white bg-gray-900 rounded-lg shadow-md transition-opacity duration-200 group-hover:block dark:bg-gray-700">
+      {text}
     </div>
   );
 };
