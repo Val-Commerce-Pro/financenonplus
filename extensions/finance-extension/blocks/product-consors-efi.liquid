@@ -1,30 +1,99 @@
-{{ 'albis-product.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'albis-product.js' | asset_url }}" defer="defer"></script>
-<div hidden id="ah-product-id" class="albisHiddenInfo">{{ product.variants[0].id }}</div>
-<div hidden id="ah-secure-url" class="albisHiddenInfo">{{ shop.secure_url }}</div>
-<div hidden id="ah-product-price" class="albisHiddenInfo">{{ product.price }}</div>
-<div hidden id="ah-shop-domain" class="albisHiddenInfo">{{ shop.domain }}</div>
 
-{% if product.price >= 50000 %}
+{{ 'consors-product.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'calculator.js' | asset_url }}"></script>
+<script defer src="{{ 'consors-product.js' | asset_url }}"></script>
+<link rel="stylesheet" href="{{ 'calc.css' | asset_url }}">
+
+<!-- init calculator -->
+<script defer>
+  var shopName = "{{ shop.name }}" + ".myshopify.com"
+  
+  async function handlePromise(jsonData) {
+        var productPrice = {{ product.price }}/100;
+  const zeroMonth = jsonData.zeroMonth;
+        const [minMonth, maxMonth, stepMonth] = jsonData.laufzeiten.split(",");
+        const [firstInterestRate, secondInterestRate, thirdInterestRate] = jsonData.zinsSaetze.split(",");
+            
+        jQuery(function($) {
+          var jsontest = {
+            minMonth: Number(minMonth),
+            maxMonth: Number(maxMonth),
+            stepMonth: Number(stepMonth),
+            zeroMonth:  Number(zeroMonth),
+            firstInterestRate: Number(firstInterestRate),
+            secondInterestRate: Number(secondInterestRate),
+            thirdInterestRate: Number(thirdInterestRate),
+            productPrice: productPrice
+          };
+          $('#calculator').calculator(jsontest)
+        })
+      }
+      $(document).ready(
+        function(){
+          fetch(`https://cons-6a9dc71762e0.herokuapp.com/api/public/config?shop=${shopName}`) // TODO: error handeling
+            .then(response => response.json()).then(handlePromise).catch(reson => {
+              console.error("something went wrong", reson)
+          })
+        }
+      );</script>
+
+<div hidden id="cf-product-id" class="HiddenInfo">{{ product.variants[0].id }}</div>
+<div hidden id="cf-secure-url" class="HiddenInfo">{{ shop.secure_url }}</div>
+<div hidden id="cf-product-price" class="albisHiddenInfo">{{ product.price }}</div>
+<div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
+
 <div class="d-flex gap">
   <div class="separator">- oder -</div>
-  <a id="addProductAndRedirect" class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors">👉 Jetzt Finance</a>
-  <div class="preview-container">
-    <div>Leasen statt kaufen!</div>
-    <table id="preview-table" class="d-flex flex-center ta-left preview-text">
-      <tr class="alternate-color">
-        <th>Laufzeit</th>
-        <th>Rate/m</th>
-      </tr>
-      <tr hidden id="albis-replace-rates"></tr>
-    </table>
-  </div>
+  <a id="addProductAndRedirect" class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
+  <div class="product--financing">
+    <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45"><br>
+    Finanzieren Sie bequem mit Consors Finanz.<br>Weitere Informationen finden sie 
+    <a class="openModalConsors" id="openCalculator">hier</a>
+    </div>
+    <div id="modal" style="display: none;">
+    <button id="closeCalculator" class="calculator__close" type="button" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+        <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"></path>
+      </svg>
+    </button>
+    <div style="display: flex;" >
+    <div id="calculator" ></div>
+    <div>{{ block.settings.legalText }}</div>
+    </div>
+    
+    </div>
 </div>
-{% endif %}
 
+<script>
+  // Get the modal
+  var calculatorModal = document.getElementById("modal");
+  
+    // Get the button that opens the modal
+  var btn = document.getElementById("openCalculator");
+  
+  // Get the button that opens the modal
+  var closeCalculator = document.getElementById("closeCalculator");
+  
+  // When the user clicks on the button, open the modal
+  btn.onclick = function() {
+    calculatorModal.style.display = "block";
+  }
+  
+  closeCalculator.onclick = function() {
+    calculatorModal.style.display = "none";
+  }
+  </script>
 {% schema %}
 {
-  "name": "Product Albis Leasing",
-  "target": "section"
+  "name": "Product Consors Finance",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "legalText",
+      "label": "legalText",
+      "default": "Put text here"
+    }
+  ]
 }
 {% endschema %}
