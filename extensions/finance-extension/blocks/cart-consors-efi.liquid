@@ -1,16 +1,18 @@
-{% comment %} 
 
 <style>
 #ah-cart-redirect {
-    {% if cart.total_price < 50000 %}
-        display: none;
+    {% if cart.empty? %}
+        display: none !important;
     {%  endif %}
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
-</style> {% endcomment %}
+</style> 
 
 <div id="ah-cart-redirect">
-    <h3>Consors EFI</h3>
-    <a class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finance</a>
+    <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45" />
+    <a class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
 </div>
 
 {% schema %}
