@@ -43,22 +43,22 @@ model ShopPluginConfigurator {
   id                      Int                   @id @default(autoincrement())
   shop                    String                @unique
   appMode                 Boolean               @default(false)
-  minOrderValue           Int                   @default(100)
+  minOrderValue           String
   terms                   String
   zeroPercent             String
   interestRate            String
-  promotionalInterestRate Int                   @default(0)
+  promotionalInterestRate String
   shopCredentialsId       Int                   @unique
   ShopPluginCredentials   ShopPluginCredentials @relation(fields: [shopCredentialsId], references: [id])
 }
 
 model ConsorsEfiNotifications {
   id             Int     @id @default(autoincrement())
-  draftOrderId   String  @unique
+  draftOrderId   String? @unique
   draftOrderName String?
   orderId        String? @unique
   orderName      String?
-  transactionId  String  @unique
+  transactionId  String? @unique
   status         String?
   statusDetail   String?
   campaign       String?

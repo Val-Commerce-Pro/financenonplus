@@ -5,11 +5,11 @@ import { PluginCredentialsForm } from "~/components/pluginCredentialsForm";
 import { authenticate } from "~/shopify.server";
 import type {
   ShopPluginConfiguratorData,
-  // ShopPluginConfiguratorData,
   ShopPluginCredentialsData,
 } from "~/types/databaseInterfaces";
 
 import { PluginConfiguratorForm } from "~/components/pluginConfiguratorForm";
+import { createOrUpdateShopPluginConfigurator } from "~/models/configuratorPlugin.server";
 import {
   createOrUpdateShopPluginCredentials,
   getShopPluginConfig,
@@ -40,12 +40,21 @@ export const action: ActionFunction = async ({ request }) => {
 
     case "configuratorForm":
       console.log("Processing configuratorForm");
-      const configuratorActionForm = formatData(values, true);
-      console.log(
-        "Formatted Configurator Action Form: ",
-        configuratorActionForm,
-      );
-      return null;
+      const configuratorActionForm = formatData(
+        values,
+        true,
+      ) as ShopPluginConfiguratorData;
+
+      console.log("Formatted Configurator Action Form: ", {
+        ...configuratorActionForm,
+      });
+
+      const configuratorPluginBdData =
+        await createOrUpdateShopPluginConfigurator(configuratorActionForm);
+
+      return configuratorPluginBdData
+        ? null
+        : { error: "Error saving client form data" };
     default:
       return null;
   }

@@ -59,7 +59,7 @@ export async function createOrUpdateShopPluginConfigurator(
     const updatedConfigurator = await updateShopPluginConfigurator(data);
     return updatedConfigurator;
   } catch (err) {
-    console.error("Error in createOrUpdateShopPluginConfigurator:", err);
+    console.error("Error in create Or Update Shop Plugin Configurator:", err);
     throw new Error("Failed to create or update shop plugin configurator");
   }
 }

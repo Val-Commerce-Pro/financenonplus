@@ -12,6 +12,7 @@ import { useState } from "react";
 
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginConfiguratorData } from "~/types/databaseInterfaces";
+import { InfoIcon } from "../infoIcon";
 import { Switch } from "../switch";
 
 type PluginConfiguratorFormProps = {
@@ -91,12 +92,15 @@ export const PluginConfiguratorForm = ({
             marginBottom: "10px",
           }}
         >
+          <Tooltip active content="This order has shipping labels."></Tooltip>
           <Tooltip
             content={
               "This modulo can only be activated with the correct credentials in place."
             }
             borderRadius="100"
-          />
+          >
+            <InfoIcon />
+          </Tooltip>
           <Switch
             name="appMode"
             handleOnChange={handleAppMode}
@@ -130,27 +134,20 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
               requiredIndicator
             />
-            <Select
-              id="zeroPercent"
-              label="Aktionszins"
-              options={aktionszinsOptions}
-              onChange={handleOnChange}
-              value={configuratorFormData.zeroPercent}
-            />
-            <TextField
-              id="zeroPercent"
-              label="Aktionszins"
-              autoComplete="off"
-              value={configuratorFormData.zeroPercent}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
             <TextField
               id="interestRate"
               label="Zinssätze"
               autoComplete="off"
               value={configuratorFormData.interestRate}
               onChange={handleOnChange}
+              requiredIndicator
+            />
+            <Select
+              id="zeroPercent"
+              label="Aktionszins"
+              options={aktionszinsOptions}
+              onChange={handleOnChange}
+              value={configuratorFormData.zeroPercent}
               requiredIndicator
             />
             <TextField
