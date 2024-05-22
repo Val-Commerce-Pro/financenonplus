@@ -9,11 +9,11 @@ function consorsNotifyUrl() {
   return `${backendUrl()}/notify/efiNonPlus`;
 }
 
-// function returnToCustomCheckoutUrl() {
-//   // const shopDomain = document.getElementById("shopDomain")?.textContent;
-//   const shopDomain = "financenonplus.myshopify.com";
-//   return `https://${shopDomain}/pages/consors-efi`;
-// }
+function returnToCustomCheckoutUrl() {
+  // const shopDomain = document.getElementById("shopDomain")?.textContent;
+  const shopDomain = "financenonplus.myshopify.com";
+  return `https://${shopDomain}/pages/consors-efi`;
+}
 
 export const getConsorsLink = (
   clientData: ClientFormDataI,
@@ -49,7 +49,7 @@ export const getConsorsLink = (
     shopbrandname: shop,
     // cancelURL: returnToCustomCheckoutUrl(),
     // failureURL: returnToCustomCheckoutUrl(),
-    // returntocheckoutURL: returnToCustomCheckoutUrl(),
+    returntocheckoutURL: returnToCustomCheckoutUrl(),
     // successURL: returnToCustomCheckoutUrl(),
     notifyURL: consorsNotifyUrl(),
   });

@@ -17,36 +17,33 @@ export type ShippingAddress = {
 };
 
 type UseShippingCostProps = {
-  clientFormData?: Pick<ClientFormDataI, "city" | "street" | "zipCode">;
+  shippingAddress?: Pick<ClientFormDataI, "city" | "street" | "zipCode">;
   cartData?: ShoppingCart;
 };
 
 export const useShippingCost = ({
-  clientFormData,
+  shippingAddress,
   cartData,
 }: UseShippingCostProps): string => {
   console.log("useShippingCost render");
-  console.log("clientFormData, cartData", clientFormData, cartData);
+  console.log("shippingAddress, cartData", shippingAddress, cartData);
   const [shippingPrice, setShippingPrice] = useState("");
 
   const handleShippingCost = useCallback(async () => {
-    if (!clientFormData || !cartData) return "";
-    const { city, street, zipCode } = clientFormData;
+    if (!shippingAddress || !cartData) return "";
     const lineItems: LineItem[] = cartData.items.map((item) => ({
       variantId: `gid://shopify/ProductVariant/${item.id}`,
       quantity: item.quantity,
     }));
-    const shippingAddress = {
-      address1: street,
-      city,
-      zip: zipCode,
-      countryCode: "DE",
-    };
+    //TODO find the country code somewhere
     // const shop = document.getElementById("shopDomain")?.textContent;
     const shop = "financenonplus.myshopify.com";
     const body = JSON.stringify({
       shop,
-      shippingAddress,
+      shippingAddress: {
+        ...shippingAddress,
+        countryCode: "DE",
+      },
       lineItems,
     });
     const response = await fetch(`${backendUrl()}/api/calculateShipping`, {
@@ -64,18 +61,18 @@ export const useShippingCost = ({
 
     console.log("amount", amount);
     setShippingPrice(amount);
-  }, [clientFormData, cartData]);
+  }, [shippingAddress, cartData]);
 
   useEffect(() => {
     if (
-      clientFormData?.city &&
-      clientFormData?.street &&
-      clientFormData?.zipCode
+      shippingAddress?.city &&
+      shippingAddress?.street &&
+      shippingAddress?.zipCode
     ) {
       console.log("handle Shipping Cost has been called");
       handleShippingCost();
     }
-  }, [clientFormData, handleShippingCost]);
+  }, [shippingAddress, handleShippingCost]);
 
   return shippingPrice;
 };

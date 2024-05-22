@@ -40,16 +40,16 @@ model ShopPluginCredentials {
 }
 
 model ShopPluginConfigurator {
-  id                      Int                   @id @default(autoincrement())
-  shop                    String                @unique
-  appMode                 Boolean               @default(false)
-  minOrderValue           String
-  terms                   String
-  zeroPercent             String
-  interestRate            String
-  promotionalInterestRate String
-  shopCredentialsId       Int                   @unique
-  ShopPluginCredentials   ShopPluginCredentials @relation(fields: [shopCredentialsId], references: [id])
+  id                    Int                   @id @default(autoincrement())
+  shop                  String                @unique
+  appMode               Boolean               @default(false)
+  minOrderValue         String
+  terms                 String
+  campaign              String
+  interestRate          String
+  campaignDuration      String
+  shopCredentialsId     Int                   @unique
+  ShopPluginCredentials ShopPluginCredentials @relation(fields: [shopCredentialsId], references: [id])
 }
 
 model ConsorsEfiNotifications {

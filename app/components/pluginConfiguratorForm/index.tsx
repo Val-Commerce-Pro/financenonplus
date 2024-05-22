@@ -36,9 +36,9 @@ export const PluginConfiguratorForm = ({
       appMode: pluginConfiguratorData.appMode,
       minOrderValue: pluginConfiguratorData.minOrderValue,
       terms: pluginConfiguratorData.terms,
-      zeroPercent: pluginConfiguratorData.zeroPercent,
+      campaign: pluginConfiguratorData.campaign,
       interestRate: pluginConfiguratorData.interestRate,
-      promotionalInterestRate: pluginConfiguratorData.promotionalInterestRate,
+      campaignDuration: pluginConfiguratorData.campaignDuration,
     });
 
   const aktionszinsOptions: AktionszinsOptionsI = [
@@ -102,6 +102,14 @@ export const PluginConfiguratorForm = ({
           >
             <IoIosInformationCircleOutline size={16} />
           </Tooltip>
+          <Tooltip
+            content={
+              "This modulo can only be activated with the correct credentials in place."
+            }
+            borderRadius="100"
+          >
+            <span>With text test</span>
+          </Tooltip>
           <Switch
             name="appMode"
             handleOnChange={handleAppMode}
@@ -144,19 +152,19 @@ export const PluginConfiguratorForm = ({
               requiredIndicator
             />
             <Select
-              id="zeroPercent"
+              id="campaign"
               label="Aktionszins"
               options={aktionszinsOptions}
               onChange={handleOnChange}
-              value={configuratorFormData.zeroPercent}
+              value={configuratorFormData.campaign}
               requiredIndicator
             />
             <TextField
-              id="promotionalInterestRate"
+              id="campaignDuration"
               label="Monate mit Nullprozentfinanzierung"
               type="number"
               autoComplete="off"
-              value={configuratorFormData.promotionalInterestRate.toString()}
+              value={configuratorFormData.campaignDuration}
               onChange={handleOnChange}
               requiredIndicator
             />

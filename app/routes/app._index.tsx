@@ -105,8 +105,8 @@ export default function Index() {
       style={{
         padding: "24px",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
         gap: "16px",
       }}
     >

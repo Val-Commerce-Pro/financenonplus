@@ -18,8 +18,31 @@ export const loader: LoaderFunction = async ({ request }) => {
         },
       });
     }
+    if (!pluginConfData.ShopPluginConfigurator) {
+      return json(
+        {
+          appMode: false,
+        },
+        {
+          status: 200,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
+    }
 
-    return json(pluginConfData, {
+    const { ShopPluginConfigurator } = pluginConfData;
+    const { id, ...rest } = ShopPluginConfigurator;
+    const appPlugin = {
+      credentials: {
+        vendorId: pluginConfData.vendorId,
+        appMode: pluginConfData.appMode,
+        shop: pluginConfData.shop,
+      },
+      configurator: { ...rest },
+    };
+    return json(appPlugin, {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },

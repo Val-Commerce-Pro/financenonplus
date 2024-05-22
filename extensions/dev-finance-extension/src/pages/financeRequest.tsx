@@ -41,7 +41,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
   const shippingPrice = useShippingCost({
     cartData,
-    clientFormData: {
+    shippingAddress: {
       city: clientFormData.city,
       street: clientFormData.street,
       zipCode: clientFormData.zipCode,

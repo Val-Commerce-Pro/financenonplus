@@ -12,7 +12,9 @@ CREATE TABLE `ConsorsEfiNotifications` (
     `creditAmount` VARCHAR(191) NULL,
 
     UNIQUE INDEX `ConsorsEfiNotifications_draftOrderId_key`(`draftOrderId`),
+    UNIQUE INDEX `ConsorsEfiNotifications_draftOrderName_key`(`draftOrderName`),
     UNIQUE INDEX `ConsorsEfiNotifications_orderId_key`(`orderId`),
+    UNIQUE INDEX `ConsorsEfiNotifications_orderName_key`(`orderName`),
     UNIQUE INDEX `ConsorsEfiNotifications_transactionId_key`(`transactionId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
