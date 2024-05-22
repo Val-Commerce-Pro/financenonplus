@@ -1,0 +1,30 @@
+.HiddenInfo {
+  visibility: hidden;
+}
+
+.d-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.gap {
+  gap: 10px;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.ta-left {
+  text-align: left;
+}
+
+.separator {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
