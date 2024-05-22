@@ -18,23 +18,20 @@ type FinanceRequestProps = {
   pluginConfData: PluginConfigI;
 };
 
+const customerData =
+  document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
+
 const initialClientFormData: ClientFormDataI = {
   salutation: "HERR",
-  firstName: document.getElementById("cf-customer-fn")?.textContent ?? "",
-  lastName: document.getElementById("cf-customer-ln")?.textContent ?? "",
-  street:
-    document
-      .getElementById("cf-customer-street")
-      ?.textContent?.replace(/\d+/g, "") ?? "",
-  housenumber:
-    document
-      .getElementById("cf-customer-street")
-      ?.textContent?.replace(/\D/g, "") ?? "",
-  zipCode: document.getElementById("cf-customer-zip")?.textContent ?? "",
-  city: document.getElementById("cf-customer-city")?.textContent ?? "",
-  mobile: document.getElementById("cf-customer-phone")?.textContent ?? "",
+  firstName: customerData[1] ?? "",
+  lastName: customerData[2] ?? "",
+  street: customerData[3]?.replace(/\d+/g, "") ?? "",
+  housenumber: customerData[3].replace(/\D/g, "") ?? "",
+  zipCode: customerData[4] ?? "",
+  city: customerData[5] ?? "",
+  mobile: customerData[6] ?? "",
   dataOfBirth: "",
-  email: document.getElementById("cf-customer-mail")?.textContent ?? "",
+  email: customerData[7] ?? "",
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
