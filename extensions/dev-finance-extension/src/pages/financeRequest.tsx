@@ -24,15 +24,21 @@ type FinanceRequestProps = {
 
 const initialClientFormData: ClientFormDataI = {
   salutation: "HERR",
-  firstName: "",
-  lastName: "",
-  street: "",
-  housenumber: "",
-  zipCode: "",
-  city: "",
-  mobile: "",
+  firstName: document.getElementById("cf-customer-fn")?.textContent ?? "",
+  lastName: document.getElementById("cf-customer-ln")?.textContent ?? "",
+  street:
+    document
+      .getElementById("cf-customer-street")
+      ?.textContent?.replace(/\d+/g, "") ?? "",
+  housenumber:
+    document
+      .getElementById("cf-customer-street")
+      ?.textContent?.replace(/\D/g, "") ?? "",
+  zipCode: document.getElementById("cf-customer-zip")?.textContent ?? "",
+  city: document.getElementById("cf-customer-city")?.textContent ?? "",
+  mobile: document.getElementById("cf-customer-phone")?.textContent ?? "",
   dataOfBirth: "",
-  email: "",
+  email: document.getElementById("cf-customer-mail")?.textContent ?? "",
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
