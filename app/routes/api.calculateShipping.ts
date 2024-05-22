@@ -13,14 +13,7 @@ type CalculateShippingResponse = {
 
 export const action: ActionFunction = async ({ request }) => {
   const data: DraftOrderInputShipping = await request.json();
-  const { shop, lineItems, shippingAddress } = data;
-
-  console.log(
-    "Shipping calculator Route - shop, shippingAddress, lineItems",
-    shop,
-    shippingAddress,
-    lineItems,
-  );
+  // const { shop, lineItems, shippingAddress } = data;
   try {
     const calculateShippingResponse = await draftOrderCalculate(data);
     if (!calculateShippingResponse) {

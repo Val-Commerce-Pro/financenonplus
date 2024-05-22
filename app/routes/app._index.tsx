@@ -1,10 +1,7 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { PluginCredentialsForm } from "~/components/pluginCredentialsForm";
-import {
-  createOrUpdateShopPluginCredentials,
-  getShopPluginConfig,
-} from "~/models/shopPluginConfig.server";
+
 import { authenticate } from "~/shopify.server";
 import type {
   ShopPluginConfiguratorData,
@@ -13,6 +10,10 @@ import type {
 } from "~/types/databaseInterfaces";
 
 import { PluginConfiguratorForm } from "~/components/pluginConfiguratorForm";
+import {
+  createOrUpdateShopPluginCredentials,
+  getShopPluginConfig,
+} from "~/models/credentialsPlugin.server";
 import { getLoaderResponse } from "~/utils/defaultResponse";
 import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";

@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
+import { getShopPluginConfig } from "~/models/credentialsPlugin.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);
@@ -12,7 +12,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     if (!pluginConfData) {
       return new Response("Invalid Credentials", {
-        status: 401,
+        status: 404,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },

@@ -31,9 +31,9 @@ export const getLoaderResponse = ({
       shop: pluginConfiguratorData?.shop ?? shop,
       appMode: pluginConfiguratorData?.appMode ?? false,
       minOrderValue: pluginConfiguratorData?.minOrderValue ?? 100,
-      terms: pluginConfiguratorData?.terms ?? "",
-      zeroPercent: pluginConfiguratorData?.zeroPercent ?? "",
-      interestRate: pluginConfiguratorData?.interestRate ?? "",
+      terms: pluginConfiguratorData?.terms ?? "12,36,6",
+      zeroPercent: pluginConfiguratorData?.zeroPercent ?? "ß",
+      interestRate: pluginConfiguratorData?.interestRate ?? "9.0,9.3,9.5",
       promotionalInterestRate:
         pluginConfiguratorData?.promotionalInterestRate ?? 0,
     },

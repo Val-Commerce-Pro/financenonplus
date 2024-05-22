@@ -6,5 +6,5 @@ import type {
 export type ShopPluginCredentialsData = Omit<ShopPluginCredentials, "id">;
 export type ShopPluginConfiguratorData = Omit<
   ShopPluginConfigurator,
-  "id" | "ShopPluginCredentials"
+  "id" | "shopCredentialsId"
 >;

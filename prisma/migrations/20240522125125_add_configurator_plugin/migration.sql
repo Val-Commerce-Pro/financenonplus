@@ -8,10 +8,12 @@ CREATE TABLE `ShopPluginConfigurator` (
     `zeroPercent` VARCHAR(191) NOT NULL,
     `interestRate` VARCHAR(191) NOT NULL,
     `promotionalInterestRate` INTEGER NOT NULL DEFAULT 0,
+    `shopCredentialsId` INTEGER NOT NULL,
 
     UNIQUE INDEX `ShopPluginConfigurator_shop_key`(`shop`),
+    UNIQUE INDEX `ShopPluginConfigurator_shopCredentialsId_key`(`shopCredentialsId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `ShopPluginConfigurator` ADD CONSTRAINT `ShopPluginConfigurator_shop_fkey` FOREIGN KEY (`shop`) REFERENCES `ShopPluginCredentials`(`shop`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ShopPluginConfigurator` ADD CONSTRAINT `ShopPluginConfigurator_shopCredentialsId_fkey` FOREIGN KEY (`shopCredentialsId`) REFERENCES `ShopPluginCredentials`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

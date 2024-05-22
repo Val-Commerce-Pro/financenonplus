@@ -15,7 +15,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
             Consors EFI Request
           </h3>
         </div>
-        <div className="mb-4 text-center text-gray-200">
+        <div className="mb-4 text-left text-justify text-gray-200">
           {isLoading ? (
             <p>
               We are going to foward you to the CONSORS EFI webpage, please
@@ -42,7 +42,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
               onSubmit(e);
             }}
             disabled={isLoading}
-            className="h-12 px-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800 disabled:bg-gray-600"
+            className="h-12 px-4 text-sm font-medium text-white bg-[#2cb484] rounded-lg hover:bg-[#559880] focus:outline-none focus:ring-4 focus:bg-[#468871] disabled:bg-gray-600"
           >
             {isLoading ? <Spinner /> : "Anfrage senden"}
           </button>

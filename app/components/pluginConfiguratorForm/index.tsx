@@ -1,11 +1,11 @@
 import { useSubmit } from "@remix-run/react";
 import {
-  Badge,
   BlockStack,
   Box,
   Button,
-  Spinner,
+  Select,
   TextField,
+  Tooltip,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
@@ -18,13 +18,16 @@ type PluginConfiguratorFormProps = {
   clientDataOk: LoaderResponseI["clientDataOk"];
   pluginConfiguratorData: LoaderResponseI["pluginConfiguratorData"];
 };
+type AktionszinsOptionsI = {
+  label: string;
+  value: string;
+}[];
 
 export const PluginConfiguratorForm = ({
   clientDataOk,
   pluginConfiguratorData,
 }: PluginConfiguratorFormProps) => {
   const submit = useSubmit();
-  const [savingConfig, setSavingConfig] = useState(false);
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
       shop: pluginConfiguratorData.shop,
@@ -36,12 +39,18 @@ export const PluginConfiguratorForm = ({
       promotionalInterestRate: pluginConfiguratorData.promotionalInterestRate,
     });
 
+  const aktionszinsOptions: AktionszinsOptionsI = [
+    { label: "0", value: "0" },
+    { label: "1", value: "1" },
+    { label: "2", value: "2" },
+    { label: "3", value: "3" },
+  ];
+
   const handleOnChange = (value: string, id: string) => {
     setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
-    setSavingConfig(true);
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",
@@ -49,7 +58,6 @@ export const PluginConfiguratorForm = ({
     submit(data, {
       method: "POST",
     });
-    setSavingConfig(false);
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -75,12 +83,27 @@ export const PluginConfiguratorForm = ({
         }}
       >
         <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Configurator</h2>
-        <Switch
-          name="appMode"
-          handleOnChange={handleAppMode}
-          checkboxValue={configuratorFormData.appMode}
-          disabled={!clientDataOk}
-        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
+          <Tooltip
+            content={
+              "This modulo can only be activated with the correct credentials in place."
+            }
+            borderRadius="100"
+          />
+          <Switch
+            name="appMode"
+            handleOnChange={handleAppMode}
+            checkboxValue={configuratorFormData.appMode}
+            disabled={!clientDataOk}
+          />
+        </div>
         <img
           src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
           alt="consors banner"
@@ -91,16 +114,8 @@ export const PluginConfiguratorForm = ({
         <>
           <BlockStack gap={"300"}>
             <TextField
-              id="shop"
-              label="Shop"
-              autoComplete="off"
-              value={configuratorFormData.shop}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
-            <TextField
               id="minOrderValue"
-              label="Minimum Order Value"
+              label="Mindestbestellwert"
               type="number"
               autoComplete="off"
               value={configuratorFormData.minOrderValue.toString()}
@@ -109,15 +124,22 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="terms"
-              label="Terms"
+              label="Laufzeiten"
               autoComplete="off"
               value={configuratorFormData.terms}
               onChange={handleOnChange}
               requiredIndicator
             />
+            <Select
+              id="zeroPercent"
+              label="Aktionszins"
+              options={aktionszinsOptions}
+              onChange={handleOnChange}
+              value={configuratorFormData.zeroPercent}
+            />
             <TextField
               id="zeroPercent"
-              label="Zero Percent Financing"
+              label="Aktionszins"
               autoComplete="off"
               value={configuratorFormData.zeroPercent}
               onChange={handleOnChange}
@@ -125,7 +147,7 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="interestRate"
-              label="Interest Rate"
+              label="Zinssätze"
               autoComplete="off"
               value={configuratorFormData.interestRate}
               onChange={handleOnChange}
@@ -133,7 +155,7 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="promotionalInterestRate"
-              label="Promotional Interest Rate"
+              label="Monate mit Nullprozentfinanzierung"
               type="number"
               autoComplete="off"
               value={configuratorFormData.promotionalInterestRate.toString()}
@@ -141,39 +163,16 @@ export const PluginConfiguratorForm = ({
               requiredIndicator
             />
           </BlockStack>
+
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
               marginTop: "10px",
             }}
           >
-            {clientDataOk === undefined ? (
-              <></>
-            ) : clientDataOk ? (
-              <Badge size="medium" tone="success">
-                Credentials Success
-              </Badge>
-            ) : (
-              <Badge size="medium" tone="attention">
-                Credentials Error
-              </Badge>
-            )}
-            {savingConfig ? (
-              <div
-                style={{
-                  marginRight: "25px",
-                }}
-              >
-                <Spinner
-                  size="small"
-                  accessibilityLabel="Loading Saving data"
-                />
-              </div>
-            ) : (
-              <Button onClick={handleSave}>Save</Button>
-            )}
+            <Button onClick={handleSave}>Save</Button>
           </div>
         </>
       )}
