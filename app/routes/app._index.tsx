@@ -18,6 +18,7 @@ import { getLoaderResponse } from "~/utils/defaultResponse";
 import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";
 
+//TODO: RETURN Actino values as validation from database entrys
 export const action: ActionFunction = async ({ request }) => {
   // const { session } = await authenticate.admin(request);
   const formData = await request.formData();

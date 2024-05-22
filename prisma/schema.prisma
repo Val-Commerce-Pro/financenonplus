@@ -55,9 +55,9 @@ model ShopPluginConfigurator {
 model ConsorsEfiNotifications {
   id             Int     @id @default(autoincrement())
   draftOrderId   String? @unique
-  draftOrderName String?
+  draftOrderName String? @unique
   orderId        String? @unique
-  orderName      String?
+  orderName      String? @unique
   transactionId  String? @unique
   status         String?
   statusDetail   String?

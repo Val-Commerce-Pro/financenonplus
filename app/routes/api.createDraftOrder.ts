@@ -82,6 +82,11 @@ export const action: ActionFunction = async ({ request }) => {
     const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
       draftOrderResponse;
     console.log("draftOrderData", draftOrderResponseData);
+
+    //Save data to the database or maybe add this to the route when the notification arrives
+    // const { id: draftOrderId, name: draftOrderName } =
+    //   draftOrderResponseData?.draftOrderCreate.draftOrder;
+
     return json(draftOrderResponseData, {
       headers: {
         "Access-Control-Allow-Origin": "*",

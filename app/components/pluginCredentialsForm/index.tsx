@@ -144,7 +144,7 @@ export const PluginCredentialsForm = ({
             }}
           >
             {clientDataOk === undefined ? (
-              <></>
+              <div></div>
             ) : clientDataOk ? (
               <Badge size="medium" tone="success">
                 Credentials Success

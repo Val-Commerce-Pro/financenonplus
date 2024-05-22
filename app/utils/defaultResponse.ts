@@ -32,7 +32,7 @@ export const getLoaderResponse = ({
       appMode: pluginConfiguratorData?.appMode ?? false,
       minOrderValue: pluginConfiguratorData?.minOrderValue ?? "100",
       terms: pluginConfiguratorData?.terms ?? "12,36,6",
-      zeroPercent: pluginConfiguratorData?.zeroPercent ?? "ß",
+      zeroPercent: pluginConfiguratorData?.zeroPercent ?? "0",
       interestRate: pluginConfiguratorData?.interestRate ?? "9.0,9.3,9.5",
       promotionalInterestRate:
         pluginConfiguratorData?.promotionalInterestRate ?? "0",

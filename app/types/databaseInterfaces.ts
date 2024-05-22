@@ -1,4 +1,5 @@
 import type {
+  ConsorsEfiNotifications,
   ShopPluginConfigurator,
   ShopPluginCredentials,
 } from "@prisma/client";
@@ -8,3 +9,4 @@ export type ShopPluginConfiguratorData = Omit<
   ShopPluginConfigurator,
   "id" | "shopCredentialsId"
 >;
+export type ConsorsEfiNotificationsData = Omit<ConsorsEfiNotifications, "id">;

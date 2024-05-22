@@ -1,5 +1,6 @@
 import { useSubmit } from "@remix-run/react";
 import {
+  Badge,
   BlockStack,
   Box,
   Button,
@@ -10,9 +11,9 @@ import {
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginConfiguratorData } from "~/types/databaseInterfaces";
-import { InfoIcon } from "../infoIcon";
 import { Switch } from "../switch";
 
 type PluginConfiguratorFormProps = {
@@ -99,7 +100,7 @@ export const PluginConfiguratorForm = ({
             }
             borderRadius="100"
           >
-            <InfoIcon />
+            <IoIosInformationCircleOutline size={16} />
           </Tooltip>
           <Switch
             name="appMode"
@@ -160,15 +161,25 @@ export const PluginConfiguratorForm = ({
               requiredIndicator
             />
           </BlockStack>
-
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               marginTop: "10px",
             }}
           >
+            {clientDataOk === undefined ? (
+              <div></div>
+            ) : clientDataOk ? (
+              <Badge size="medium" tone="success">
+                Successfully saved
+              </Badge>
+            ) : (
+              <Badge size="medium" tone="attention">
+                Configurator Error
+              </Badge>
+            )}
             <Button onClick={handleSave}>Save</Button>
           </div>
         </>
