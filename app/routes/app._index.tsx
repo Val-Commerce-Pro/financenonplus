@@ -65,6 +65,7 @@ export type LoaderResponseI = {
   pluginCredentialsData: ShopPluginCredentialsData;
   pluginConfiguratorData: ShopPluginConfiguratorData;
   clientDataOk?: boolean;
+  configuratorDataOk?: boolean;
 };
 
 export const loader: LoaderFunction = async ({
@@ -96,8 +97,12 @@ export const loader: LoaderFunction = async ({
 
 export default function Index() {
   const loaderData = useLoaderData<LoaderResponseI>();
-  const { clientDataOk, pluginConfiguratorData, pluginCredentialsData } =
-    loaderData;
+  const {
+    clientDataOk,
+    pluginConfiguratorData,
+    pluginCredentialsData,
+    configuratorDataOk,
+  } = loaderData;
   console.log("loaderData", loaderData);
 
   return (
@@ -116,6 +121,7 @@ export default function Index() {
       />
       <PluginConfiguratorForm
         clientDataOk={clientDataOk}
+        configuratorDataOk={configuratorDataOk}
         pluginConfiguratorData={pluginConfiguratorData}
       />
     </div>
