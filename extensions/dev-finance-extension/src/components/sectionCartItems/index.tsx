@@ -1,7 +1,7 @@
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { ShoppingCart, ShoppingCartItem } from "../../types/cartTypes";
-import { formatDecimalNumber } from "../../utils/formatValues";
+// import { formatDecimalNumber } from "../../utils/formatValues";
 import { Box } from "../box";
 import { Spinner } from "../spinner";
 import { Tooltip } from "../tooltip";
@@ -73,7 +73,7 @@ export const SectionCartItems = ({
                   {item.title}
                 </td>
                 <td className="px-[24px] py-[16px] whitespace-nowrap text-gray-500">
-                  €{formatDecimalNumber(item.line_price)}
+                  €{(item.line_price / 100).toFixed(2)}
                 </td>
                 <td className="px-[24px] py-[16px] whitespace-nowrap text-gray-500">
                   <button
@@ -100,7 +100,7 @@ export const SectionCartItems = ({
               </td>
               <td className="px-[24px] py-[16px] text-gray-500 flex items-center">
                 {shippingPrice ? (
-                  `€${Number(shippingPrice).toFixed(2)}`
+                  `€${(Number(shippingPrice) / 100).toFixed(2)}`
                 ) : (
                   <Spinner size="18" />
                 )}
@@ -116,7 +116,7 @@ export const SectionCartItems = ({
                 Total
               </td>
               <td className="px-[24px] py-[16px] text-gray-500">
-                €{formatDecimalNumber(cartData.total_price)}
+                €{(cartData.total_price / 100).toFixed(2)}
               </td>
               <td className="px-[24px] py-[16px]"></td>{" "}
               {/* Empty cell for the Actions column */}

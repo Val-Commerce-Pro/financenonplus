@@ -11,7 +11,11 @@ import { ClientFormDataI } from "../types/clientForm";
 import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
-import { deleteCartItem, updateCartData } from "../utils/shopifyAjaxApi";
+import {
+  clearCartData,
+  deleteCartItem,
+  updateCartData,
+} from "../utils/shopifyAjaxApi";
 
 type FinanceRequestProps = {
   cartData: ShoppingCart;
@@ -113,6 +117,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
       console.error(error);
     } finally {
       setIsModalOpen(false);
+      await clearCartData();
       setIsFinanceSubmitted(false);
     }
   };
