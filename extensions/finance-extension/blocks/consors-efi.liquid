@@ -7,11 +7,11 @@
     | append: "," | append: customer.default_address.city | append: "," | append: customer.phone
     | append: "," | append: customer.email %}
 
-  <div id="cf-customer" style="visibility: hidden;">{{ customerData }}</div>
+  <div id="cf-customer" style="visibility: hidden; display: none;">{{ customerData }}</div>
 {% endif %}
 
-<div id="shopDomain" style="visibility: hidden;">{{ shop.domain }}</div>
-<div id="shopSecureUrl" style="visibility: hidden;">{{ shop.secure_url }}</div>
+<div id="shopDomain" style="visibility: hidden; display: none;">{{ shop.domain }}</div>
+<div id="shopSecureUrl" style="visibility: hidden; display: none;">{{ shop.secure_url }}</div>
 
 <div id="root"></div>
 

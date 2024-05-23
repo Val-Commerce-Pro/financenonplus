@@ -21,8 +21,6 @@ type FinanceRequestProps = {
 const customerData =
   document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
 
-console.log("customerData", customerData);
-
 const initialClientFormData: ClientFormDataI = {
   salutation: "HERR",
   firstName: customerData[1] ?? "",
@@ -80,9 +78,6 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   const handleFowardClientToConsors = async () => {
     try {
       setIsFinanceSubmitted(true);
-      console.log("clientFormData", clientFormData);
-      console.log("cartItems", cartItems);
-      console.log("pluginConfData", pluginConfData);
 
       const lineItems: LineItem[] = cartData.items.map((item) => ({
         variantId: `gid://shopify/ProductVariant/${item.id}`,
@@ -107,12 +102,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         draftOrderData?.draftOrderCreate.draftOrder.name ?? "test",
         pluginConfData.pluginCredentials,
       );
-      console.log(
-        "consorsLink",
-        JSON.stringify(
-          `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
-        ),
-      );
+
       window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
       setIsModalOpen(false);
     } catch (error) {
@@ -122,6 +112,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
     }
   };
 
+  //TODO, Implement a debounce function to prevent multiple request of the shipping price.
   return (
     <>
       <div className="max-w-[1280px] mx-auto px-[16px] pb-[20px]">

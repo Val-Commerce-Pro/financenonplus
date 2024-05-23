@@ -26,7 +26,6 @@ export const useShippingCost = ({
   cartData,
 }: UseShippingCostProps): string => {
   console.log("useShippingCost render");
-  console.log("shippingAddress, cartData", shippingAddress, cartData);
   const [shippingPrice, setShippingPrice] = useState("");
 
   const handleShippingCost = useCallback(async () => {
@@ -36,8 +35,8 @@ export const useShippingCost = ({
       quantity: item.quantity,
     }));
     //TODO find the country code somewhere
-    // const shop = document.getElementById("shopDomain")?.textContent;
-    const shop = "financenonplus.myshopify.com";
+    const shop = document.getElementById("shopDomain")?.textContent;
+    // const shop = "financenonplus.myshopify.com";
     const body = JSON.stringify({
       shop,
       shippingAddress: {
@@ -59,7 +58,6 @@ export const useShippingCost = ({
       data.data.draftOrderCalculate.calculatedDraftOrder
         .availableShippingRates[0].price;
 
-    console.log("amount", amount);
     setShippingPrice(amount);
   }, [shippingAddress, cartData]);
 
@@ -69,7 +67,6 @@ export const useShippingCost = ({
       shippingAddress?.street &&
       shippingAddress?.zipCode
     ) {
-      console.log("handle Shipping Cost has been called");
       handleShippingCost();
     }
   }, [shippingAddress, handleShippingCost]);

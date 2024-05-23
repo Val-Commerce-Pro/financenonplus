@@ -9,8 +9,8 @@ const credentialsSchema = z.object({
 });
 
 const configuratorSchema = z.object({
-  appMode: z.boolean(),
   shop: z.string().nullable(),
+  appMode: z.boolean(),
   minOrderValue: z.string().nullable(),
   terms: z.string().nullable(),
   campaign: z.string().nullable(),

@@ -25,7 +25,6 @@ export const getConsorsLink = (
   const shop = "financenonplus.myshopify.com";
   // const { city, email, firstName, housenumber, lastName, street, zipCode } =
   //   clientData;
-  console.log("clientData", clientData);
   const { vendorId } = pluginCredentials;
   console.log(
     "consorsLink Parms",
