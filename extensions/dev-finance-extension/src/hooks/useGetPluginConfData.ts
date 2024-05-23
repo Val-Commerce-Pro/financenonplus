@@ -42,7 +42,7 @@ export const useGetPluginConfData = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("data plugin", data);
+
         const formattedData = pluginConfigSchema.parse(data);
         setPluginConfData(formattedData);
         return data;

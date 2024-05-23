@@ -9,13 +9,22 @@ export interface LineItem {
 export const createEfiDraftOrder = async (
   clientData: ClientFormDataI,
   lineItems: LineItem[],
+  customerid?: string,
+  shippingPrice?: string,
 ) => {
   try {
     // const shopDomain = document.getElementById("shopDomain")?.textContent;
     const shop = "financenonplus.myshopify.com";
+    const shippingPriceData = Number(shippingPrice)
+      ? Number(shippingPrice)
+      : 0.0;
     const body = JSON.stringify({
       shop,
-      draftOrderData: clientData,
+      draftOrderData: {
+        ...clientData,
+        customerid,
+        shippingPrice: shippingPriceData,
+      },
       lineItems,
     });
     const response = await fetch(`${backendUrl()}/api/createDraftOrder`, {

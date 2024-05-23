@@ -22,8 +22,8 @@ export const SectionCartItems = ({
   const tableHeaders = ["Image", "Quantity", "TItle", "Price", "Actions"];
   return (
     <Box title="Artikel aus dem Warenkorb">
-      <div className="overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="min-w-full text-sm divide-y divide-gray-200">
+      <div className="overflow-x-auto shadow-md sm:rounded-[8px]">
+        <table className="min-w-full text-[14px] divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               {tableHeaders.map((item, i) => (

@@ -91,6 +91,8 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
       const draftOrderResponse = await createEfiDraftOrder(
         clientFormData,
         lineItems,
+        customerData[0],
+        shippingPrice,
       );
       const { data: draftOrderData }: { data?: DraftOrderResponse } =
         draftOrderResponse;
@@ -122,7 +124,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
 
   return (
     <>
-      <div className="max-w-[1280px] mx-auto p-[16px]">
+      <div className="max-w-[1280px] mx-auto px-[16px] pb-[20px]">
         {/* <PageTitle title="Albis Leasing" /> */}
         <SectionCartItems
           cartData={cartItems}

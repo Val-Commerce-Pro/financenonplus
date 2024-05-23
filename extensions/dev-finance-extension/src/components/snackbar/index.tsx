@@ -14,7 +14,7 @@ export const Snackbar = ({ text, success }: SnackbarProps) => {
   return (
     <div
       id={success ? "toast-success" : "toast-danger"}
-      className="fixed inset-x-0 mx-auto bottom-[20px] center-[20px] flex items-center w-full max-w-md p-[16px] mb-[16px] text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+      className="fixed inset-x-0 mx-auto bottom-[20px] center-[20px] flex items-center w-full max-w-[448px] p-[16px] mb-[16px] text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
       role="alert"
     >
       {/* <SuccessIcon success={success} /> */}

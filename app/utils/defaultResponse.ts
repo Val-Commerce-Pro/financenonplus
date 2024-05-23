@@ -7,6 +7,7 @@ export type GetLoaderResponse = {
   pluginCredentialsData?: ShopPluginCredentialsData | null;
   pluginConfiguratorData?: ShopPluginConfiguratorData | null;
   clientDataOk?: boolean | null;
+  configuratorDataOk?: boolean | null;
   shop: string;
 };
 
@@ -37,6 +38,9 @@ export const getLoaderResponse = ({
       campaignDuration: pluginConfiguratorData?.campaignDuration ?? "0",
     },
     clientDataOk: clientDataOk ?? undefined,
+    configuratorDataOk: pluginConfiguratorData
+      ? !!pluginConfiguratorData
+      : undefined,
   };
 
   return defaultLoaderResponse;

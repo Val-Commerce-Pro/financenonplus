@@ -1,10 +1,15 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import type { DraftOrderInput } from "~/shopify/graphql/createDraftOrder";
+import type {
+  CustomAttribute,
+  DraftOrderInput,
+} from "~/shopify/graphql/createDraftOrder";
 import { createDraftOrder } from "~/shopify/graphql/createDraftOrder";
 
 export type ClientFormDataI = {
+  customerid?: string;
+  shippingPrice?: number;
   salutation: string;
   dataOfBirth?: string;
   lastName: string;
@@ -22,6 +27,7 @@ type DraftOrderResponse = {
     draftOrder: {
       id: string;
       name: string;
+      customAttributes: CustomAttribute[];
     };
   };
 };
@@ -47,9 +53,13 @@ export const action: ActionFunction = async ({ request }) => {
     const draftOrderInfo: DraftOrderInput = {
       note: "Consors EFI Test",
       email: draftOrderData.email,
-      phone: draftOrderData.mobile,
+      // phone: draftOrderData.mobile,
       taxExempt: true,
       tags: "Consors EFI",
+      shippingLine: {
+        title: "Custom Shipping",
+        price: draftOrderData.shippingPrice ?? 0,
+      },
       shippingAddress: {
         address1: draftOrderData.street,
         city: draftOrderData.city,
@@ -64,28 +74,42 @@ export const action: ActionFunction = async ({ request }) => {
       },
       customAttributes: [
         {
-          key: "customAttributes",
-          value: "random value",
+          key: "Commerce-Pro",
+          value: "Consors-EFI",
         },
       ],
       lineItems: lineItems,
     };
+    if (draftOrderData.customerid) {
+      draftOrderInfo.customerId = `gid://shopify/Customer/${draftOrderData.customerid}`;
+    }
 
     const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
-    if (!draftOrderResponse) {
+
+    const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
+      draftOrderResponse;
+    console.log("draftOrderData", draftOrderResponseData);
+    if (
+      !draftOrderResponse ||
+      !draftOrderResponseData ||
+      !draftOrderResponseData.draftOrderCreate ||
+      !draftOrderResponseData?.draftOrderCreate.draftOrder
+    ) {
       return json(draftOrderResponse, {
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
       });
     }
-    const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
-      draftOrderResponse;
-    console.log("draftOrderData", draftOrderResponseData);
 
-    //Save data to the database or maybe add this to the route when the notification arrives
-    // const { id: draftOrderId, name: draftOrderName } =
-    //   draftOrderResponseData?.draftOrderCreate.draftOrder;
+    const { customAttributes, id, name } =
+      draftOrderResponseData?.draftOrderCreate?.draftOrder;
+    console.log(
+      "customAttributes, id, name - Draft Order Info",
+      customAttributes,
+      id,
+      name,
+    );
 
     return json(draftOrderResponseData, {
       headers: {

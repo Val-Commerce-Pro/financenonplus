@@ -18,6 +18,7 @@ import { Switch } from "../switch";
 
 type PluginConfiguratorFormProps = {
   clientDataOk: LoaderResponseI["clientDataOk"];
+  configuratorDataOk: LoaderResponseI["configuratorDataOk"];
   pluginConfiguratorData: LoaderResponseI["pluginConfiguratorData"];
 };
 type AktionszinsOptionsI = {
@@ -28,6 +29,7 @@ type AktionszinsOptionsI = {
 export const PluginConfiguratorForm = ({
   clientDataOk,
   pluginConfiguratorData,
+  configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
   const submit = useSubmit();
   const [configuratorFormData, setConfiguratorFormData] =
@@ -91,9 +93,9 @@ export const PluginConfiguratorForm = ({
             alignItems: "center",
             justifyContent: "space-between",
             marginBottom: "10px",
+            border: "1px soild rgba(0, 0, 0, 0.9)",
           }}
         >
-          <Tooltip active content="This order has shipping labels."></Tooltip>
           <Tooltip
             content={
               "This modulo can only be activated with the correct credentials in place."
@@ -102,13 +104,24 @@ export const PluginConfiguratorForm = ({
           >
             <IoIosInformationCircleOutline size={16} />
           </Tooltip>
+
           <Tooltip
             content={
               "This modulo can only be activated with the correct credentials in place."
             }
             borderRadius="100"
           >
-            <span>With text test</span>
+            <span
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                border: "1px solid black",
+                padding: "2px",
+              }}
+            >
+              !
+            </span>
           </Tooltip>
           <Switch
             name="appMode"
@@ -177,9 +190,9 @@ export const PluginConfiguratorForm = ({
               marginTop: "10px",
             }}
           >
-            {clientDataOk === undefined ? (
+            {configuratorDataOk === undefined ? (
               <div></div>
-            ) : clientDataOk ? (
+            ) : configuratorDataOk ? (
               <Badge size="medium" tone="success">
                 Successfully saved
               </Badge>
