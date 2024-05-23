@@ -1,5 +1,5 @@
 import { PluginConfigI } from "../hooks/useGetPluginConfData";
-import { ClientFormDataI } from "../types/clientForm";
+// import { ClientFormDataI } from "../types/clientForm";
 
 export function backendUrl() {
   return "https://financenonplus.cpro-server.de";
@@ -16,7 +16,7 @@ function returnToCustomCheckoutUrl() {
 }
 
 export const getConsorsLink = (
-  clientData: ClientFormDataI,
+  // clientData: ClientFormDataI,
   orderAmount: number,
   draftOrderName: string,
   pluginCredentials: PluginConfigI["pluginCredentials"],

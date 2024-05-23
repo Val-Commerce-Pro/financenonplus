@@ -97,17 +97,22 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
 
       //todo: Fix foward link
       const consorsParams = getConsorsLink(
-        clientFormData,
+        // clientFormData,
         cartData.total_price,
         draftOrderData?.draftOrderCreate.draftOrder.name ?? "test",
         pluginConfData.pluginCredentials,
       );
 
+      console.log(
+        "link",
+        `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+      );
+
       window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
-      setIsModalOpen(false);
     } catch (error) {
       console.error(error);
     } finally {
+      setIsModalOpen(false);
       setIsFinanceSubmitted(false);
     }
   };

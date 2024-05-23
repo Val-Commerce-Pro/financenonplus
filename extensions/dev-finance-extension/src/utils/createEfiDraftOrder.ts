@@ -15,9 +15,7 @@ export const createEfiDraftOrder = async (
   try {
     // const shopDomain = document.getElementById("shopDomain")?.textContent;
     const shop = "financenonplus.myshopify.com";
-    const shippingPriceData = Number(shippingPrice)
-      ? Number(shippingPrice)
-      : 0.0;
+    const shippingPriceData = Number(shippingPrice) ? Number(shippingPrice) : 0;
     const body = JSON.stringify({
       shop,
       draftOrderData: {
