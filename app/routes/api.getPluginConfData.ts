@@ -11,17 +11,23 @@ export const loader: LoaderFunction = async ({ request }) => {
     const pluginConfData = shop && (await getShopPluginConfig(shop));
 
     if (!pluginConfData) {
-      return new Response("Invalid Credentials", {
+      return new Response("No configuration found for this shop", {
         status: 404,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
       });
     }
+    const pluginCredentials = {
+      vendorId: pluginConfData.vendorId,
+      appMode: pluginConfData.appMode,
+      shop: pluginConfData.shop,
+    };
     if (!pluginConfData.ShopPluginConfigurator) {
       return json(
         {
-          appMode: false,
+          pluginCredentials,
+          pluginConfigurator: { appMode: false },
         },
         {
           status: 200,
@@ -33,20 +39,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
 
     const { ShopPluginConfigurator } = pluginConfData;
-    const { id, ...rest } = ShopPluginConfigurator;
-    const appPlugin = {
-      credentials: {
-        vendorId: pluginConfData.vendorId,
-        appMode: pluginConfData.appMode,
-        shop: pluginConfData.shop,
+    const { id, shopCredentialsId, ...rest } = ShopPluginConfigurator;
+    return json(
+      {
+        pluginCredentials,
+        pluginConfigurator: { ...rest },
       },
-      configurator: { ...rest },
-    };
-    return json(appPlugin, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       },
-    });
+    );
   } catch (error) {
     console.error("Error fetching data:", error);
     return new Response("Internal Server Error", {

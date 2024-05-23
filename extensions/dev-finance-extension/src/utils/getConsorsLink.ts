@@ -1,5 +1,5 @@
+import { PluginConfigI } from "../hooks/useGetPluginConfData";
 import { ClientFormDataI } from "../types/clientForm";
-import { PluginConfigI } from "../types/pluginConfig";
 
 export function backendUrl() {
   return "https://financenonplus.cpro-server.de";
@@ -19,17 +19,17 @@ export const getConsorsLink = (
   clientData: ClientFormDataI,
   orderAmount: number,
   draftOrderName: string,
-  appSettings: PluginConfigI,
+  pluginCredentials: PluginConfigI["pluginCredentials"],
 ): URLSearchParams => {
   // const shop = document.getElementById("shopDomain")?.textContent;
   const shop = "financenonplus.myshopify.com";
   // const { city, email, firstName, housenumber, lastName, street, zipCode } =
   //   clientData;
   console.log("clientData", clientData);
-  const { vendorId } = appSettings;
+  const { vendorId } = pluginCredentials;
   console.log(
     "consorsLink Parms",
-    vendorId,
+    pluginCredentials.vendorId,
     draftOrderName.replace("#", ""),
     (orderAmount / 100).toFixed(2).replace(".", ","),
   );

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
-import { PluginConfigI } from "../types/pluginConfig";
 
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
+import { PluginConfigI } from "../hooks/useGetPluginConfData";
 import { useShippingCost } from "../hooks/useShippingCost";
 import { ClientFormDataI } from "../types/clientForm";
 import { DraftOrderResponse } from "../types/shopifyResponses";
@@ -21,12 +21,14 @@ type FinanceRequestProps = {
 const customerData =
   document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
 
+console.log("customerData", customerData);
+
 const initialClientFormData: ClientFormDataI = {
   salutation: "HERR",
   firstName: customerData[1] ?? "",
   lastName: customerData[2] ?? "",
   street: customerData[3]?.replace(/\d+/g, "") ?? "",
-  housenumber: customerData[3].replace(/\D/g, "") ?? "",
+  housenumber: customerData[3]?.replace(/\D/g, "") ?? "",
   zipCode: customerData[4] ?? "",
   city: customerData[5] ?? "",
   mobile: customerData[6] ?? "",
@@ -35,6 +37,8 @@ const initialClientFormData: ClientFormDataI = {
 };
 
 const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
+  const location = useLocation();
+  console.log("location current URL", location);
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -99,7 +103,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         clientFormData,
         cartData.total_price,
         draftOrderData?.draftOrderCreate.draftOrder.name ?? "test",
-        pluginConfData,
+        pluginConfData.pluginCredentials,
       );
       console.log(
         "consorsLink",
