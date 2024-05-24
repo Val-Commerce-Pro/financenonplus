@@ -1,5 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { createEfiNotifications } from "~/models/consorsNotifications";
 
 import type {
   CustomAttribute,
@@ -88,12 +89,11 @@ export const action: ActionFunction = async ({ request }) => {
 
     const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
       draftOrderResponse;
-    console.log("draftOrderData", draftOrderResponseData);
     if (
       !draftOrderResponse ||
       !draftOrderResponseData ||
       !draftOrderResponseData.draftOrderCreate ||
-      !draftOrderResponseData?.draftOrderCreate.draftOrder
+      !draftOrderResponseData.draftOrderCreate.draftOrder
     ) {
       return json(draftOrderResponse, {
         headers: {
@@ -102,17 +102,32 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
 
-    const { customAttributes, id, name } =
-      draftOrderResponseData?.draftOrderCreate?.draftOrder;
+    const { id: draftOrderId, name: draftOrderName } =
+      draftOrderResponseData.draftOrderCreate.draftOrder;
+    const consorsOrderId = draftOrderName.replace(/[^\dA-Za-z]/g, "");
+
+    const newEfiNotificationsData = await createEfiNotifications({
+      draftOrderId,
+      draftOrderName,
+      consorsOrderId,
+      orderId: null,
+      orderName: null,
+      transactionId: null,
+      status: null,
+      statusDetail: null,
+      campaign: null,
+      creditAmount: null,
+    });
+
     console.log(
-      "customAttributes, id, name - Draft Order Info",
-      customAttributes,
-      id,
-      name,
+      "customAttributes, draftOrderId, name - Draft Order Info- newEfiNotificationsData",
+      draftOrderId,
+      draftOrderName,
+      newEfiNotificationsData,
     );
 
     return json(
-      { consorsOrderId: name.replace(/[^\dA-Za-z]/g, "") },
+      { consorsOrderId },
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

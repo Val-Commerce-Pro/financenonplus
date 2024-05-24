@@ -20,6 +20,9 @@ export async function createEfiNotifications(
   data: ConsorsEfiNotificationsData,
 ) {
   try {
+    if (!data.consorsOrderId) {
+      return { error: "consorsOrderId is required" };
+    }
     const existingShop = await db.consorsEfiNotifications.findUnique({
       where: { consorsOrderId: data.consorsOrderId },
     });
@@ -28,8 +31,20 @@ export async function createEfiNotifications(
       return {
         error: `This ID already exists into the database BD message - ${existingShop}`,
       };
-
-    const settings = await db.consorsEfiNotifications.create({ data });
+    const settings = await db.consorsEfiNotifications.create({
+      data: {
+        consorsOrderId: data.consorsOrderId,
+        draftOrderId: data.draftOrderId,
+        draftOrderName: data.draftOrderName,
+        orderId: data.orderId ?? null,
+        orderName: data.orderName ?? null,
+        transactionId: data.transactionId ?? null,
+        status: data.status ?? null,
+        statusDetail: data.statusDetail ?? null,
+        campaign: data.campaign ?? null,
+        creditAmount: data.creditAmount ?? null,
+      },
+    });
     return settings;
   } catch (err) {
     console.error("err createEfiNotifications", err);

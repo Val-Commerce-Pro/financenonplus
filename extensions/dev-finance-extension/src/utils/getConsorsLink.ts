@@ -26,12 +26,6 @@ export const getConsorsLink = (
   // const { city, email, firstName, housenumber, lastName, street, zipCode } =
   //   clientData;
   const { vendorId } = pluginCredentials;
-  console.log(
-    "consorsLink Parms - vendorId, consorsOrderId, orderAmount",
-    pluginCredentials.vendorId,
-    consorsOrderId,
-    (orderAmount / 100).toFixed(2).replace(".", ","),
-  );
 
   const consorsLink = new URLSearchParams({
     vendorid: vendorId,

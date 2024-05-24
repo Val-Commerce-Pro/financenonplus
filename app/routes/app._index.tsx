@@ -40,15 +40,10 @@ export const action: ActionFunction = async ({ request }) => {
         : { error: "Error saving client form data" };
 
     case "configuratorForm":
-      console.log("Processing configuratorForm");
       const configuratorActionForm = formatData(
         values,
         true,
       ) as ShopPluginConfiguratorData;
-
-      console.log("Formatted Configurator Action Form: ", {
-        ...configuratorActionForm,
-      });
 
       const configuratorPluginBdData =
         await createOrUpdateShopPluginConfigurator(configuratorActionForm);

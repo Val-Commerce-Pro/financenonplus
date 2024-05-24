@@ -25,7 +25,7 @@ export const useShippingCost = ({
   shippingAddress,
   cartData,
 }: UseShippingCostProps): string => {
-  console.log("useShippingCost render");
+  // console.log("useShippingCost render");
   const [shippingPrice, setShippingPrice] = useState("");
 
   const handleShippingCost = useCallback(async () => {

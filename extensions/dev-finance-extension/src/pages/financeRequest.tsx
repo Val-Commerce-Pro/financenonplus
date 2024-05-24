@@ -94,7 +94,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         shippingPrice,
       );
       const { consorsOrderId } = draftOrderResponse;
-      console.log("consorsOrderId", consorsOrderId);
+      console.log("consorsOrderId Front", consorsOrderId);
 
       //todo: Fix foward link
       const consorsParams = getConsorsLink(

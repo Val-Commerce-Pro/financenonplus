@@ -13,11 +13,7 @@ export const createEfiDraftOrder = async (
   shippingPrice?: string,
 ) => {
   try {
-    console.log(
-      "customerid and shippingPrice sent to CREATE DRAFT ORDER",
-      customerid,
-      shippingPrice,
-    );
+    console.log("shippingPrice", shippingPrice);
     // const shopDomain = document.getElementById("shopDomain")?.textContent;
     const shop = "financenonplus.myshopify.com";
     const shippingPriceData = Number(shippingPrice) ? Number(shippingPrice) : 0;
