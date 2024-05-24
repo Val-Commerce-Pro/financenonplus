@@ -33,7 +33,7 @@ export const ClientForm = ({
           <Select
             handleChange={handleSelectChange}
             name="salutation"
-            label="Salutation"
+            label="Anrede"
             selectedValue={clientFormData.salutation}
             options={[
               { id: "HERR", bezeichnung: "Herr" },
@@ -43,7 +43,7 @@ export const ClientForm = ({
           />
           <TextField
             name="firstName"
-            label="First Name"
+            label="Vorname"
             type="text"
             handleOnChange={handleInputChange}
             textFieldValue={clientFormData.firstName}
@@ -51,7 +51,7 @@ export const ClientForm = ({
           />
           <TextField
             name="lastName"
-            label="Last Name"
+            label="Familienname"
             type="text"
             handleOnChange={handleInputChange}
             textFieldValue={clientFormData.lastName}
@@ -83,7 +83,7 @@ export const ClientForm = ({
           />
           <TextField
             name="zipCode"
-            label="Zipcode"
+            label="Postleitzahl"
             type="number"
             min={0}
             pattern="[0-9]{5}"
@@ -93,7 +93,7 @@ export const ClientForm = ({
           />
           <TextField
             name="mobile"
-            label="Telephone (Mobile)"
+            label="Telefonnummer"
             type="tel"
             handleOnChange={handleInputChange}
             textFieldValue={clientFormData.mobile}
@@ -101,7 +101,7 @@ export const ClientForm = ({
           />
           <TextField
             name="city"
-            label="City"
+            label="Stadt"
             type="text"
             handleOnChange={handleInputChange}
             textFieldValue={clientFormData.city}
@@ -110,7 +110,7 @@ export const ClientForm = ({
 
           <TextField
             name="dataOfBirth"
-            label="Date of Birth"
+            label="Geburtsdatum"
             type="date"
             max={isDate21orMoreYearsOld()}
             handleOnChange={handleInputChange}

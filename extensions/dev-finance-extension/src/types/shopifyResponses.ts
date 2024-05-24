@@ -23,11 +23,11 @@ export interface DraftOrderCalculate {
   };
 }
 
+export interface CustomAttribute {
+  key: string;
+  value: string;
+}
+
 export type DraftOrderResponse = {
-  draftOrderCreate: {
-    draftOrder: {
-      id: string;
-      name: string;
-    };
-  };
+  consorsOrderId: string;
 };

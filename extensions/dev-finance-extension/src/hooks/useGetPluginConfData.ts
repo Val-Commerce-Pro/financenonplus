@@ -42,10 +42,12 @@ export const useGetPluginConfData = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
+        console.log("useGetPluginConfData", data);
 
         const formattedData = pluginConfigSchema.parse(data);
+        console.log("useGetPluginConfData parsed", formattedData);
         setPluginConfData(formattedData);
-        return data;
+        return formattedData;
       } catch (error) {
         console.error("Error fetching AppConfig:", error);
       }

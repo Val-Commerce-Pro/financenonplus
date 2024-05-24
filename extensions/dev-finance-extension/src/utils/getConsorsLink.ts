@@ -18,7 +18,7 @@ function returnToCustomCheckoutUrl() {
 export const getConsorsLink = (
   // clientData: ClientFormDataI,
   orderAmount: number,
-  draftOrderName: string,
+  consorsOrderId: string,
   pluginCredentials: PluginConfigI["pluginCredentials"],
 ): URLSearchParams => {
   // const shop = document.getElementById("shopDomain")?.textContent;
@@ -27,15 +27,15 @@ export const getConsorsLink = (
   //   clientData;
   const { vendorId } = pluginCredentials;
   console.log(
-    "consorsLink Parms",
+    "consorsLink Parms - vendorId, consorsOrderId, orderAmount",
     pluginCredentials.vendorId,
-    draftOrderName.replace("#", ""),
+    consorsOrderId,
     (orderAmount / 100).toFixed(2).replace(".", ","),
   );
 
   const consorsLink = new URLSearchParams({
     vendorid: vendorId,
-    order_id: draftOrderName.replace("#", ""),
+    order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
     // firstName,
     // lastName,
@@ -48,8 +48,8 @@ export const getConsorsLink = (
     shopbrandname: shop,
     // cancelURL: returnToCustomCheckoutUrl(),
     // failureURL: returnToCustomCheckoutUrl(),
-    returntocheckoutURL: returnToCustomCheckoutUrl(),
-    // successURL: returnToCustomCheckoutUrl(),
+    // returntocheckoutURL: returnToCustomCheckoutUrl(),
+    successURL: returnToCustomCheckoutUrl(),
     notifyURL: consorsNotifyUrl(),
   });
 

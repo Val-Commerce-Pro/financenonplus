@@ -35,8 +35,8 @@ export const useShippingCost = ({
       quantity: item.quantity,
     }));
     //TODO find the country code somewhere
-    const shop = document.getElementById("shopDomain")?.textContent;
-    // const shop = "financenonplus.myshopify.com";
+    //const shop = document.getElementById("shopDomain")?.textContent;
+    const shop = "financenonplus.myshopify.com";
     const body = JSON.stringify({
       shop,
       shippingAddress: {

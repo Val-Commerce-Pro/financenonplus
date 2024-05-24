@@ -87,23 +87,20 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         variantId: `gid://shopify/ProductVariant/${item.id}`,
         quantity: item.quantity,
       }));
-      const draftOrderResponse = await createEfiDraftOrder(
+      const draftOrderResponse: DraftOrderResponse = await createEfiDraftOrder(
         clientFormData,
         lineItems,
         customerData[0],
         shippingPrice,
       );
-      const { data: draftOrderData }: { data?: DraftOrderResponse } =
-        draftOrderResponse;
-      console.log("draftOrderData", draftOrderData);
-
-      // if (!draftOrderData?.draftOrderCreate.draftOrder.name) return;
+      const { consorsOrderId } = draftOrderResponse;
+      console.log("consorsOrderId", consorsOrderId);
 
       //todo: Fix foward link
       const consorsParams = getConsorsLink(
         // clientFormData,
         cartData.total_price,
-        draftOrderData?.draftOrderCreate.draftOrder.name ?? "test",
+        consorsOrderId,
         pluginConfData.pluginCredentials,
       );
 
@@ -126,7 +123,6 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
   return (
     <>
       <div className="max-w-[1280px] mx-auto px-[16px] pb-[20px]">
-        {/* <PageTitle title="Albis Leasing" /> */}
         <SectionCartItems
           cartData={cartItems}
           handleUpdateItemQuantity={handleUpdateItemQuantity}
