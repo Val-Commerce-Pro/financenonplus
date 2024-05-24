@@ -30,8 +30,7 @@ export class ConsorsAPI {
     jwt: string;
     jwtValideUntil: number;
   };
-  // private baseURL = "https://api.consorsfinanz.de"; // baseURL-Production-Environment
-  private BASE_URL = "https://api.consorsfinanz.de"; // baseURL-SandBox-Environment
+  private BASE_URL = "https://api.consorsfinanz.de";
   private CONSORS_API_VERSION = "6.7";
 
   constructor(public authData: ApiAuthData) {
@@ -117,39 +116,22 @@ export class ConsorsAPI {
   //     }
   //   }
 
-  //   async fulfillmentOrder({
-  //     applicationReferenceNumber,
-  //     billingInfo,
-  //     countryCode,
-  //     customerId,
-  //     orderAmount,
-  //     timeStamp,
-  //     notifyURL,
-  //   }: FulfillmentOrderRequest) {
-  //     const consorsUrl = `${this.baseURL}/psp-web/rest/${this.authData.vendorId}/update/credit/${applicationReferenceNumber}?version=${this.CONSORS_API_VERSION}`;
+  async updateSubscriptionDeliveryStatus(transactionId: string) {
+    const clientId = this.authData.vendorId;
+    const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/deliverystatus/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
 
-  //     const consorsAuthToken = await this.jwt();
+    const consorsAuthToken = await this.jwt();
 
-  //     const res = await fetch(consorsUrl, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Request-Id": "1",
-  //         "X-Conversation-Id": "111",
-  //         "X-CountryCode": countryCode,
-  //         "X-TimeStamp": timeStamp,
-  //         "X-Token": `Bearer ${consorsAuthToken}`,
-  //         "X-api-key": this.authData.apiKey,
-  //       },
-  //       body: JSON.stringify({
-  //         customerId,
-  //         orderAmount,
-  //         notifyURL,
-  //         billingInfo,
-  //       }),
-  //     });
-  //     return res;
-  //   }
+    const res = await fetch(consorsUrl, {
+      method: "PUT",
+      headers: {
+        "x-api-key": this.authData.apiKey,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${consorsAuthToken}`,
+      },
+    });
+    return res;
+  }
 
   //   async refundOrder({
   //     applicationReferenceNumber,
