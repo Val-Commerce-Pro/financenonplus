@@ -9,8 +9,7 @@ import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 
 export const action: LoaderFunction = async ({ request }) => {
   console.log("notification route render");
-  const { session } = await authenticate.admin(request);
-  console.log("session", session);
+  console.log("Notification route - request - ", request);
   const requestedURL = new URL(request.url);
   console.log("requestedURL", requestedURL);
   const status = requestedURL.searchParams.get("status");
@@ -28,10 +27,13 @@ export const action: LoaderFunction = async ({ request }) => {
   );
 
   if (!orderId || !status || !transactionId || !statusDetail) {
-    throw new Response(
-      "Bad Request" /*", query parameter shop is mandatory"*/,
+    return json(
+      { error: "Order Id not found" },
       {
-        status: 400,
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       },
     );
   }
@@ -69,6 +71,9 @@ export const action: LoaderFunction = async ({ request }) => {
       },
     );
   }
+
+  const { session } = await authenticate.admin(request);
+  console.log("session", session);
 
   if (status === "success") {
     const newOrder = await completeDraftOrder(
