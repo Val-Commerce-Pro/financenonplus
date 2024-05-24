@@ -54,10 +54,12 @@ export async function createEfiNotifications(
 export async function getEfiNotifications(
   consorsOrderId: ConsorsEfiNotificationsData["consorsOrderId"],
 ) {
+  console.log("getEfiNotifications rended", consorsOrderId);
   try {
     const efiNotifications = await db.consorsEfiNotifications.findUnique({
       where: { consorsOrderId },
     });
+    console.log("getEfiNotifications", efiNotifications);
     return efiNotifications;
   } catch (err) {
     console.error("err getEfiNotifications", err);

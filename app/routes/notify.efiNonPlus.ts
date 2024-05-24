@@ -4,8 +4,8 @@ import {
   getEfiNotifications,
   updateEfiNotifications,
 } from "~/models/consorsNotifications";
-import { authenticate } from "~/shopify.server";
-import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
+// import { authenticate } from "~/shopify.server";
+// import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 
 export const action: LoaderFunction = async ({ request }) => {
   console.log("notification route render");
@@ -14,19 +14,19 @@ export const action: LoaderFunction = async ({ request }) => {
   console.log("requestedURL", requestedURL);
   const status = requestedURL.searchParams.get("status");
   const statusDetail = requestedURL.searchParams.get("status_detail");
-  const orderId = requestedURL.searchParams.get("order_id");
+  const consorsOrderId = requestedURL.searchParams.get("order_id");
   const transactionId = requestedURL.searchParams.get("transaction_id");
   const creditAmount = requestedURL.searchParams.get("creditAmount");
   // const hash = requestedURL.searchParams.get("hash");
   console.log(
-    "orderId, transactionId, statusDetail, status",
-    orderId,
+    "consorsOrderId, transactionId, statusDetail, status",
+    consorsOrderId,
     transactionId,
     statusDetail,
     status,
   );
 
-  if (!orderId || !status || !transactionId || !statusDetail) {
+  if (!consorsOrderId || !status || !transactionId) {
     return json(
       { error: "Order Id not found" },
       {
@@ -37,8 +37,7 @@ export const action: LoaderFunction = async ({ request }) => {
       },
     );
   }
-  const efiNotificationsData = await getEfiNotifications(orderId);
-  console.log("getEfiNotifications response", efiNotificationsData);
+  const efiNotificationsData = await getEfiNotifications(consorsOrderId);
   if (!efiNotificationsData) {
     return json(
       { error: "Order Id not found" },
@@ -54,7 +53,7 @@ export const action: LoaderFunction = async ({ request }) => {
   const updatedEfiNotificationsData = await updateEfiNotifications({
     status,
     statusDetail,
-    orderId,
+    consorsOrderId,
     transactionId,
     creditAmount,
   });
@@ -72,16 +71,16 @@ export const action: LoaderFunction = async ({ request }) => {
     );
   }
 
-  const { session } = await authenticate.admin(request);
-  console.log("session", session);
+  // const { session } = await authenticate.admin(request);
+  // console.log("session", session);
 
-  if (status === "success") {
-    const newOrder = await completeDraftOrder(
-      session.shop,
-      efiNotificationsData.draftOrderId,
-    );
-    console.log("newOrder", newOrder);
-  }
+  // if (status === "success") {
+  //   const newOrder = await completeDraftOrder(
+  //     session.shop,
+  //     efiNotificationsData.draftOrderId,
+  //   );
+  //   console.log("newOrder", newOrder);
+  // }
 
   return json(
     { message: "Success" },
