@@ -54,8 +54,9 @@ model ShopPluginConfigurator {
 
 model ConsorsEfiNotifications {
   id             Int     @id @default(autoincrement())
-  draftOrderId   String? @unique
-  draftOrderName String? @unique
+  consorsOrderId String  @unique
+  draftOrderId   String  @unique
+  draftOrderName String  @unique
   orderId        String? @unique
   orderName      String? @unique
   transactionId  String? @unique

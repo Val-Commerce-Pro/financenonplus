@@ -111,11 +111,14 @@ export const action: ActionFunction = async ({ request }) => {
       name,
     );
 
-    return json(draftOrderResponseData, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
+    return json(
+      { consorsOrderId: name.replace(/[^\dA-Za-z]/g, "") },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       },
-    });
+    );
   } catch (error) {
     console.error("Error fetching data:", error);
     return new Response("Internal Server Error", {
