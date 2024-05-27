@@ -34,6 +34,7 @@ export async function createEfiNotifications(
     const settings = await db.consorsEfiNotifications.create({
       data: {
         consorsOrderId: data.consorsOrderId,
+        shop: data.shop,
         draftOrderId: data.draftOrderId,
         draftOrderName: data.draftOrderName,
         orderId: data.orderId ?? null,

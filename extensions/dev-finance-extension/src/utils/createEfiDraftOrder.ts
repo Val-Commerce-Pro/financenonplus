@@ -9,16 +9,15 @@ export interface LineItem {
 export const createEfiDraftOrder = async (
   clientData: ClientFormDataI,
   lineItems: LineItem[],
+  domainShop: string,
   customerid?: string,
   shippingPrice?: string,
 ) => {
   try {
     console.log("shippingPrice", shippingPrice);
-    // const shopDomain = document.getElementById("shopDomain")?.textContent;
-    const shop = "financenonplus.myshopify.com";
     const shippingPriceData = Number(shippingPrice) ? Number(shippingPrice) : 0;
     const body = JSON.stringify({
-      shop,
+      shop: domainShop,
       draftOrderData: {
         ...clientData,
         customerid,

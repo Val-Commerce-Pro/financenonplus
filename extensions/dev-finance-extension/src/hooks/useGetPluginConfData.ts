@@ -25,12 +25,14 @@ const pluginConfigSchema = z.object({
 
 export type PluginConfigI = z.infer<typeof pluginConfigSchema>;
 
-export const useGetPluginConfData = () => {
+type UseGetPluginConfDataProps = {
+  shop: string;
+};
+
+export const useGetPluginConfData = ({ shop }: UseGetPluginConfDataProps) => {
   const [pluginConfData, setPluginConfData] = useState<PluginConfigI>();
 
   useEffect(() => {
-    // const shop = document.getElementById("shopDomain")?.textContent;
-    const shop = "financenonplus.myshopify.com";
     if (!shop) return;
     const getPluginConfData = async () => {
       try {

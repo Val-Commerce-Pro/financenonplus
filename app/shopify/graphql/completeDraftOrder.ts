@@ -1,13 +1,12 @@
 import { getGraphqlClient } from "./getGraphqlClient";
 
-export async function completeDraftOrder(shop: string, draftOrderId: string) {
-  console.log("completeDraftOrder render", shop, draftOrderId);
+export async function completeDraftOrder(shop: string, draftOrderId?: string) {
   const graphQlClient = await getGraphqlClient(shop);
 
   const response = await graphQlClient.request(
     `#graphql
-    mutation draftOrderComplete($id: ID!, $paymentPending: Boolean!) {
-      draftOrderComplete(id: $id, paymentPending: $paymentPending) {
+    mutation draftOrderComplete($id: ID!) {
+      draftOrderComplete(id: $id) {
         draftOrder {
           id,
           order {
@@ -20,7 +19,6 @@ export async function completeDraftOrder(shop: string, draftOrderId: string) {
     {
       variables: {
         id: draftOrderId,
-        paymentPending: true,
       },
     },
   );

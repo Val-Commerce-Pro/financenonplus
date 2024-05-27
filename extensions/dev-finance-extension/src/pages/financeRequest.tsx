@@ -20,10 +20,12 @@ import {
 type FinanceRequestProps = {
   cartData: ShoppingCart;
   pluginConfData: PluginConfigI;
+  domainShop: string;
 };
 
 const customerData =
   document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
+console.log("customerData", customerData);
 
 const initialClientFormData: ClientFormDataI = {
   salutation: "HERR",
@@ -38,7 +40,11 @@ const initialClientFormData: ClientFormDataI = {
   email: customerData[7] ?? "",
 };
 
-const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
+const FinanceRequest = ({
+  cartData,
+  pluginConfData,
+  domainShop,
+}: FinanceRequestProps) => {
   const location = useLocation();
   console.log("location current URL", location);
   const navigate = useNavigate();
@@ -52,6 +58,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
       street: clientFormData.street,
       zipCode: clientFormData.zipCode,
     },
+    domainShop,
   });
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
@@ -92,6 +99,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         lineItems,
         customerData[0],
         shippingPrice,
+        domainShop,
       );
       const { consorsOrderId } = draftOrderResponse;
       console.log("consorsOrderId Front", consorsOrderId);
@@ -101,7 +109,7 @@ const FinanceRequest = ({ cartData, pluginConfData }: FinanceRequestProps) => {
         // clientFormData,
         cartData.total_price,
         consorsOrderId,
-        pluginConfData.pluginCredentials,
+        pluginConfData,
       );
 
       console.log(

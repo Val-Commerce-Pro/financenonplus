@@ -19,11 +19,13 @@ export type ShippingAddress = {
 type UseShippingCostProps = {
   shippingAddress?: Pick<ClientFormDataI, "city" | "street" | "zipCode">;
   cartData?: ShoppingCart;
+  domainShop: string;
 };
 
 export const useShippingCost = ({
   shippingAddress,
   cartData,
+  domainShop,
 }: UseShippingCostProps): string => {
   // console.log("useShippingCost render");
   const [shippingPrice, setShippingPrice] = useState("");
@@ -35,10 +37,8 @@ export const useShippingCost = ({
       quantity: item.quantity,
     }));
     //TODO find the country code somewhere
-    //const shop = document.getElementById("shopDomain")?.textContent;
-    const shop = "financenonplus.myshopify.com";
     const body = JSON.stringify({
-      shop,
+      shop: domainShop,
       shippingAddress: {
         ...shippingAddress,
         countryCode: "DE",

@@ -19,16 +19,17 @@ export const getConsorsLink = (
   // clientData: ClientFormDataI,
   orderAmount: number,
   consorsOrderId: string,
-  pluginCredentials: PluginConfigI["pluginCredentials"],
+  pluginConfigData: PluginConfigI,
 ): URLSearchParams => {
   // const shop = document.getElementById("shopDomain")?.textContent;
   const shop = "financenonplus.myshopify.com";
   // const { city, email, firstName, housenumber, lastName, street, zipCode } =
   //   clientData;
-  const { vendorId } = pluginCredentials;
+  const { pluginCredentials, pluginConfigurator } = pluginConfigData;
+  const { campaign, campaignDuration } = pluginConfigurator;
 
-  const consorsLink = new URLSearchParams({
-    vendorid: vendorId,
+  const defaultUrlParams = {
+    vendorid: pluginCredentials.vendorId,
     order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
     // firstName,
@@ -45,7 +46,18 @@ export const getConsorsLink = (
     // returntocheckoutURL: returnToCustomCheckoutUrl(),
     successURL: returnToCustomCheckoutUrl(),
     notifyURL: consorsNotifyUrl(),
-  });
+  };
+
+  const consorsLink =
+    campaign && campaignDuration && campaign !== "0"
+      ? new URLSearchParams({
+          ...defaultUrlParams,
+          campaign,
+          campaignduration: campaignDuration,
+        })
+      : new URLSearchParams({
+          ...defaultUrlParams,
+        });
 
   return consorsLink;
 };

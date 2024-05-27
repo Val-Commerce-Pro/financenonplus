@@ -108,6 +108,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     const newEfiNotificationsData = await createEfiNotifications({
       draftOrderId,
+      shop,
       draftOrderName,
       consorsOrderId,
       orderId: null,

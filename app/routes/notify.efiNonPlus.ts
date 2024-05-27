@@ -4,14 +4,25 @@ import {
   getEfiNotifications,
   updateEfiNotifications,
 } from "~/models/consorsNotifications";
+import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 // import { authenticate } from "~/shopify.server";
 // import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 
+// type CompleteDraftOrderResponse = {
+//   draftOrderComplete: {
+//     draftOrder: {
+//       id: string;
+//       order: {
+//         id: string;
+//         name: string;
+//       };
+//     };
+//   };
+// };
+
 export const action: LoaderFunction = async ({ request }) => {
-  console.log("notification route render");
-  console.log("Notification route - request - ", request);
   const requestedURL = new URL(request.url);
-  console.log("requestedURL", requestedURL);
+  console.log("requestedURL - ", requestedURL);
   const status = requestedURL.searchParams.get("status");
   const statusDetail = requestedURL.searchParams.get("status_detail");
   const consorsOrderId = requestedURL.searchParams.get("order_id");
@@ -50,9 +61,17 @@ export const action: LoaderFunction = async ({ request }) => {
     );
   }
 
+  if (status === "success") {
+    const newOrder = await completeDraftOrder(
+      efiNotificationsData.shop,
+      efiNotificationsData.draftOrderId,
+    );
+    console.log("newOrder", newOrder);
+  }
+
   const updatedEfiNotificationsData = await updateEfiNotifications({
     status,
-    statusDetail,
+    statusDetail: statusDetail ?? null,
     consorsOrderId,
     transactionId,
     creditAmount,
@@ -71,16 +90,19 @@ export const action: LoaderFunction = async ({ request }) => {
     );
   }
 
-  // const { session } = await authenticate.admin(request);
-  // console.log("session", session);
+  // const newOrder: CompleteDraftOrderResponse = await completeDraftOrder(
+  //   shop,
+  //   draftOrderId,
+  // );
+  // const { id: newOrderId, name: newOrderName } =
+  //   newOrder.draftOrderComplete.draftOrder.order;
+  // console.log("newOrder", newOrder);
 
-  // if (status === "success") {
-  //   const newOrder = await completeDraftOrder(
-  //     session.shop,
-  //     efiNotificationsData.draftOrderId,
-  //   );
-  //   console.log("newOrder", newOrder);
-  // }
+  // const updatedEfiData = updateEfiNotifications({
+  //   consorsOrderId: consorsOrderId,
+  //   orderId: newOrderId,
+  //   orderName: newOrderName,
+  // });
 
   return json(
     { message: "Success" },

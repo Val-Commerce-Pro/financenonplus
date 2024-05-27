@@ -1,8 +1,10 @@
 -- CreateTable
 CREATE TABLE `ConsorsEfiNotifications` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `draftOrderId` VARCHAR(191) NULL,
-    `draftOrderName` VARCHAR(191) NULL,
+    `shop` VARCHAR(191) NOT NULL,
+    `consorsOrderId` VARCHAR(191) NOT NULL,
+    `draftOrderId` VARCHAR(191) NOT NULL,
+    `draftOrderName` VARCHAR(191) NOT NULL,
     `orderId` VARCHAR(191) NULL,
     `orderName` VARCHAR(191) NULL,
     `transactionId` VARCHAR(191) NULL,
@@ -11,6 +13,7 @@ CREATE TABLE `ConsorsEfiNotifications` (
     `campaign` VARCHAR(191) NULL,
     `creditAmount` VARCHAR(191) NULL,
 
+    UNIQUE INDEX `ConsorsEfiNotifications_consorsOrderId_key`(`consorsOrderId`),
     UNIQUE INDEX `ConsorsEfiNotifications_draftOrderId_key`(`draftOrderId`),
     UNIQUE INDEX `ConsorsEfiNotifications_draftOrderName_key`(`draftOrderName`),
     UNIQUE INDEX `ConsorsEfiNotifications_orderId_key`(`orderId`),
