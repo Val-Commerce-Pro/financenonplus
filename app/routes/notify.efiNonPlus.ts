@@ -25,7 +25,7 @@ export const action: ActionFunction = async ({ request }) => {
     status,
   );
   try {
-    if (!consorsOrderId || !status || !transactionId || !!hash) {
+    if (!consorsOrderId || !status || !transactionId || !hash) {
       return json(
         { error: "Order Id, Status or Transaction Id or hash, not found" },
         {
