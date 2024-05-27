@@ -12,7 +12,7 @@ import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 import {
-  clearCartData,
+  // clearCartData,
   deleteCartItem,
   updateCartData,
 } from "../utils/shopifyAjaxApi";
@@ -117,8 +117,8 @@ const FinanceRequest = ({
     } catch (error) {
       console.error(error);
     } finally {
-      setIsModalOpen(false);
-      await clearCartData();
+      // setIsModalOpen(false);
+      // await clearCartData();
       setIsFinanceSubmitted(false);
     }
   };

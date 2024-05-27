@@ -45,7 +45,7 @@ export const useShippingCost = ({
       },
       lineItems,
     });
-    const response = await fetch(`${backendUrl()}/api/calculateShipping`, {
+    const response = await fetch(`${backendUrl()}/api/handleConsorsStatus`, {
       method: "POST",
       body,
     });

@@ -47,9 +47,6 @@ type EfiDraftOrder = {
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { shop, draftOrderData, lineItems }: EfiDraftOrder = data;
-  console.log("shop", shop)
-  console.log("draftOrderData", draftOrderData)
-  console.log("lineItems", lineItems)
   // TODO: check if address is german otherwise no financing
   // TODO: check if minimum value is reached test REJECT in firstName
 
@@ -121,17 +118,9 @@ export const action: ActionFunction = async ({ request }) => {
       statusDetail: null,
       campaign: null,
       creditAmount: null,
-    }
-    console.log("currentEfiNotificationData", currentEfiNotificationData)
+    };
 
-    const newEfiNotificationsData = await createEfiNotifications(currentEfiNotificationData);
-
-    console.log(
-      "customAttributes, draftOrderId, name - Draft Order Info- newEfiNotificationsData",
-      draftOrderId,
-      draftOrderName,
-      newEfiNotificationsData,
-    );
+    await createEfiNotifications(currentEfiNotificationData);
 
     return json(
       { consorsOrderId },
