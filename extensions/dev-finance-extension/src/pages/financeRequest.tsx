@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 
@@ -45,8 +45,8 @@ const FinanceRequest = ({
   pluginConfData,
   domainShop,
 }: FinanceRequestProps) => {
-  const location = useLocation();
-  console.log("location current URL", location);
+  // const location = useLocation();
+  // console.log("location current URL", location);
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,9 +97,9 @@ const FinanceRequest = ({
       const draftOrderResponse: DraftOrderResponse = await createEfiDraftOrder(
         clientFormData,
         lineItems,
+        domainShop,
         customerData[0],
         shippingPrice,
-        domainShop,
       );
       const { consorsOrderId } = draftOrderResponse;
       console.log("consorsOrderId Front", consorsOrderId);
@@ -110,11 +110,7 @@ const FinanceRequest = ({
         cartData.total_price,
         consorsOrderId,
         pluginConfData,
-      );
-
-      console.log(
-        "link",
-        `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+        domainShop,
       );
 
       window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;

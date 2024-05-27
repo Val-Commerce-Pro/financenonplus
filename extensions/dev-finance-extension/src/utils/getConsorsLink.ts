@@ -9,9 +9,7 @@ function consorsNotifyUrl() {
   return `${backendUrl()}/notify/efiNonPlus`;
 }
 
-function returnToCustomCheckoutUrl() {
-  // const shopDomain = document.getElementById("shopDomain")?.textContent;
-  const shopDomain = "financenonplus.myshopify.com";
+function returnToCustomCheckoutUrl(shopDomain: string) {
   return `https://${shopDomain}/pages/consors-efi`;
 }
 
@@ -20,9 +18,8 @@ export const getConsorsLink = (
   orderAmount: number,
   consorsOrderId: string,
   pluginConfigData: PluginConfigI,
+  shop: string,
 ): URLSearchParams => {
-  // const shop = document.getElementById("shopDomain")?.textContent;
-  const shop = "financenonplus.myshopify.com";
   // const { city, email, firstName, housenumber, lastName, street, zipCode } =
   //   clientData;
   const { pluginCredentials, pluginConfigurator } = pluginConfigData;
@@ -44,11 +41,11 @@ export const getConsorsLink = (
     // cancelURL: returnToCustomCheckoutUrl(),
     // failureURL: returnToCustomCheckoutUrl(),
     // returntocheckoutURL: returnToCustomCheckoutUrl(),
-    successURL: returnToCustomCheckoutUrl(),
+    successURL: returnToCustomCheckoutUrl(shop),
     notifyURL: consorsNotifyUrl(),
   };
 
-  const consorsLink =
+  const consorsParams =
     campaign && campaignDuration && campaign !== "0"
       ? new URLSearchParams({
           ...defaultUrlParams,
@@ -59,5 +56,10 @@ export const getConsorsLink = (
           ...defaultUrlParams,
         });
 
-  return consorsLink;
+  console.log(
+    "link",
+    `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
+  );
+
+  return consorsParams;
 };

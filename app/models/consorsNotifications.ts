@@ -20,7 +20,7 @@ export async function createEfiNotifications(
   data: ConsorsEfiNotificationsData,
 ) {
   try {
-    if (!data.consorsOrderId) {
+    if (!data.consorsOrderId || !data.shop) {
       return { error: "consorsOrderId is required" };
     }
     const existingShop = await db.consorsEfiNotifications.findUnique({
