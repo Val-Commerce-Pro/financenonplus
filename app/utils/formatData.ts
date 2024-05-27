@@ -28,5 +28,3 @@ export type OptionsMethodData = Array<{
   labelValue: string;
   selected?: boolean;
 }>;
-
-//TODO, create a func to check if the obj is valid

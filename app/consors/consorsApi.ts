@@ -1,9 +1,5 @@
-// import { getShopPluginConfig } from "~/models/shopPluginConfig.server";
-// import type {
-//   FulfillmentOrderRequest,
-//   RefundOrderRequest,
-//   StornoOrderRequest,
-// } from "./types";
+import { getShopPluginConfig } from "~/models/credentialsPlugin.server";
+import type { UpdateSubscriptionDeliveryStatus } from "./types/apiTypes";
 
 interface ApiAuthData {
   apiKey: string;
@@ -82,39 +78,62 @@ export class ConsorsAPI {
       return this.jwtData.jwt;
     }
   }
+  async getSubscriptions() {
+    const clientId = this.authData.vendorId;
 
-  //   async stornoOrder({
-  //     applicationReferenceNumber,
-  //     countryCode,
-  //     orderAmount = 0.0,
-  //     timeStamp,
-  //     notifyURL,
-  //   }: StornoOrderRequest) {
-  //     const consorsUrl = `${this.baseURL}/psp-web/rest/${this.authData.vendorId}/cancel/credit/${applicationReferenceNumber}?version=${this.CONSORS_API_VERSION}`;
+    const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/${clientId}/subscriptions?version=${this.CONSORS_API_VERSION}`;
 
-  //     try {
-  //       const consorsAuthToken = await this.jwt();
-  //       const res = await fetch(consorsUrl, {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "X-Request-Id": "1",
-  //           "X-Conversation-Id": "111",
-  //           "X-CountryCode": countryCode,
-  //           "X-TimeStamp": timeStamp,
-  //           "X-Token": `Bearer ${consorsAuthToken}`,
-  //           "X-api-key": this.authData.apiKey,
-  //         },
-  //         body: JSON.stringify({
-  //           orderAmount,
-  //           notifyURL,
-  //         }),
-  //       });
-  //       return res;
-  //     } catch (error) {
-  //       console.log("Error sending cancellation data to Consors");
-  //     }
-  //   }
+    const consorsAuthToken = await this.jwt();
+    const res = await fetch(consorsUrl, {
+      method: "GET",
+      headers: {
+        "x-api-key": this.authData.apiKey,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${consorsAuthToken}`,
+      },
+    });
+    return res;
+  }
+
+  async cancelSubscription(transactionId: string) {
+    const clientId = this.authData.vendorId;
+    const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
+
+    const consorsAuthToken = await this.jwt();
+    const res = await fetch(consorsUrl, {
+      method: "DELETE",
+      headers: {
+        "x-api-key": this.authData.apiKey,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${consorsAuthToken}`,
+      },
+    });
+    return res;
+  }
+
+  async updateSubscriptionWithPartnerData(
+    updateOrderIdData: UpdateSubscriptionDeliveryStatus,
+  ) {
+    const { orderId, transactionId } = updateOrderIdData;
+    const clientId = this.authData.vendorId;
+    const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/subscription/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
+
+    const consorsAuthToken = await this.jwt();
+
+    const res = await fetch(consorsUrl, {
+      method: "PUT",
+      headers: {
+        "x-api-key": this.authData.apiKey,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${consorsAuthToken}`,
+      },
+      body: JSON.stringify({
+        subscriptionIdentifierExternal: orderId,
+        transactionId,
+      }),
+    });
+    return res;
+  }
 
   async updateSubscriptionDeliveryStatus(transactionId: string) {
     const clientId = this.authData.vendorId;
@@ -132,54 +151,13 @@ export class ConsorsAPI {
     });
     return res;
   }
-
-  //   async refundOrder({
-  //     applicationReferenceNumber,
-  //     billingInfo,
-  //     countryCode,
-  //     customerId,
-  //     orderAmount,
-  //     timeStamp,
-  //     notifyURL,
-  //   }: RefundOrderRequest) {
-  //     const consorsUrl = `${this.baseURL}/psp-web/rest/${this.authData.vendorId}/update/credit/${applicationReferenceNumber}?version=${this.CONSORS_API_VERSION}`;
-
-  //     const consorsAuthToken = await this.jwt();
-  //     const res = await fetch(consorsUrl, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Request-Id": "1",
-  //         "X-Conversation-Id": "111",
-  //         "X-CountryCode": countryCode,
-  //         "X-TimeStamp": timeStamp,
-  //         "X-Token": `Bearer ${consorsAuthToken}`,
-  //         "X-api-key": this.authData.apiKey,
-  //       },
-  //       body: JSON.stringify({
-  //         customerId,
-  //         orderAmount,
-  //         notifyURL,
-  //         billingInfo,
-  //       }),
-  //     });
-  //     return res;
-  //   }
 }
 
 const consorsClientCache: { [shop: string]: ConsorsAPI | undefined } = {};
 
-type GetConsorsClientI = {
-  shop: string;
-  apiKey: string;
-  passwort: string;
-  username: string;
-  vendorId: string;
-};
-
-export async function getConsorsClient(config: GetConsorsClientI) {
-  const chachedClient = consorsClientCache[config.shop];
-  // const config = await getShopPluginConfig(shop);
+export async function getConsorsClient(shop: string) {
+  const chachedClient = consorsClientCache[shop];
+  const config = await getShopPluginConfig(shop);
   if (config == undefined) {
     return undefined;
   }

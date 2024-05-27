@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validateCustomAttributes } from "~/utils/validateData";
 
 const orderCreateSchema = z.object({
   id: z.number(),
@@ -33,7 +34,12 @@ const orderCreateSchema = z.object({
 export async function webhook_ordersCreate(shop: string, payload: unknown) {
   console.log("ordersCreate rended");
   const data = payload?.valueOf();
-  const parseResult = orderCreateSchema.safeParse(data);
+  const parseResult = orderCreateSchema.parse(data);
   console.log("webhook_ordersCreate", data);
   console.log("parseResult - ", parseResult);
+
+  console.log(
+    "validateCustomAttributes - ",
+    validateCustomAttributes(parseResult.note_attributes),
+  );
 }

@@ -35,17 +35,9 @@ export const action: ActionFunction = async ({ request }) => {
     status,
     statusDetail,
     transactionId,
-    hash,
+    // hash,
   }: HandleConsorsStatusBody = data;
-  console.log(
-    "consorsOrderId, creditAmount, status, statusDetail, transactionId, hash",
-    consorsOrderId,
-    creditAmount,
-    status,
-    statusDetail,
-    transactionId,
-    hash,
-  );
+
   const efiNotificationsData = await getEfiNotifications(consorsOrderId);
   if (!efiNotificationsData) {
     return json(
@@ -98,7 +90,6 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-    console.log("updatedEfiNotificationsData", updatedEfiNotificationsData);
   }
   console.log("PASSOU DO IF");
   return json(

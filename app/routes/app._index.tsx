@@ -73,14 +73,11 @@ export const loader: LoaderFunction = async ({
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
-  const consorsClient = await getConsorsClient({
-    shop: session.shop,
-    apiKey: pluginConfData?.apiKey,
-    passwort: pluginConfData?.passwort,
-    username: pluginConfData?.username,
-    vendorId: pluginConfData?.vendorId,
-  });
+  const consorsClient = await getConsorsClient(session.shop);
   const clientAuth = await consorsClient?.jwt();
+  const subscriptions = await consorsClient?.getSubscriptions();
+
+  console.log("loader subscriptions", subscriptions);
 
   return getLoaderResponse({
     pluginCredentialsData: credentials,

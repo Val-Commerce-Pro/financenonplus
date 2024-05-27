@@ -48,7 +48,7 @@ export const action: ActionFunction = async ({ request }) => {
       },
     );
 
-    // Trigger the database handling route
+    // Trigger the handling route
     setImmediate(() => {
       const body = JSON.stringify({
         consorsOrderId,
