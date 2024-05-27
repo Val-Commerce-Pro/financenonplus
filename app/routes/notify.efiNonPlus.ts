@@ -58,7 +58,7 @@ export const action: ActionFunction = async ({ request }) => {
         creditAmount,
         hash,
       });
-      fetch("https://financenonplus.cpro-server.de/api/calculateShipping", {
+      fetch("https://financenonplus.cpro-server.de/api/handleConsorsStatus", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
