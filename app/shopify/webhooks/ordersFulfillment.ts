@@ -23,16 +23,25 @@ export async function webhook_ordersFulfillment(
   console.log("webhook_ordersFulfillment", data);
   // console.log("fulfilledDataObj parsed - ", data);
 
-  const consorsOrderId = fulfilledDataObj.id
-    .toString()
-    .replace(/[^\dA-Za-z]/g, "");
-  const consorsClient = await getConsorsClient(shop);
-  const efiNotificationData = await getEfiNotifications(consorsOrderId);
-  if (!efiNotificationData || !efiNotificationData.transactionId) return;
+  const efiNotificationData = await getEfiNotifications({
+    orderId: fulfilledDataObj.id.toString(),
+  });
+  console.log(
+    "webhook_ordersFulfillment efiNotificationData",
+    efiNotificationData,
+  );
+  if (
+    !efiNotificationData ||
+    !efiNotificationData.transactionId ||
+    !validateCustomAttributes(fulfilledDataObj.note_attributes)
+  )
+    return;
+
   console.log(
     "validateCustomAttributes",
     validateCustomAttributes(fulfilledDataObj.note_attributes),
   );
+  const consorsClient = await getConsorsClient(shop);
   const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
     efiNotificationData.transactionId,
   );

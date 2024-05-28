@@ -37,7 +37,6 @@ export const action: ActionFunction = async ({ request }) => {
       );
     }
 
-    // Immediately acknowledge the notification with a 200 status code
     const response = json(
       { message: "Notification received" },
       {

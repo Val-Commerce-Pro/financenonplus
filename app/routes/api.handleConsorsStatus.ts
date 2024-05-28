@@ -38,7 +38,9 @@ export const action: ActionFunction = async ({ request }) => {
     // hash,
   }: HandleConsorsStatusBody = data;
 
-  const efiNotificationsData = await getEfiNotifications(consorsOrderId);
+  const efiNotificationsData = await getEfiNotifications({
+    consorsOrderId,
+  });
   if (!efiNotificationsData) {
     return json(
       { error: "Server error" },

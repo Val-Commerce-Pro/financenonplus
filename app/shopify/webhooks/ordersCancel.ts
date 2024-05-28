@@ -19,18 +19,23 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
   const data = payload?.valueOf();
   const cancellationData = orderCancel.parse(data);
   console.log("webhook_ordersCancel - ", data);
-  // console.log("parseResult - ", cancellationData);
+  console.log("parseResult - ", cancellationData);
 
-  const consorsOrderId = cancellationData.id
-    .toString()
-    .replace(/[^\dA-Za-z]/g, "");
-  const consorsClient = await getConsorsClient(shop);
-  const efiNotificationData = await getEfiNotifications(consorsOrderId);
-  if (!efiNotificationData || !efiNotificationData.transactionId) return;
+  const efiNotificationData = await getEfiNotifications({
+    orderId: cancellationData.id.toString(),
+  });
+  console.log("webhook_ordersCancel efiNotificationData", efiNotificationData);
+  if (
+    !efiNotificationData ||
+    !efiNotificationData.transactionId ||
+    !validateCustomAttributes(cancellationData.note_attributes)
+  )
+    return;
   console.log(
     "validateCustomAttributes",
     validateCustomAttributes(cancellationData.note_attributes),
   );
+  const consorsClient = await getConsorsClient(shop);
   const bankResponse = await consorsClient?.cancelSubscription(
     efiNotificationData.transactionId,
   );

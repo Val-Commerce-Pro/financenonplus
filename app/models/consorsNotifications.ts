@@ -52,17 +52,34 @@ export async function createEfiNotifications(
   }
 }
 
-export async function getEfiNotifications(
-  consorsOrderId: ConsorsEfiNotificationsData["consorsOrderId"],
-) {
-  console.log("getEfiNotifications rended", consorsOrderId);
+type GetEfiNotifications = {
+  consorsOrderId?: string;
+  orderId?: string;
+};
+
+export async function getEfiNotifications(query: GetEfiNotifications) {
+  console.log("getEfiNotifications called with", query);
+
+  if (!query.consorsOrderId && !query.orderId) {
+    throw new Error("Either consorsOrderId or orderId must be provided");
+  }
+
   try {
-    const efiNotifications = await db.consorsEfiNotifications.findUnique({
-      where: { consorsOrderId },
-    });
-    console.log("getEfiNotifications", efiNotifications);
+    let efiNotifications;
+
+    if (query.consorsOrderId) {
+      efiNotifications = await db.consorsEfiNotifications.findUnique({
+        where: { consorsOrderId: query.consorsOrderId },
+      });
+    } else if (query.orderId) {
+      efiNotifications = await db.consorsEfiNotifications.findUnique({
+        where: { orderId: query.orderId },
+      });
+    }
+    console.log("getEfiNotifications result", efiNotifications);
     return efiNotifications;
   } catch (err) {
     console.error("err getEfiNotifications", err);
+    return;
   }
 }
