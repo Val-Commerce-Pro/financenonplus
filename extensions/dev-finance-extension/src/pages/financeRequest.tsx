@@ -36,7 +36,6 @@ const initialClientFormData = {
   // zipCode: customerData[4] ?? "",
   // city: customerData[5] ?? "",
   mobile: customerData[6] ?? "",
-  dataOfBirth: "",
   email: customerData[7] ?? "",
 };
 
@@ -69,6 +68,14 @@ const FinanceRequest = ({
   const debouncedSetField = useDebounce((name: string, value: string) => {
     setClientFormData((prev) => ({ ...prev, [name]: value }));
   }, 500);
+  const isSendenBtnEnable = () => {
+    const allFieldsFilled = Object.values({
+      ...clientFormData,
+    }).every((field) => field.trim() !== "");
+    console.log("clientFormData", clientFormData);
+    console.log("allFieldsFilled", allFieldsFilled);
+    return allFieldsFilled;
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -196,6 +203,7 @@ const FinanceRequest = ({
             <button
               onClick={() => setIsModalOpen(true)}
               type="button"
+              disabled={!isSendenBtnEnable()}
               data-modal-target="static-modal"
               id="modal-button"
               data-modal-toggle="static-modal"
