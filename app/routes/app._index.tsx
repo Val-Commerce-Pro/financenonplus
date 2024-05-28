@@ -116,14 +116,3 @@ export default function Index() {
     </div>
   );
 }
-
-/*
-  [] Fix shipping cost functinos, implement using debounce and fix helper message.
-  [] Remove unncessary information from the Client Form, like, Salutation, telefone and data of birth.
-    [] adpate the database and the functions with this new client form obj
-  [] check if there is something that can be done about the refresh of the page and when the modal open.
-  [] Add ConsorsOrderId into the notifications table to be able to update it when the notification arrive
-  [] When the notification arrives, get the draftOrder into the database and then change the orderId into the bank, and then save it into the database.
-  [] Add the code to validate the HASH key
-  [] Check how can we receive the staatus details from the bank
-*/

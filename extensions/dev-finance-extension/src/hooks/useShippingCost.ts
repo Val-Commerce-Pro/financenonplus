@@ -17,7 +17,7 @@ export type ShippingAddress = {
 };
 
 type UseShippingCostProps = {
-  shippingAddress?: Pick<ClientFormDataI, "city" | "street" | "zipCode">;
+  shippingAddress: Pick<ClientFormDataI, "city" | "street" | "zipCode">;
   cartData?: ShoppingCart;
   shopDomain: string;
 };
@@ -27,11 +27,22 @@ export const useShippingCost = ({
   cartData,
   shopDomain,
 }: UseShippingCostProps): string => {
-  // console.log("useShippingCost render");
+  console.log("useSHippingCOst rendered");
+  const [shippingCostData, setShippingCostData] = useState({
+    city: "",
+    street: "",
+    zipCode: "",
+  });
   const [shippingPrice, setShippingPrice] = useState("");
 
   const handleShippingCost = useCallback(async () => {
-    if (!shippingAddress || !cartData) return "";
+    if (
+      !shippingAddress.city ||
+      !shippingAddress.zipCode ||
+      !shippingAddress.street ||
+      !cartData
+    )
+      return "";
     const lineItems: LineItem[] = cartData.items.map((item) => ({
       variantId: `gid://shopify/ProductVariant/${item.id}`,
       quantity: item.quantity,
@@ -62,17 +73,16 @@ export const useShippingCost = ({
   }, [shippingAddress, cartData]);
 
   useEffect(() => {
-    console.log(
-      "city, state, zipCode",
-      shippingAddress?.city,
-      shippingAddress?.street,
-      shippingAddress?.zipCode,
-    );
     if (
-      shippingAddress?.city &&
-      shippingAddress?.street &&
-      shippingAddress?.zipCode
+      shippingAddress.city !== shippingCostData.city ||
+      shippingAddress.street !== shippingCostData.street ||
+      shippingAddress.zipCode !== shippingCostData.zipCode
     ) {
+      setShippingCostData({
+        city: shippingAddress.city,
+        street: shippingAddress.street,
+        zipCode: shippingAddress.zipCode,
+      });
       handleShippingCost();
     }
   }, [shippingAddress, handleShippingCost]);
