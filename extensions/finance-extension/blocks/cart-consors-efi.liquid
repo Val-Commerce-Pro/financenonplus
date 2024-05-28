@@ -1,4 +1,4 @@
-
+<script defer src="{{ 'consors-cart.js' | asset_url }}"></script>
 <style>
 #ah-cart-redirect {
     {% if cart.empty? %}
@@ -8,7 +8,13 @@
     flex-direction: column;
     align-items: flex-end;
 }
+.HiddenInfo {
+    visibility: hidden;
+    display: none !important;
+  }
 </style> 
+
+<div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
 <div id="ah-cart-redirect">
     <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45" />

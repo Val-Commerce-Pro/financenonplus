@@ -10,8 +10,9 @@
 <div hidden id="cf-secure-url" class="HiddenInfo">{{ shop.secure_url }}</div>
 <div hidden id="cf-product-price" class="albisHiddenInfo">{{ product.price }}</div>
 <div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
+<div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
-<div class="d-flex gap">
+<div class="d-flex gap" id="cf-product-section">
   <div class="separator">- oder -</div>
   <a id="addProductAndRedirect" class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
   <div class="product--financing">
