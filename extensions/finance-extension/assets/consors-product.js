@@ -59,7 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Init calculator
   jQuery(function ($) {
-    var productPrice = document.getElementById("cf-product-price").textContent;
+    var productPrice =
+      document.getElementById("cf-product-price").textContent / 100;
 
     let minMonth = parseInt(
       pluginConfData.pluginConfigurator.terms.split(",")[0],
@@ -98,11 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       minMonth: minMonth,
       maxMonth: maxMonth,
       stepMonth: stepMonth,
-      zeroMonth: 24 + 1,
+      zeroMonth: 24 + 1, // Increment so that passed month is inclusive
       firstInterestRate: firstInterestRate,
       secondInterestRate: secondInterestRate,
       thirdInterestRate: thirdInterestRate,
-      productPrice: 1300,
+      productPrice: 1300, //test data because real store values are too small
     });
   });
 

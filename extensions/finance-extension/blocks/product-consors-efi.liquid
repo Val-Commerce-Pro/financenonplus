@@ -6,42 +6,6 @@
 <script defer src="{{ 'consors-product.js' | asset_url }}"></script>
 <link rel="stylesheet" href="{{ 'calc.css' | asset_url }}">
 
-<style>
-  #modal {
-    background-color: #f5f5f5;
-    padding: 30px;
-    border-radius: 5px;
-  }
-
-  #modal-container {
-    height: 100%;
-    max-width: 400px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    background-color: #f1f1f1;
-    overflow-x: hidden;
-    transition: 0.5s;
-    z-index: 11;
-}
- #closeCalculator {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
-  transition: filter 0.3s;
-}
-
-.inline-calc-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-}
-</style>
 <div hidden id="cf-product-id" class="HiddenInfo">{{ product.variants[0].id }}</div>
 <div hidden id="cf-secure-url" class="HiddenInfo">{{ shop.secure_url }}</div>
 <div hidden id="cf-product-price" class="albisHiddenInfo">{{ product.price }}</div>
@@ -54,7 +18,7 @@
     <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45"><br>
     Finanzieren Sie bequem mit Consors Finanz.<br>
     <p id="additional-calculator-text">Weitere Informationen finden sie 
-    <a class="openModalConsors" id="openCalculator">hierAAAA</a></p>
+    <a class="openModalConsors" id="openCalculator">hier</a></p>
   </div>
 </div>
 <div class="inline-calc-overlay"></div>
