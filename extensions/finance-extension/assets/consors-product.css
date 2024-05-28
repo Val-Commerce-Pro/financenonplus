@@ -1,5 +1,6 @@
 .HiddenInfo {
   visibility: hidden;
+  display: none !important;
 }
 
 .d-flex {
