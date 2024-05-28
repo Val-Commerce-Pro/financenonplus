@@ -1,12 +1,5 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-// import {
-//   getEfiNotifications,
-//   updateEfiNotifications,
-// } from "~/models/consorsNotifications";
-// import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
-// import { authenticate } from "~/shopify.server";
-// import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 
 export const action: ActionFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);

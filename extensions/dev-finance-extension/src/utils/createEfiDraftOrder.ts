@@ -9,7 +9,7 @@ export interface LineItem {
 export const createEfiDraftOrder = async (
   clientData: ClientFormDataI,
   lineItems: LineItem[],
-  domainShop: string,
+  shopDomain: string,
   customerid?: string,
   shippingPrice?: string,
 ) => {
@@ -17,7 +17,7 @@ export const createEfiDraftOrder = async (
     console.log("shippingPrice", shippingPrice);
     const shippingPriceData = Number(shippingPrice) ? Number(shippingPrice) : 0;
     const body = JSON.stringify({
-      shop: domainShop,
+      shop: shopDomain,
       draftOrderData: {
         ...clientData,
         customerid,

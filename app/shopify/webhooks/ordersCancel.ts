@@ -22,7 +22,7 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
   console.log("parseResult - ", cancellationData);
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: cancellationData.id.toString(),
+    orderId: `gid://shopify/Order/${cancellationData.id}`,
   });
   console.log("webhook_ordersCancel efiNotificationData", efiNotificationData);
   if (

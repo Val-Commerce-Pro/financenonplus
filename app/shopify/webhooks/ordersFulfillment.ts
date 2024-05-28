@@ -24,7 +24,7 @@ export async function webhook_ordersFulfillment(
   // console.log("fulfilledDataObj parsed - ", data);
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: fulfilledDataObj.id.toString(),
+    orderId: `gid://shopify/Order/${fulfilledDataObj.id}`,
   });
   console.log(
     "webhook_ordersFulfillment efiNotificationData",
