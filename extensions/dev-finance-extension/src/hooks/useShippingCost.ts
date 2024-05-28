@@ -27,7 +27,6 @@ export const useShippingCost = ({
   cartData,
   shopDomain,
 }: UseShippingCostProps): string => {
-  console.log("useSHippingCOst rendered");
   const [shippingCostData, setShippingCostData] = useState({
     city: "",
     street: "",

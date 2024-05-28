@@ -92,7 +92,7 @@ export default function Index() {
     pluginCredentialsData,
     configuratorDataOk,
   } = loaderData;
-  console.log("loaderData", loaderData);
+  // console.log("loaderData", loaderData);
 
   return (
     <div

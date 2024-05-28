@@ -5,7 +5,7 @@ import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
-import useDebouncedCallback from "../hooks/useDebouncedCallback";
+import { useDebounce } from "../hooks/useDebouncedCallback";
 import { PluginConfigI } from "../hooks/useGetPluginConfData";
 import { useShippingCost } from "../hooks/useShippingCost";
 import { DraftOrderResponse } from "../types/shopifyResponses";
@@ -26,7 +26,6 @@ type FinanceRequestProps = {
 
 const customerData =
   document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
-console.log("customerData", customerData);
 
 const initialClientFormData = {
   salutation: "HERR",
@@ -46,8 +45,6 @@ const FinanceRequest = ({
   pluginConfData,
   shopDomain,
 }: FinanceRequestProps) => {
-  // const location = useLocation();
-  // console.log("location current URL", location);
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
   const [street, setStreet] = useState(
@@ -69,12 +66,9 @@ const FinanceRequest = ({
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
-  const debouncedSetField = useDebouncedCallback(
-    (name: string, value: string) => {
-      setClientFormData((prev) => ({ ...prev, [name]: value }));
-    },
-    500,
-  );
+  const debouncedSetField = useDebounce((name: string, value: string) => {
+    setClientFormData((prev) => ({ ...prev, [name]: value }));
+  }, 500);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -139,7 +133,6 @@ const FinanceRequest = ({
         shippingPrice,
       );
       const { consorsOrderId } = draftOrderResponse;
-      console.log("consorsOrderId Front", consorsOrderId);
 
       //todo: Fix foward link
       const consorsParams = getConsorsLink(
@@ -161,7 +154,7 @@ const FinanceRequest = ({
   };
 
   const handleFakeClick = async () => {
-    await getSubscriptions(shopDomain, "129", "20");
+    await getSubscriptions(shopDomain, "128", "20");
   };
 
   return (

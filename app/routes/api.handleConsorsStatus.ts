@@ -27,7 +27,6 @@ type HandleConsorsStatusBody = {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("HandleConsorsStatusBody route rendered");
   const data = await request.json();
   const {
     consorsOrderId,
@@ -93,7 +92,6 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
   }
-  console.log("PASSOU DO IF");
   return json(
     { message: "Success" },
     {

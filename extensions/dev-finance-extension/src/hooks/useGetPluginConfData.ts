@@ -47,7 +47,6 @@ export const useGetPluginConfData = ({ shop }: UseGetPluginConfDataProps) => {
         const data = await response.json();
 
         const formattedData = pluginConfigSchema.parse(data);
-        console.log("useGetPluginConfData parsed", formattedData);
         setPluginConfData(formattedData);
         return formattedData;
       } catch (error) {

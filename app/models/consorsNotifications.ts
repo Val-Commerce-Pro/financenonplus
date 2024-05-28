@@ -58,8 +58,6 @@ type GetEfiNotifications = {
 };
 
 export async function getEfiNotifications(query: GetEfiNotifications) {
-  console.log("getEfiNotifications called with", query);
-
   if (!query.consorsOrderId && !query.orderId) {
     throw new Error("Either consorsOrderId or orderId must be provided");
   }
@@ -76,7 +74,6 @@ export async function getEfiNotifications(query: GetEfiNotifications) {
         where: { orderId: query.orderId },
       });
     }
-    console.log("getEfiNotifications result", efiNotifications);
     return efiNotifications;
   } catch (err) {
     console.error("err getEfiNotifications", err);

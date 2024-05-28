@@ -29,7 +29,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     throw new Error(`HTTP error! Status: ${subscriptionsResponse?.status}`);
   }
   const subscriptions = await subscriptionsResponse.json();
-  console.log("loader subscriptions", subscriptions);
 
   return json(
     { message: "Success", data: subscriptions },

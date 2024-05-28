@@ -21,7 +21,6 @@ export async function webhook_ordersFulfillment(
   console.log("ordersFulfillment rended");
   const data = payload?.valueOf();
   const fulfilledDataObj = orderFulfilled.parse(data);
-  // console.log("webhook_ordersFulfillment", data);
   console.log("fulfilledDataObj parsed - ", data);
 
   const efiNotificationData = await getEfiNotifications({
@@ -33,9 +32,9 @@ export async function webhook_ordersFulfillment(
   );
   console.log(
     "efiNotificationData, transactionId, validateCustomAttributes",
-    !efiNotificationData,
-    !efiNotificationData?.transactionId,
-    !validateCustomAttributes(fulfilledDataObj.note_attributes),
+    efiNotificationData,
+    efiNotificationData?.transactionId,
+    validateCustomAttributes(fulfilledDataObj.note_attributes),
   );
   if (
     !efiNotificationData ||
@@ -45,7 +44,6 @@ export async function webhook_ordersFulfillment(
     return;
 
   const consorsClient = await getConsorsClient(shop);
-  console.log("consorsClient", consorsClient);
   const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
     efiNotificationData.transactionId,
   );

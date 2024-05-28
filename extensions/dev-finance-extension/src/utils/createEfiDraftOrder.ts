@@ -14,7 +14,6 @@ export const createEfiDraftOrder = async (
   shippingPrice?: string,
 ) => {
   try {
-    console.log("shippingPrice", shippingPrice);
     const shippingPriceData = Number(shippingPrice) ? Number(shippingPrice) : 0;
     const body = JSON.stringify({
       shop: shopDomain,

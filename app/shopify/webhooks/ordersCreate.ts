@@ -34,6 +34,5 @@ export async function webhook_ordersCreate(shop: string, payload: unknown) {
   console.log("ordersCreate rended");
   const data = payload?.valueOf();
   const parseResult = orderCreateSchema.parse(data);
-  // console.log("webhook_ordersCreate", data);
   console.log("parseResult - ", parseResult);
 }

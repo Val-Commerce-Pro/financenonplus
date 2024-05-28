@@ -10,13 +10,7 @@ export const action: ActionFunction = async ({ request }) => {
   const transactionId = requestedURL.searchParams.get("transaction_id");
   const creditAmount = requestedURL.searchParams.get("creditAmount");
   const hash = requestedURL.searchParams.get("hash");
-  console.log(
-    "consorsOrderId, transactionId, statusDetail, status",
-    consorsOrderId,
-    transactionId,
-    statusDetail,
-    status,
-  );
+
   try {
     if (!consorsOrderId || !status || !transactionId || !hash) {
       return json(
