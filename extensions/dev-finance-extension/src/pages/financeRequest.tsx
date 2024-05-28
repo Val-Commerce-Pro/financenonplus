@@ -161,10 +161,9 @@ const FinanceRequest = ({
   };
 
   const handleFakeClick = async () => {
-    await getSubscriptions(shopDomain);
+    await getSubscriptions(shopDomain, "129", "20");
   };
 
-  //TODO, Implement a debounce function to prevent multiple request of the shipping price.
   return (
     <>
       <div className="max-w-[1280px] mx-auto px-[16px] pb-[20px]">

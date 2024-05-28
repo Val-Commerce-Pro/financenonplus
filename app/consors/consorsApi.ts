@@ -78,10 +78,10 @@ export class ConsorsAPI {
       return this.jwtData.jwt;
     }
   }
-  async getSubscriptions() {
+  async getSubscriptions(page?: string, size?: string) {
     const clientId = this.authData.vendorId;
 
-    const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/${clientId}/subscriptions?version=${this.CONSORS_API_VERSION}`;
+    const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/${clientId}/subscriptions?page=${page ?? 0}&size=${size ?? 25}&version=${this.CONSORS_API_VERSION}`;
 
     const consorsAuthToken = await this.jwt();
     const res = await fetch(consorsUrl, {

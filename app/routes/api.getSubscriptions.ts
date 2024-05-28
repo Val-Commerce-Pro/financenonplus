@@ -6,6 +6,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);
 
   const shop = requestedURL.searchParams.get("shop");
+  const page = requestedURL.searchParams.get("page");
+  const size = requestedURL.searchParams.get("size");
 
   if (!shop) {
     return json(
@@ -19,7 +21,10 @@ export const loader: LoaderFunction = async ({ request }) => {
     );
   }
   const consorsClient = await getConsorsClient(shop);
-  const subscriptionsResponse = await consorsClient?.getSubscriptions();
+  const subscriptionsResponse = await consorsClient?.getSubscriptions(
+    page ?? "0",
+    size ?? "25",
+  );
   if (!subscriptionsResponse || !subscriptionsResponse.ok) {
     throw new Error(`HTTP error! Status: ${subscriptionsResponse?.status}`);
   }
