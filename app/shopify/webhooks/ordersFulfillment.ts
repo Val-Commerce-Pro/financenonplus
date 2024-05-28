@@ -5,6 +5,7 @@ import { validateCustomAttributes } from "~/utils/validateData";
 
 const orderFulfilled = z.object({
   id: z.number(),
+  admin_graphql_api_id: z.string(),
   note_attributes: z.array(
     z.object({
       name: z.string(),
@@ -24,7 +25,7 @@ export async function webhook_ordersFulfillment(
   // console.log("fulfilledDataObj parsed - ", data);
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: `gid://shopify/Order/${fulfilledDataObj.id}`,
+    orderId: fulfilledDataObj.admin_graphql_api_id,
   });
   console.log(
     "webhook_ordersFulfillment efiNotificationData",
@@ -45,5 +46,12 @@ export async function webhook_ordersFulfillment(
   const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
     efiNotificationData.transactionId,
   );
-  console.log("bankResponse updateSubscriptionDeliveryStatus", bankResponse);
+  if (!bankResponse?.ok) {
+    return { error: true, menssage: bankResponse };
+  }
+  const bankResponseData = await bankResponse.json();
+  console.log(
+    "bankResponseData updateSubscriptionDeliveryStatus",
+    bankResponseData,
+  );
 }
