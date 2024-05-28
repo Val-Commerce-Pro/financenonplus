@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
+import useDebouncedCallback from "../hooks/useDebouncedCallback";
 import { PluginConfigI } from "../hooks/useGetPluginConfData";
 import { useShippingCost } from "../hooks/useShippingCost";
-import { ClientFormDataI } from "../types/clientForm";
 import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
@@ -27,14 +27,14 @@ const customerData =
   document.getElementById("cf-customer")?.textContent?.split(",") ?? [];
 console.log("customerData", customerData);
 
-const initialClientFormData: ClientFormDataI = {
+const initialClientFormData = {
   salutation: "HERR",
   firstName: customerData[1] ?? "",
   lastName: customerData[2] ?? "",
-  street: customerData[3]?.replace(/\d+/g, "") ?? "",
+  // street: customerData[3]?.replace(/\d+/g, "") ?? "",
   housenumber: customerData[3]?.replace(/\D/g, "") ?? "",
-  zipCode: customerData[4] ?? "",
-  city: customerData[5] ?? "",
+  // zipCode: customerData[4] ?? "",
+  // city: customerData[5] ?? "",
   mobile: customerData[6] ?? "",
   dataOfBirth: "",
   email: customerData[7] ?? "",
@@ -49,22 +49,53 @@ const FinanceRequest = ({
   // console.log("location current URL", location);
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
+  const [street, setStreet] = useState(
+    customerData[3]?.replace(/\d+/g, "") ?? "",
+  );
+  const [zipCode, setZipCode] = useState(customerData[4] ?? "");
+  const [city, setCity] = useState(customerData[5] ?? "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
   const shippingPrice = useShippingCost({
     cartData,
     shippingAddress: {
-      city: clientFormData.city,
-      street: clientFormData.street,
-      zipCode: clientFormData.zipCode,
+      city,
+      street,
+      zipCode,
     },
     domainShop,
   });
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
-  const handleClientFormChange = (newData: ClientFormDataI) => {
-    setClientFormData(newData);
+  const debouncedSetField = useDebouncedCallback(
+    (name: string, value: string) => {
+      setClientFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    500,
+  );
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    if (name === "street") {
+      setStreet(value);
+    } else if (name === "zipCode") {
+      setZipCode(value);
+    } else if (name === "city") {
+      setCity(value);
+    }
+
+    if (["street", "zipCode", "city"].includes(name)) {
+      debouncedSetField(name, value);
+    } else {
+      setClientFormData({ ...clientFormData, [name]: value });
+    }
+  };
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setClientFormData({ ...clientFormData, [name]: value });
   };
 
   const handleUpdateItemQuantity = async (
@@ -95,7 +126,12 @@ const FinanceRequest = ({
         quantity: item.quantity,
       }));
       const draftOrderResponse: DraftOrderResponse = await createEfiDraftOrder(
-        clientFormData,
+        {
+          ...clientFormData,
+          city,
+          street,
+          zipCode,
+        },
         lineItems,
         domainShop,
         customerData[0],
@@ -135,8 +171,9 @@ const FinanceRequest = ({
         />
         <div className="mt-[20px]">
           <ClientForm
-            clientFormData={clientFormData}
-            handleClientFormChange={handleClientFormChange}
+            clientFormData={{ ...clientFormData, city, street, zipCode }}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
           />
         </div>
         <div className="mt-[20px]">

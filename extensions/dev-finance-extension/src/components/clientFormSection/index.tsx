@@ -8,24 +8,16 @@ import { Select } from "../select";
 import { TextField } from "../textfield";
 
 type ClientFormProps = {
-  handleClientFormChange: (clientFormData: ClientFormDataI) => void;
   clientFormData: ClientFormDataI;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleSelectChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const ClientForm = ({
   clientFormData,
-  handleClientFormChange,
+  handleInputChange,
+  handleSelectChange,
 }: ClientFormProps) => {
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    handleClientFormChange({ ...clientFormData, [name]: value });
-  };
-
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    handleClientFormChange({ ...clientFormData, [name]: value });
-  };
-
   return (
     <>
       <Box title="Angaben zum Geschäftsführer">

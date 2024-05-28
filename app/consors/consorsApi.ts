@@ -141,6 +141,8 @@ export class ConsorsAPI {
 
     const consorsAuthToken = await this.jwt();
 
+    console.log("consorsUrl", consorsUrl);
+
     const res = await fetch(consorsUrl, {
       method: "PUT",
       headers: {
