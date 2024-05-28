@@ -72,8 +72,6 @@ const FinanceRequest = ({
     const allFieldsFilled = Object.values({
       ...clientFormData,
     }).every((field) => field.trim() !== "");
-    console.log("clientFormData", clientFormData);
-    console.log("allFieldsFilled", allFieldsFilled);
     return allFieldsFilled;
   };
 
@@ -144,7 +142,7 @@ const FinanceRequest = ({
       //todo: Fix foward link
       const consorsParams = getConsorsLink(
         { ...clientFormData, city, street, zipCode },
-        cartData.total_price,
+        cartData.total_price + Number(shippingPrice) * 100,
         consorsOrderId,
         pluginConfData,
         shopDomain,
