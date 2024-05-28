@@ -100,7 +100,7 @@ export const SectionCartItems = ({
               </td>
               <td className="px-[24px] py-[16px] text-gray-500 flex items-center">
                 {shippingPrice ? (
-                  `€${(Number(shippingPrice) / 100).toFixed(2)}`
+                  `€${Number(shippingPrice).toFixed(2)}`
                 ) : (
                   <Spinner size="18" />
                 )}
