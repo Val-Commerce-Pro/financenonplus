@@ -11,6 +11,7 @@ import { useShippingCost } from "../hooks/useShippingCost";
 import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
+import { getSubscriptions } from "../utils/getSubscriptions";
 import {
   // clearCartData,
   deleteCartItem,
@@ -20,7 +21,7 @@ import {
 type FinanceRequestProps = {
   cartData: ShoppingCart;
   pluginConfData: PluginConfigI;
-  domainShop: string;
+  shopDomain: string;
 };
 
 const customerData =
@@ -43,7 +44,7 @@ const initialClientFormData = {
 const FinanceRequest = ({
   cartData,
   pluginConfData,
-  domainShop,
+  shopDomain,
 }: FinanceRequestProps) => {
   // const location = useLocation();
   // console.log("location current URL", location);
@@ -63,7 +64,7 @@ const FinanceRequest = ({
       street,
       zipCode,
     },
-    domainShop,
+    shopDomain,
   });
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
@@ -133,7 +134,7 @@ const FinanceRequest = ({
           zipCode,
         },
         lineItems,
-        domainShop,
+        shopDomain,
         customerData[0],
         shippingPrice,
       );
@@ -146,7 +147,7 @@ const FinanceRequest = ({
         cartData.total_price,
         consorsOrderId,
         pluginConfData,
-        domainShop,
+        shopDomain,
       );
 
       window.location.href = `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`;
@@ -157,6 +158,10 @@ const FinanceRequest = ({
       // await clearCartData();
       setIsFinanceSubmitted(false);
     }
+  };
+
+  const handleFakeClick = async () => {
+    await getSubscriptions(shopDomain);
   };
 
   //TODO, Implement a debounce function to prevent multiple request of the shipping price.
@@ -198,6 +203,7 @@ const FinanceRequest = ({
             >
               Senden
             </button>
+            <button onClick={handleFakeClick}>FAKE</button>
           </div>
         </div>
 

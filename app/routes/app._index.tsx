@@ -75,12 +75,6 @@ export const loader: LoaderFunction = async ({
 
   const consorsClient = await getConsorsClient(session.shop);
   const clientAuth = await consorsClient?.jwt();
-  const subscriptionsResponse = await consorsClient?.getSubscriptions();
-  if (!subscriptionsResponse || !subscriptionsResponse.ok) {
-    throw new Error(`HTTP error! Status: ${subscriptionsResponse?.status}`);
-  }
-  const subscriptions = await subscriptionsResponse.json();
-  console.log("loader subscriptions", subscriptions);
 
   return getLoaderResponse({
     pluginCredentialsData: credentials,

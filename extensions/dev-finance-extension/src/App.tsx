@@ -26,7 +26,7 @@ function App() {
                 <FinanceRequest
                   cartData={cartData}
                   pluginConfData={pluginConfData}
-                  domainShop={shop}
+                  shopDomain={shop}
                 />
               }
             />

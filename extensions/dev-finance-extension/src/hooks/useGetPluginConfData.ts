@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { z } from "zod";
+import { backendUrl } from "../utils/getConsorsLink";
 
 const credentialsSchema = z.object({
   vendorId: z.string(),
@@ -37,7 +38,7 @@ export const useGetPluginConfData = ({ shop }: UseGetPluginConfDataProps) => {
     const getPluginConfData = async () => {
       try {
         const parameters = new URLSearchParams({ shop });
-        const requestUrl = `https://financenonplus.cpro-server.de/api/getPluginConfData?${parameters}`;
+        const requestUrl = `${backendUrl()}/api/getPluginConfData?${parameters}`;
 
         const response = await fetch(requestUrl, { method: "GET" });
         if (!response.ok) {
