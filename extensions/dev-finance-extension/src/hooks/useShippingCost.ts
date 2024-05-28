@@ -62,6 +62,12 @@ export const useShippingCost = ({
   }, [shippingAddress, cartData]);
 
   useEffect(() => {
+    console.log(
+      "city, state, zipCode",
+      shippingAddress?.city,
+      shippingAddress?.street,
+      shippingAddress?.zipCode,
+    );
     if (
       shippingAddress?.city &&
       shippingAddress?.street &&
