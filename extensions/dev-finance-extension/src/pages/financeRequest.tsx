@@ -13,7 +13,7 @@ import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 import { getSubscriptions } from "../utils/getSubscriptions";
 import {
-  // clearCartData,
+  clearCartData,
   deleteCartItem,
   updateCartData,
 } from "../utils/shopifyAjaxApi";
@@ -152,14 +152,14 @@ const FinanceRequest = ({
     } catch (error) {
       console.error(error);
     } finally {
-      // setIsModalOpen(false);
-      // await clearCartData();
+      setIsModalOpen(false);
+      await clearCartData();
       setIsFinanceSubmitted(false);
     }
   };
   const consorsParams = getConsorsLink(
     { ...clientFormData, city, street, zipCode },
-    cartData.total_price,
+    cartData.total_price + Number(shippingPrice) * 100,
     "consorsOrderId",
     pluginConfData,
     shopDomain,
