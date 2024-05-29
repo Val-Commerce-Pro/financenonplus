@@ -29,8 +29,9 @@ export const getConsorsLink = (
     vendorid: pluginCredentials.vendorId,
     order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
-    // firstName,
-    // lastName,
+    // firstName: "Reject" // to get "error: declined"
+    firstName: "Exist", // to get "accepted"
+    lastName: "Mustermann",
     // email,
     // zip: zipCode,
     // city,
@@ -56,10 +57,7 @@ export const getConsorsLink = (
           ...defaultUrlParams,
         });
 
-  console.log(
-    "link",
-    `https://finanzieren.consorsfinanz.de/web/ecommerce/gewuenschte-rate?${consorsParams}`,
-  );
+  console.log("https://finanzieren..", consorsParams.toString());
 
   return consorsParams;
 };

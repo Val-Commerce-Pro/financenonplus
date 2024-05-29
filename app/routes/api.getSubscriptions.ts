@@ -9,7 +9,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   const page = requestedURL.searchParams.get("page");
   const size = requestedURL.searchParams.get("size");
 
-  if (!shop) {
+  console.log("page", page);
+  console.log("size", size);
+  console.log("shop", shop);
+
+  if (!shop || !page || !size) {
     return json(
       { error: "Shop not provided" },
       {
@@ -22,8 +26,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
   const consorsClient = await getConsorsClient(shop);
   const subscriptionsResponse = await consorsClient?.getSubscriptions(
-    page ?? "0",
-    size ?? "25",
+    page,
+    size,
   );
   if (!subscriptionsResponse || !subscriptionsResponse.ok) {
     throw new Error(`HTTP error! Status: ${subscriptionsResponse?.status}`);

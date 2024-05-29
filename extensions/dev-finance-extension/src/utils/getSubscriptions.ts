@@ -2,14 +2,14 @@ import { backendUrl } from "./getConsorsLink";
 
 export const getSubscriptions = async (
   shop: string,
-  page?: string,
-  size?: string,
+  page: string,
+  size: string,
 ) => {
   try {
     const parameters = new URLSearchParams({
       shop,
-      page: page ?? "0",
-      size: size ?? "25",
+      page,
+      size,
     });
     const requestUrl = `${backendUrl()}/api/getSubscriptions?${parameters}`;
 
