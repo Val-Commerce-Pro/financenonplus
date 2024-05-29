@@ -1,5 +1,5 @@
 import { PluginConfigI } from "../hooks/useGetPluginConfData";
-// import { ClientFormDataI } from "../types/clientForm";
+import { ClientFormDataI } from "../types/clientForm";
 
 export function backendUrl() {
   return "https://financenonplus.cpro-server.de";
@@ -14,14 +14,23 @@ function returnToCustomCheckoutUrl(shopDomain: string) {
 }
 
 export const getConsorsLink = (
-  // clientData: ClientFormDataI,
+  clientData: ClientFormDataI,
   orderAmount: number,
   consorsOrderId: string,
   pluginConfigData: PluginConfigI,
   shop: string,
 ): URLSearchParams => {
-  // const { city, email, firstName, housenumber, lastName, street, zipCode } =
-  //   clientData;
+  const {
+    city,
+    email,
+    firstName,
+    housenumber,
+    lastName,
+    street,
+    zipCode,
+    mobile,
+    salutation,
+  } = clientData;
   const { pluginCredentials, pluginConfigurator } = pluginConfigData;
   const { campaign, campaignDuration } = pluginConfigurator;
 
@@ -29,14 +38,15 @@ export const getConsorsLink = (
     vendorid: pluginCredentials.vendorId,
     order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
-    // firstName: "Reject" // to get "error: declined"
-    firstName: "Exist", // to get "accepted"
-    lastName: "Mustermann",
-    // email,
-    // zip: zipCode,
-    // city,
-    // street,
-    // housenumber,
+    salutation,
+    firstname: firstName,
+    lastname: lastName,
+    mobile,
+    email,
+    zip: zipCode,
+    city,
+    street,
+    housenumber,
     // country: "DE",
     shopbrandname: shop,
     // cancelURL: returnToCustomCheckoutUrl(),

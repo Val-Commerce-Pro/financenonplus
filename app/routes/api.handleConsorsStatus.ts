@@ -4,6 +4,7 @@ import {
   updateEfiNotifications,
 } from "~/models/consorsNotifications";
 import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
+import { deleteDraftOrder } from "~/shopify/graphql/deleteDraftOrder";
 
 type CompleteDraftOrderResponse = {
   draftOrderComplete: {
@@ -50,6 +51,16 @@ export const action: ActionFunction = async ({ request }) => {
         },
       },
     );
+  }
+  if (
+    status === "error" &&
+    ["DECLINED", "TIMEOUT", "INCOMPLETE", "BAD_REQUEST"].includes(statusDetail)
+  ) {
+    const deletedDraftOrder = await deleteDraftOrder(
+      efiNotificationsData.shop,
+      efiNotificationsData.draftOrderId,
+    );
+    console.log("deletedDraftOrder", deletedDraftOrder);
   }
   if (status === "success") {
     const newOrderResponse = await completeDraftOrder(

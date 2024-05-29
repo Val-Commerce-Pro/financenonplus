@@ -136,7 +136,7 @@ const FinanceRequest = ({
 
       //todo: Fix foward link
       const consorsParams = getConsorsLink(
-        // clientFormData,
+        { ...clientFormData, city, street, zipCode },
         cartData.total_price,
         consorsOrderId,
         pluginConfData,
@@ -152,9 +152,17 @@ const FinanceRequest = ({
       setIsFinanceSubmitted(false);
     }
   };
+  const consorsParams = getConsorsLink(
+    { ...clientFormData, city, street, zipCode },
+    cartData.total_price,
+    "consorsOrderId",
+    pluginConfData,
+    shopDomain,
+  );
+  console.log("https://finanzieren..", consorsParams.toString());
 
   const handleFakeClick = async () => {
-    await getSubscriptions(shopDomain, "102", "20");
+    await getSubscriptions(shopDomain, "101", "25");
   };
 
   return (
