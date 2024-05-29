@@ -4,6 +4,7 @@ import {
   BlockStack,
   Box,
   Button,
+  Icon,
   Select,
   TextField,
   Tooltip,
@@ -11,7 +12,7 @@ import {
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import { InfoIcon } from "@shopify/polaris-icons";
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginConfiguratorData } from "~/types/databaseInterfaces";
 import { Switch } from "../switch";
@@ -102,26 +103,7 @@ export const PluginConfiguratorForm = ({
             }
             borderRadius="100"
           >
-            <IoIosInformationCircleOutline size={16} />
-          </Tooltip>
-
-          <Tooltip
-            content={
-              "This modulo can only be activated with the correct credentials in place."
-            }
-            borderRadius="100"
-          >
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                border: "1px solid black",
-                padding: "2px",
-              }}
-            >
-              !
-            </span>
+            <Icon source={InfoIcon} tone="base" />
           </Tooltip>
           <Switch
             name="appMode"
