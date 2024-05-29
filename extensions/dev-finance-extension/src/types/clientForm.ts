@@ -1,6 +1,5 @@
 export type ClientFormDataI = {
   salutation: string;
-  dataOfBirth?: string;
   lastName: string;
   city: string;
   zipCode: string;

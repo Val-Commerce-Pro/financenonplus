@@ -100,7 +100,7 @@ export const SectionCartItems = ({
               </td>
               <td className="px-[24px] py-[16px] text-gray-500 flex items-center">
                 {shippingPrice ? (
-                  `€${(Number(shippingPrice) / 100).toFixed(2)}`
+                  `€${Number(shippingPrice).toFixed(2)}`
                 ) : (
                   <Spinner size="18" />
                 )}
@@ -116,7 +116,11 @@ export const SectionCartItems = ({
                 Total
               </td>
               <td className="px-[24px] py-[16px] text-gray-500">
-                €{(cartData.total_price / 100).toFixed(2)}
+                €
+                {(
+                  Number(cartData.total_price) / 100 +
+                  Number(shippingPrice)
+                ).toFixed(2)}
               </td>
               <td className="px-[24px] py-[16px]"></td>{" "}
               {/* Empty cell for the Actions column */}

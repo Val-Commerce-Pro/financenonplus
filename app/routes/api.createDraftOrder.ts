@@ -12,7 +12,6 @@ export type ClientFormDataI = {
   customerid?: string;
   shippingPrice?: number;
   salutation: string;
-  dataOfBirth?: string;
   lastName: string;
   city: string;
   zipCode: string;
