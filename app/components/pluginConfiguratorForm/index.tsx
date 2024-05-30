@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { InfoIcon } from "@shopify/polaris-icons";
 import type { LoaderResponseI } from "~/routes/app._index";
@@ -33,6 +33,7 @@ export const PluginConfiguratorForm = ({
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
   const submit = useSubmit();
+  const [formError, setFormError] = useState(false);
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
       shop: pluginConfiguratorData.shop,
@@ -51,11 +52,22 @@ export const PluginConfiguratorForm = ({
     { label: "3", value: "3" },
   ];
 
+  const checkFormFilled = () => {
+    return Object.values(configuratorFormData).every((value) => value);
+  };
+
   const handleOnChange = (value: string, id: string) => {
+    setFormError(false);
     setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
+    const isFormFilled = checkFormFilled();
+
+    if (!isFormFilled) {
+      setFormError(true);
+      return;
+    }
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",
@@ -71,6 +83,11 @@ export const PluginConfiguratorForm = ({
     setConfiguratorFormData(updatedPluginData);
   };
 
+  useEffect(() => {
+    if (!configuratorDataOk)
+      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
+  }, [configuratorDataOk]);
+
   return (
     <Box
       background="bg-fill"
@@ -78,7 +95,6 @@ export const PluginConfiguratorForm = ({
       width="420px"
       borderRadius="300"
     >
-      {/* <ui-title-bar title="Einstellungen"> </ui-title-bar> */}
       <div
         style={{
           display: "flex",
@@ -172,9 +188,15 @@ export const PluginConfiguratorForm = ({
               marginTop: "10px",
             }}
           >
-            {configuratorDataOk === undefined ? (
-              <div></div>
-            ) : configuratorDataOk ? (
+            {formError && (
+              <div>
+                <Badge size="medium" tone="critical">
+                  All fields are required
+                </Badge>
+              </div>
+            )}
+            {configuratorDataOk === undefined && <div></div>}
+            {configuratorDataOk ? (
               <Badge size="medium" tone="success">
                 Successfully saved
               </Badge>

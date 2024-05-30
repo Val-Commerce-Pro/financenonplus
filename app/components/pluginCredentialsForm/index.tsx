@@ -24,6 +24,7 @@ export const PluginCredentialsForm = ({
 }: PluginCredentialsFormProps) => {
   const submit = useSubmit();
   const [savingConfig, setSavingConfig] = useState(false);
+  const [formError, setFormError] = useState(false);
   const [credentilasConfig, setCredentilasConfig] =
     useState<ShopPluginCredentialsData>({
       username: pluginCredentialsData.username,
@@ -37,10 +38,21 @@ export const PluginCredentialsForm = ({
     });
 
   const handleOnChange = (value: string, id: string) => {
+    setFormError(false);
     setCredentilasConfig((prev) => ({ ...prev, [id]: value }));
   };
 
+  const checkFormFilled = () => {
+    return Object.values(credentilasConfig).every((value) => value);
+  };
+
   const handleSave = () => {
+    const isFormFilled = checkFormFilled();
+
+    if (!isFormFilled) {
+      setFormError(true);
+      return;
+    }
     setSavingConfig(true);
 
     const actionData: ShopPluginCredentialsData = {
@@ -58,6 +70,7 @@ export const PluginCredentialsForm = ({
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
+    setFormError(false);
     const { name, checked } = e.target;
     const updatedPluginData = { ...credentilasConfig, [name]: checked };
     setCredentilasConfig(updatedPluginData);
@@ -143,9 +156,15 @@ export const PluginCredentialsForm = ({
               marginTop: "10px",
             }}
           >
-            {clientDataOk === undefined ? (
-              <div></div>
-            ) : clientDataOk ? (
+            {formError && (
+              <div>
+                <Badge size="medium" tone="critical">
+                  All fields are required
+                </Badge>
+              </div>
+            )}
+            {clientDataOk === undefined && <div></div>}
+            {clientDataOk ? (
               <Badge size="medium" tone="success">
                 Credentials Success
               </Badge>

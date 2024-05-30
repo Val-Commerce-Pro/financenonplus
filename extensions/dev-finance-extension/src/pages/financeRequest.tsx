@@ -218,7 +218,6 @@ const FinanceRequest = ({
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleFowardClientToConsors}
             isLoading={isFinanceSubmitted}
-            // responseApp={createAlbisApp}
           />
         )}
       </div>
