@@ -1,29 +1,56 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { checkNotifyHash } from "~/consors/notification";
+import { getEfiNotifications } from "~/models/consorsNotifications";
+import { getShopPluginConfig } from "~/models/credentialsPlugin.server";
 
 export const action: ActionFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);
-  console.log("notification route requestedURL - ", requestedURL);
   const status = requestedURL.searchParams.get("status");
   const statusDetail = requestedURL.searchParams.get("status_detail");
   const consorsOrderId = requestedURL.searchParams.get("order_id");
   const transactionId = requestedURL.searchParams.get("transaction_id");
   const creditAmount = requestedURL.searchParams.get("creditAmount");
-  const hash = requestedURL.searchParams.get("hash");
+
+  if (!consorsOrderId || !status || !transactionId) {
+    return json(
+      { error: "Order Id, Status, or Transaction Id not found" },
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
+  }
+
+  const notificationData = await getEfiNotifications({ consorsOrderId });
+  if (!notificationData?.shop) {
+    return json(
+      { error: "Hash key not found in the database" },
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
+  }
+  const credentialsData = await getShopPluginConfig(notificationData?.shop);
+
+  if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
+    return json(
+      { error: "Invalid hash" },
+      {
+        status: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
+  }
 
   try {
-    if (!consorsOrderId || !status || !transactionId || !hash) {
-      return json(
-        { error: "Order Id, Status or Transaction Id or hash, not found" },
-        {
-          status: 500,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        },
-      );
-    }
-
     const response = json(
       { message: "Notification received" },
       {
@@ -42,7 +69,6 @@ export const action: ActionFunction = async ({ request }) => {
         statusDetail,
         status,
         creditAmount,
-        hash,
       });
       fetch("https://financenonplus.cpro-server.de/api/handleConsorsStatus", {
         method: "POST",
