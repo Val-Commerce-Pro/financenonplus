@@ -84,9 +84,17 @@ export const PluginConfiguratorForm = ({
   };
 
   useEffect(() => {
-    if (!configuratorDataOk)
-      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
-  }, [configuratorDataOk]);
+    if (!configuratorDataOk) {
+      const data = {
+        shop: pluginConfiguratorData.shop,
+        appMode: false,
+        _action: "configuratorForm",
+      };
+      submit(data, {
+        method: "POST",
+      });
+    }
+  }, [configuratorDataOk, submit, pluginConfiguratorData.shop]);
 
   return (
     <Box

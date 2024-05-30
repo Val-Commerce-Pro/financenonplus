@@ -6,22 +6,15 @@ import db from "../db.server";
 
 export async function updateShopPluginConfigurator(
   data: Partial<ShopPluginConfiguratorData>,
+  credentialsId: number,
 ) {
   if (!data.shop) return { error: "Shop not found" };
   try {
-    const existingCredentials = await db.shopPluginCredentials.findUnique({
-      where: { shop: data.shop },
-    });
-
-    if (!existingCredentials) {
-      return { error: "Shop plugin credentials not found" };
-    }
-
     const updatedConfigurator = await db.shopPluginConfigurator.update({
       where: { shop: data.shop },
       data: {
         ...data,
-        shopCredentialsId: existingCredentials.id,
+        shopCredentialsId: credentialsId,
       },
     });
     return updatedConfigurator;
@@ -56,7 +49,10 @@ export async function createOrUpdateShopPluginConfigurator(
       return newConfigurator;
     }
 
-    const updatedConfigurator = await updateShopPluginConfigurator(data);
+    const updatedConfigurator = await updateShopPluginConfigurator(
+      data,
+      existingCredentials.id,
+    );
     return updatedConfigurator;
   } catch (err) {
     console.error("Error in create Or Update Shop Plugin Configurator:", err);
