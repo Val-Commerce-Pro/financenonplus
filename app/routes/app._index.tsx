@@ -116,3 +116,10 @@ export default function Index() {
     </div>
   );
 }
+
+/*
+  [] check function to update orderId from consors, by sending no orderID when the finance starts
+  [] check what happens if I can cancel after I receive a accept
+  [] What to do when the merchant cancel an order even after the request is accepted
+  [] Fix notification function
+*/

@@ -147,7 +147,7 @@ export class ConsorsAPI {
       method: "PUT",
       headers: {
         "x-api-key": this.authData.apiKey,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${consorsAuthToken}`,
       },
     });

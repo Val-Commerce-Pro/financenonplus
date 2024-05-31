@@ -23,7 +23,7 @@ export async function webhook_ordersFulfillment(
   console.log("ordersFulfillment rended");
   const data = payload?.valueOf();
   const fulfilledDataObj = orderFulfilled.parse(data);
-  console.log("fulfilledDataObj parsed - ", data);
+  console.log("fulfilledDataObj parsed - ", fulfilledDataObj);
 
   const efiNotificationData = await getEfiNotifications({
     orderId: fulfilledDataObj.admin_graphql_api_id,
@@ -41,10 +41,11 @@ export async function webhook_ordersFulfillment(
     efiNotificationData.transactionId,
   );
   console.log("bankResponse updateSubscriptionDeliveryStatus", bankResponse);
-  if (!bankResponse?.ok) {
-    return { error: true, menssage: bankResponse };
-  }
-  const bankResponseData = await bankResponse.json();
+  // if (!bankResponse?.ok) {
+  //   return { error: true, menssage: bankResponse };
+  // }
+  const bankResponseData = await bankResponse?.json();
+  console.log("bankResponseData", bankResponseData);
   await addNoteToOrder(
     shop,
     efiNotificationData.orderId,
