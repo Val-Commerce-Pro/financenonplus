@@ -52,7 +52,6 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     const draftOrderInfo: DraftOrderInput = {
       email: draftOrderData.email,
-      phone: draftOrderData.mobile,
       taxExempt: true,
       tags: "Consors EFI",
       shippingLine: {
@@ -82,6 +81,9 @@ export const action: ActionFunction = async ({ request }) => {
     if (draftOrderData.customerid) {
       draftOrderInfo.customerId = `gid://shopify/Customer/${draftOrderData.customerid}`;
     }
+    if (draftOrderData.mobile) {
+      draftOrderInfo.phone = draftOrderData.mobile;
+    }
 
     const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
 
@@ -99,11 +101,11 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-
     const { id: draftOrderId, name: draftOrderName } =
       draftOrderResponseData.draftOrderCreate.draftOrder;
     const consorsOrderId = draftOrderName.replace(/[^\dA-Za-z]/g, "");
 
+    console.log("draftOrderId, draftOrderName", draftOrderId, draftOrderName);
     const currentEfiNotificationData = {
       draftOrderId,
       shop,
