@@ -38,7 +38,8 @@ export const action: ActionFunction = async ({ request }) => {
   }
   const credentialsData = await getShopPluginConfig(notificationData?.shop);
   console.log("credentialsData.hash", credentialsData?.hash);
-  checkNotifyHash(request.url, credentialsData?.hash ?? "");
+  // checkNotifyHash(request.url, credentialsData?.hash ?? "");
+  console.log("checkNotifyHash", checkNotifyHash(request.url));
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
   //   return json(
