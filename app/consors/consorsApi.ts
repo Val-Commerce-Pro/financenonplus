@@ -89,7 +89,11 @@ export class ConsorsAPI {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    return res;
+    if (!res.ok) {
+      return `Error fetching client ID response: ${res}`;
+    }
+    const clientIdData = await res.json();
+    return clientIdData;
   }
 
   async getSubscriptions(page: string, size: string) {

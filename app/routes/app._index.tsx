@@ -67,20 +67,19 @@ export const loader: LoaderFunction = async ({
   request,
 }): Promise<LoaderResponseI> => {
   const { session } = await authenticate.admin(request);
+  const consorsClient = await getConsorsClient(session.shop);
   const pluginConfData = await getShopPluginConfig(session.shop);
 
-  if (!pluginConfData) return getLoaderResponse({ shop: session.shop });
+  if (!pluginConfData || !consorsClient)
+    return getLoaderResponse({ shop: session.shop });
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
-  const consorsClient = await getConsorsClient(session.shop);
   const clientAuth = await consorsClient?.jwt();
 
-  const clientIdByVendorIdPromise =
-    await consorsClient?.getClientIdByVendorId();
-  const clientIdByVendorIdData = await clientIdByVendorIdPromise?.json();
+  const clientIdByVendorId = await consorsClient.getClientIdByVendorId();
 
-  console.log("clientIdByVendorIdData", clientIdByVendorIdData);
+  console.log("clientIdByVendorId", clientIdByVendorId);
 
   return getLoaderResponse({
     pluginCredentialsData: credentials,
@@ -98,7 +97,7 @@ export default function Index() {
     pluginCredentialsData,
     configuratorDataOk,
   } = loaderData;
-  // console.log("loaderData", loaderData);
+  console.log("loaderData", loaderData);
 
   return (
     <div
