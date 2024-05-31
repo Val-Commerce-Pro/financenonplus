@@ -48,7 +48,7 @@ export function checkNotifyHash(url: string) {
   const parts = url.split("&hash=", 2);
   if (parts.length != 2) {
     //hash not contained in url
-    //console.error("no consors notify hash found in url: ", url)
+    console.error("1 if - no consors notify hash found in url: ", url);
     return false;
   }
   const [urlWithoutHash, providedHash] = parts;
@@ -57,9 +57,9 @@ export function checkNotifyHash(url: string) {
   const valideNotify =
     calculatedHash.toLowerCase() === providedHash.toLowerCase();
 
-  // if(!valideNotify){
-  //   console.error("consors notify hash is incorrect for url: ", url)
-  // }
+  if (!valideNotify) {
+    console.error("1 2if - consors notify hash is incorrect for url: ", url);
+  }
 
   return valideNotify;
 }
