@@ -80,7 +80,7 @@ export class ConsorsAPI {
   }
 
   async getClientIdByVendorId() {
-    const consorsUrl = `${this.BASE_URL}/common-services/cfg/token/clientid`;
+    const consorsUrl = `${this.BASE_URL}/common-services/cfg/token/clientid/${this.authData.vendorId}`;
 
     const res = await fetch(consorsUrl, {
       method: "GET",
@@ -88,9 +88,6 @@ export class ConsorsAPI {
         "x-api-key": this.authData.apiKey,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({
-        vendorid: this.authData.vendorId,
-      }),
     });
     return res;
   }

@@ -38,7 +38,11 @@ export function appendUniqueNote(
   return existingNotes;
 }
 
-export function createNoteMessage(status: string, action?: string): string {
+export function createNoteMessage(
+  status: string,
+  action?: string,
+  erroMsg?: string,
+): string {
   if (!action) return `Consors EFI client request, current status: ${status}`;
-  return `Consors EFI has been notified of the ${action} request, current status: ${status}.`;
+  return `Consors EFI has been notified of the ${action} request, current status: ${status}. ${erroMsg ?? ""}`;
 }
