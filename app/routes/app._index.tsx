@@ -76,6 +76,8 @@ export const loader: LoaderFunction = async ({
   const consorsClient = await getConsorsClient(session.shop);
   const clientAuth = await consorsClient?.jwt();
 
+  console.log("getClientIdByVendorId", consorsClient?.getClientIdByVendorId());
+
   return getLoaderResponse({
     pluginCredentialsData: credentials,
     pluginConfiguratorData: ShopPluginConfigurator,

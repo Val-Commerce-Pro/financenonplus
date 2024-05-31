@@ -32,7 +32,7 @@ export class ConsorsAPI {
   constructor(public authData: ApiAuthData) {
     this.jwtData = undefined;
   }
-  private async getNewJWT(): Promise<string | undefined> {
+  private async authenticateVendor(): Promise<string | undefined> {
     const response = await fetch(
       `${this.BASE_URL}/common-services/cfg/token/${this.authData.vendorId}`,
       {
@@ -62,7 +62,7 @@ export class ConsorsAPI {
       this.jwtData === undefined ||
       this.jwtData.jwtValideUntil - jwtMinimalAcceptableLiveTime < Date.now()
     ) {
-      return this.getNewJWT().then((jwt) => {
+      return this.authenticateVendor().then((jwt) => {
         if (jwt === undefined) {
           this.jwtData = undefined;
           return undefined;
@@ -78,6 +78,23 @@ export class ConsorsAPI {
       return this.jwtData.jwt;
     }
   }
+
+  async getClientIdByVendorId() {
+    const consorsUrl = `${this.BASE_URL}/common-services/cfg/token/clientid`;
+
+    const res = await fetch(consorsUrl, {
+      method: "GET",
+      headers: {
+        "x-api-key": this.authData.apiKey,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify({
+        vendorid: this.authData.vendorId,
+      }),
+    });
+    return res;
+  }
+
   async getSubscriptions(page: string, size: string) {
     const clientId = this.authData.vendorId;
 
@@ -116,7 +133,7 @@ export class ConsorsAPI {
   ) {
     const { orderId, transactionId } = updateOrderIdData;
     const clientId = this.authData.vendorId;
-    const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/subscription/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
+    const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/subscription/${clientId}/transaction/partnerdata?version=${this.CONSORS_API_VERSION}`;
 
     const consorsAuthToken = await this.jwt();
 
@@ -124,7 +141,7 @@ export class ConsorsAPI {
       method: "PUT",
       headers: {
         "x-api-key": this.authData.apiKey,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${consorsAuthToken}`,
       },
       body: JSON.stringify({
@@ -137,7 +154,7 @@ export class ConsorsAPI {
 
   async updateSubscriptionDeliveryStatus(transactionId: string) {
     const clientId = this.authData.vendorId;
-    const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/deliverystatus/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
+    const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/deliverystatus/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
 
     const consorsAuthToken = await this.jwt();
 
@@ -147,7 +164,7 @@ export class ConsorsAPI {
       method: "PUT",
       headers: {
         "x-api-key": this.authData.apiKey,
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${consorsAuthToken}`,
       },
     });
