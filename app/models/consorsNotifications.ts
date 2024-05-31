@@ -4,7 +4,10 @@ import db from "../db.server";
 export async function updateEfiNotifications(
   data: Partial<ConsorsEfiNotificationsData>,
 ) {
-  if (!data.consorsOrderId) return { error: "ConsorsOrderId not found" };
+  if (!data.consorsOrderId) {
+    console.error("ConsorsOrderId not found");
+    return;
+  }
   try {
     const updatedEfiNotifications = await db.consorsEfiNotifications.update({
       where: { consorsOrderId: data.consorsOrderId },

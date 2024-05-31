@@ -89,8 +89,9 @@ export class ConsorsAPI {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+    console.log("res", res);
     if (!res.ok) {
-      return `Error fetching client ID response: ${res}`;
+      return `Error fetching client ID response: ${res.statusText}`;
     }
     const clientIdData = await res.json();
     return clientIdData;
@@ -150,6 +151,14 @@ export class ConsorsAPI {
         transactionId,
       }),
     });
+    console.log("updateSubscriptionWithPartnerData response ", res);
+    if (!res.ok) {
+      console.log(`HTTP error! Status: ${res.status}`);
+      return;
+    }
+    const newConsorsOrderData = await res?.json();
+    console.log("newConsorsOrderData", newConsorsOrderData);
+
     return res;
   }
 

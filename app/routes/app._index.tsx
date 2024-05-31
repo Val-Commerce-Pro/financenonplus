@@ -18,9 +18,7 @@ import { getLoaderResponse } from "~/utils/defaultResponse";
 import { getConsorsClient } from "../consors/consorsApi";
 import { formatData } from "../utils/formatData";
 
-//TODO: RETURN Actino values as validation from database entrys
 export const action: ActionFunction = async ({ request }) => {
-  // const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
 
@@ -75,7 +73,7 @@ export const loader: LoaderFunction = async ({
 
   const { ShopPluginConfigurator, ...credentials } = pluginConfData;
 
-  const clientAuth = await consorsClient?.jwt();
+  const clientAuth = await consorsClient.jwt();
 
   const clientIdByVendorId = await consorsClient.getClientIdByVendorId();
 
@@ -126,5 +124,5 @@ export default function Index() {
   [] check function to update orderId from consors, by sending no orderID when the finance starts
   [] check what happens if I can cancel after I receive a accept
   [] What to do when the merchant cancel an order even after the request is accepted
-  [] Fix notification function
+  [] Fix valitade hash notification function
 */

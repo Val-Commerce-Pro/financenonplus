@@ -1,4 +1,5 @@
 import { json, type ActionFunction } from "@remix-run/node";
+import { getConsorsClient } from "~/consors/consorsApi";
 import {
   getEfiNotifications,
   updateEfiNotifications,
@@ -88,6 +89,14 @@ export const action: ActionFunction = async ({ request }) => {
     }
     const { id: orderId, name: orderName } =
       completeDraftOrderData.draftOrderComplete.draftOrder.order;
+
+    const consorsClient = await getConsorsClient(efiNotificationsData.shop);
+
+    await consorsClient?.updateSubscriptionWithPartnerData({
+      orderId: efiNotificationsData.orderId,
+      transactionId: efiNotificationsData.transactionId,
+    });
+
     const updatedEfiNotificationsData = await updateEfiNotifications({
       status,
       statusDetail: statusDetail ?? null,
