@@ -13,9 +13,12 @@ export function checkNotifyHash(url: string, hashKey: string) {
     return false;
   }
 
+  urlObj.searchParams.delete("hash");
   const urlWithoutHash = urlObj.toString();
 
   const calculatedHash = calculateHmacSha512(urlWithoutHash, hashKey);
+  console.log("Calculated hash:", calculatedHash);
+
   const validNotify =
     calculatedHash.toLowerCase() === providedHash.toLowerCase();
 
