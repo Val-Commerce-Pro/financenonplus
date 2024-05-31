@@ -28,3 +28,17 @@ export type OptionsMethodData = Array<{
   labelValue: string;
   selected?: boolean;
 }>;
+
+export function appendUniqueNote(
+  existingNotes: string,
+  newNote: string,
+): string {
+  if (!existingNotes) return newNote;
+  if (!existingNotes.includes(newNote)) return `${existingNotes}\n${newNote}`;
+  return existingNotes;
+}
+
+export function createNoteMessage(status: string, action?: string): string {
+  if (!action) return `Consors EFI client request, current status: ${status}`;
+  return `Consors EFI has been notified of the ${action} request, current status: ${status}.`;
+}

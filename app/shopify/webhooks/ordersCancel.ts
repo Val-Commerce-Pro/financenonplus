@@ -2,7 +2,9 @@ import { z } from "zod";
 
 import { getConsorsClient } from "~/consors/consorsApi";
 import { getEfiNotifications } from "~/models/consorsNotifications";
+import { createNoteMessage } from "~/utils/formatData";
 import { validateCustomAttributes } from "~/utils/validateData";
+import { addNoteToOrder } from "../graphql/addNoteToOrder";
 
 const orderCancel = z.object({
   id: z.number(),
@@ -26,6 +28,7 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
   });
   if (
     !efiNotificationData ||
+    !efiNotificationData.orderId ||
     !efiNotificationData.transactionId ||
     !validateCustomAttributes(cancellationData.note_attributes)
   )
@@ -39,4 +42,9 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
   }
   const bankResponseData = await bankResponse.json();
   console.log("bankResponseData cancelSubscription", bankResponseData);
+  await addNoteToOrder(
+    shop,
+    efiNotificationData.orderId,
+    createNoteMessage(bankResponseData, "Cancellation"),
+  );
 }

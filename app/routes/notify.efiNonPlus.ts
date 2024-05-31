@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-// import { checkNotifyHash } from "~/consors/notification";
+import { checkNotifyHash } from "~/consors/notification";
 import { getEfiNotifications } from "~/models/consorsNotifications";
 import { getShopPluginConfig } from "~/models/credentialsPlugin.server";
 
@@ -38,6 +38,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   const credentialsData = await getShopPluginConfig(notificationData?.shop);
   console.log("credentialsData.hash", credentialsData?.hash);
+  checkNotifyHash(request.url, credentialsData?.hash ?? "");
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
   //   return json(

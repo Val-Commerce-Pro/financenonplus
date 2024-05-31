@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { getConsorsClient } from "~/consors/consorsApi";
 import { getEfiNotifications } from "~/models/consorsNotifications";
+import { createNoteMessage } from "~/utils/formatData";
 import { validateCustomAttributes } from "~/utils/validateData";
+import { addNoteToOrder } from "../graphql/addNoteToOrder";
 
 const orderFulfilled = z.object({
   id: z.number(),
@@ -26,18 +28,9 @@ export async function webhook_ordersFulfillment(
   const efiNotificationData = await getEfiNotifications({
     orderId: fulfilledDataObj.admin_graphql_api_id,
   });
-  console.log(
-    "webhook_ordersFulfillment efiNotificationData",
-    efiNotificationData,
-  );
-  console.log(
-    "efiNotificationData, transactionId, validateCustomAttributes",
-    efiNotificationData,
-    efiNotificationData?.transactionId,
-    validateCustomAttributes(fulfilledDataObj.note_attributes),
-  );
   if (
     !efiNotificationData ||
+    !efiNotificationData.orderId ||
     !efiNotificationData.transactionId ||
     !validateCustomAttributes(fulfilledDataObj.note_attributes)
   )
@@ -52,8 +45,9 @@ export async function webhook_ordersFulfillment(
     return { error: true, menssage: bankResponse };
   }
   const bankResponseData = await bankResponse.json();
-  console.log(
-    "bankResponseData updateSubscriptionDeliveryStatus",
-    bankResponseData,
+  await addNoteToOrder(
+    shop,
+    efiNotificationData.orderId,
+    createNoteMessage(bankResponseData, "Fulfillment"),
   );
 }

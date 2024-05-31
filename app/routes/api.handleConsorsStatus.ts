@@ -3,8 +3,10 @@ import {
   getEfiNotifications,
   updateEfiNotifications,
 } from "~/models/consorsNotifications";
+import { addNoteToOrder } from "~/shopify/graphql/addNoteToOrder";
 import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 import { deleteDraftOrder } from "~/shopify/graphql/deleteDraftOrder";
+import { createNoteMessage } from "~/utils/formatData";
 
 type CompleteDraftOrderResponse = {
   draftOrderComplete: {
@@ -94,6 +96,11 @@ export const action: ActionFunction = async ({ request }) => {
       orderId,
       orderName,
     });
+    await addNoteToOrder(
+      efiNotificationsData.shop,
+      orderId,
+      createNoteMessage(status),
+    );
     if (!updatedEfiNotificationsData) {
       return json(updatedEfiNotificationsData, {
         status: 500,

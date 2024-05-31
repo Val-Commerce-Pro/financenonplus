@@ -51,9 +51,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   try {
     const draftOrderInfo: DraftOrderInput = {
-      note: "Consors EFI Test",
       email: draftOrderData.email,
-      // phone: draftOrderData.mobile,
+      phone: draftOrderData.mobile,
       taxExempt: true,
       tags: "Consors EFI",
       shippingLine: {
