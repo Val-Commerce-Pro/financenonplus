@@ -81,11 +81,12 @@ export const action: ActionFunction = async ({ request }) => {
     if (draftOrderData.customerid) {
       draftOrderInfo.customerId = `gid://shopify/Customer/${draftOrderData.customerid}`;
     }
-    if (draftOrderData.mobile) {
-      draftOrderInfo.phone = draftOrderData.mobile;
-    }
+    // if (draftOrderData.mobile) {
+    //   draftOrderInfo.phone = draftOrderData.mobile;
+    // }
 
     const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
+    console.log("draftOrderResponse", draftOrderResponse);
 
     const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
       draftOrderResponse;

@@ -24,7 +24,7 @@ interface LineItem {
 
 export interface DraftOrderInput {
   customerId?: string;
-  phone?: string;
+  // phone?: string;
   email: string;
   taxExempt: boolean;
   tags: string;
