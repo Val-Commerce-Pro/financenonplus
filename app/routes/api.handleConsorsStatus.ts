@@ -6,6 +6,7 @@ import {
 import { addNoteToOrder } from "~/shopify/graphql/addNoteToOrder";
 import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
 import { deleteDraftOrder } from "~/shopify/graphql/deleteDraftOrder";
+import { orderMarkAsPaid } from "~/shopify/graphql/orderMarkAsPaid";
 import { createNoteMessage } from "~/utils/formatData";
 
 type CompleteDraftOrderResponse = {
@@ -109,6 +110,13 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
+  }
+  if (status === "accepted") {
+    const markedAsPaid = await orderMarkAsPaid(
+      efiNotificationsData.shop,
+      efiNotificationsData.orderId ?? "",
+    );
+    console.log("markedAsPaid", markedAsPaid);
   }
   return json(
     { message: "Success" },
