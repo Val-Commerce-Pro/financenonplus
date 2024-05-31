@@ -5,6 +5,7 @@ function calculateHmacSha512(message: string, key: string) {
 }
 
 export function checkNotifyHash(url: string, hashKey: string) {
+  console.log("checkNotifyHash url, hashKey", url, hashKey);
   const urlObj = new URL(url);
   const providedHash = urlObj.searchParams.get("hash");
 
@@ -13,12 +14,20 @@ export function checkNotifyHash(url: string, hashKey: string) {
     return false;
   }
 
+  // Remove the hash parameter from the URL
   urlObj.searchParams.delete("hash");
   const urlWithoutHash = urlObj.toString();
+  console.log("URL without hash:", urlWithoutHash);
 
-  const calculatedHash = calculateHmacSha512(urlWithoutHash, hashKey);
+  // Concatenate URL without hash and the hashKey
+  const message = urlWithoutHash + hashKey;
+  console.log("Message to be hashed:", message);
+
+  // Calculate the HMAC-SHA-512 hash
+  const calculatedHash = calculateHmacSha512(message, hashKey);
   console.log("Calculated hash:", calculatedHash);
 
+  // Compare the calculated hash with the provided hash
   const validNotify =
     calculatedHash.toLowerCase() === providedHash.toLowerCase();
 
