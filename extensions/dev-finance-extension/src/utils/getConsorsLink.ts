@@ -36,6 +36,7 @@ export const getConsorsLink = (
 
   const defaultUrlParams = {
     vendorid: pluginCredentials.vendorId,
+    // vendorid: "1",
     order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
     salutation,
