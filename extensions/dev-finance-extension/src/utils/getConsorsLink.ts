@@ -9,9 +9,9 @@ function consorsNotifyUrl() {
   return `${backendUrl()}/notify/efiNonPlus`;
 }
 
-function returnToCustomCheckoutUrl(shopDomain: string) {
-  return `https://${shopDomain}/pages/consors-efi`;
-}
+// function returnToCustomCheckoutUrl(shopDomain: string) {
+//   return `https://${shopDomain}/pages/consors-efi`;
+// }
 
 export const getConsorsLink = (
   clientData: ClientFormDataI,
@@ -36,7 +36,6 @@ export const getConsorsLink = (
 
   const defaultUrlParams = {
     vendorid: pluginCredentials.vendorId,
-    // vendorid: "1",
     order_id: consorsOrderId,
     order_amount: (orderAmount / 100).toFixed(2).replace(".", ","),
     salutation,
@@ -53,12 +52,12 @@ export const getConsorsLink = (
     // cancelURL: returnToCustomCheckoutUrl(),
     // failureURL: returnToCustomCheckoutUrl(),
     // returntocheckoutURL: returnToCustomCheckoutUrl(),
-    successURL: returnToCustomCheckoutUrl(shop),
+    // successURL: returnToCustomCheckoutUrl(shop),
     notifyURL: consorsNotifyUrl(),
   };
 
   const consorsParams =
-    campaign && campaignDuration && campaign !== "0"
+    campaign && campaignDuration
       ? new URLSearchParams({
           ...defaultUrlParams,
           campaign,

@@ -12,48 +12,56 @@
 <div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
 <div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
-<div class="d-flex gap" id="cf-product-section">
+<div class="calculatorContainer" id="cf-product-section">
   <div class="separator">- oder -</div>
-  <a id="addProductAndRedirect" class="button full-width" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
+  <a id="addProductAndRedirect" class="button inanzierenBtn" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
   <div class="product--financing">
     <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45"><br>
     Finanzieren Sie bequem mit Consors Finanz.<br>
-    <p id="additional-calculator-text">Weitere Informationen finden sie 
-    <a class="openModalConsors" id="openCalculator">hier</a></p>
+      <span id="additional-calculator-text">Weitere Informationen finden sie </span>
+      <button class="btn-reset inlineBtn" id="openDrawerBtn">hier</button>
   </div>
 </div>
-<div class="inline-calc-overlay"></div>
-  <div id="modal-container" class="drawer" hidden>
-    <div id="modal"> 
-      <button id="closeCalculator" class="calculator__close" type="button" aria-label="Close">
-        x
-      </button>
-      <!-- calculator container -->
-      <div id="calculator" ></div>
+
+  <div id="inlineCalcOverlay" class="inline-calc-overlay"></div>
+  <div id="calcDrawerContainer" class="calc-drawer-container">
+    <span id="inlineCalcCloseBtn" class="inline-calc-closeBtn">&times;</span>
+    <div id="inlineCalcDrawerContent" class="inline-calc-drawer-content">
+      <div id="calculator"></div>
     </div>
   </div>
 
-
 <script>
-  // Get the modal
-  var calculatorModal = document.getElementById("modal-container");
-  
-    // Get the button that opens the modal
-  var btn = document.getElementById("openCalculator");
-  
-  // Get the button that opens the modal
-  var closeCalculator = document.getElementById("closeCalculator");
-  
-  // When the user clicks on the button, open the modal
-  btn.onclick = function() {
-    calculatorModal.hidden = false
-    {% comment %} calculatorModal.style.display = "block"; {% endcomment %}
-  }
-  
-  closeCalculator.onclick = function() {
-    calculatorModal.hidden = true
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    const openBtn = document.getElementById("openDrawerBtn");
+    const overlay = document.getElementById("inlineCalcOverlay");
+    const drawer = document.getElementById("calcDrawerContainer");
+    document.body.appendChild(overlay);
+    document.body.appendChild(drawer);
+    const closeBtn = document.getElementById("inlineCalcCloseBtn");
+
+    function openDrawer() {
+      overlay.style.display = "block";
+      drawer.style.display = "block";
+      setTimeout(() => {
+        drawer.classList.add("open");
+      }, 10);
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove("open");
+      setTimeout(() => {
+        overlay.style.display = "none";
+        drawer.style.display = "none";
+      }, 500); 
+    }
+
+    openBtn.addEventListener("click", openDrawer);
+    closeBtn.addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", closeDrawer);
+  });
   </script>
+
 {% schema %}
 {
   "name": "Product Consors Finance",

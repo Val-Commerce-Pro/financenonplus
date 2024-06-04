@@ -1,31 +1,111 @@
-.HiddenInfo {
-  visibility: hidden;
-  display: none !important;
+/* Custom CSS */
+.btn-reset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  outline: none;
+  text-decoration: underline;
+  transition: filter 0.3s;
 }
 
-.d-flex {
+.btn-reset:hover {
+  filter: brightness(0.8);
+}
+
+/* Calc Drawer */
+.inline-calc-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.calc-drawer-container {
+  display: none;
+  width: 420px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #f1f1f1;
+  overflow-x: hidden;
+  transform: translateX(100%);
+  transition: transform 0.5s;
+  z-index: 11;
+}
+
+.calc-drawer-container.open {
+  transform: translateX(0);
+}
+
+.inline-calc-drawer-content {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
   display: flex;
-  flex-direction: column;
-}
-
-.gap {
-  gap: 10px;
-}
-
-.flex-center {
+  flex-flow: column nowrap;
+  align-items: center;
   justify-content: center;
 }
 
-.full-width {
+.inline-calc-closeBtn {
+  position: absolute;
+  font-size: 35px;
+  left: 15px;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+.inline-calc-closeBtn:hover {
+  filter: brightness(0.5);
+}
+
+.inline-calculator-front-container {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0px;
+  padding: 0px;
+}
+
+.inline-calculator-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* extension */
+.calculatorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  gap: 5px;
+}
+
+.finanzierenBtn {
   width: 100%;
 }
 
-.ta-left {
-  text-align: left;
+.inlineBtn {
+  display: inline-block;
 }
-
-.separator {
+.calculator {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  font-weight: bold;
+  margin-top: 35px;
 }

@@ -66,14 +66,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     calculatorInitiator.classList.add("HiddenInfo");
   }
 
+  const { pluginConfigurator } = pluginConfData;
+  const {
+    shop,
+    minOrderValue,
+    terms,
+    campaign,
+    interestRate,
+    campaignDuration,
+  } = pluginConfigurator;
+  console.log("pluginConfigurator", pluginConfigurator);
+
   const productPrice = document.getElementById("cf-product-price").textContent;
 
   const cartPrice = document.getElementById("cf-cart-price").textContent;
 
-  if (
-    (parseInt(cartPrice) + parseInt(productPrice)) / 100 <
-    pluginConfData.pluginConfigurator.minOrderValue
-  ) {
+  if ((parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue) {
     document.getElementById("cf-product-section").classList.add("HiddenInfo");
   }
 
@@ -86,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (
       parseInt(cartPrice.total_price) + parseInt(productPrice) / 100 <
-      pluginConfData.pluginConfigurator.minOrderValue
+      minOrderValue
     ) {
       document.getElementById("cf-product-section").classList.add("HiddenInfo");
     } else {
@@ -97,31 +105,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Init calculator
+  // eslint-disable-next-line no-undef
   jQuery(function ($) {
     var productPrice =
       document.getElementById("cf-product-price").textContent / 100;
 
-    let minMonth = parseInt(
-      pluginConfData.pluginConfigurator.terms.split(",")[0],
-    );
-    let maxMonth = parseInt(
-      pluginConfData.pluginConfigurator.terms.split(",")[1],
-    );
-    let stepMonth = parseInt(
-      pluginConfData.pluginConfigurator.terms.split(",")[2],
-    );
-    let firstInterestRate = parseFloat(
-      pluginConfData.pluginConfigurator.interestRate.split(",")[0],
-    );
-    let secondInterestRate = parseFloat(
-      pluginConfData.pluginConfigurator.interestRate.split(",")[1],
-    );
-    let thirdInterestRate = parseFloat(
-      pluginConfData.pluginConfigurator.interestRate.split(",")[2],
-    );
-    let zeroMonth = parseInt(
-      pluginConfData.pluginConfigurator.campaignDuration,
-    );
+    const [minMonth, maxMonth, stepMonth] = terms.split(",");
+    const [firstInterestRate, secondInterestRate, thirdInterestRate] =
+      interestRate.split(",");
+    // let zeroMonth = parseInt(campaignDuration);
 
     // switch (pluginConfData.pluginConfigurator.campaign) {
     //   case 0:
@@ -139,27 +131,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     //     break;
     // }
 
-    console.log("DATA", {
-      minMonth: minMonth,
-      maxMonth: maxMonth,
-      stepMonth: stepMonth,
-      zeroMonth: zeroMonth + 1, // Increment so that passed month is inclusive
-      firstInterestRate: firstInterestRate,
-      secondInterestRate: secondInterestRate,
-      thirdInterestRate: thirdInterestRate,
-      productPrice: 1300, //test data because real store values are too small
-    });
+    const calcDefaultData = {
+      minMonth: Number(minMonth),
+      maxMonth: Number(maxMonth),
+      stepMonth: Number(stepMonth),
+      zeroMonth: Number(campaignDuration),
+      firstInterestRate: Number(firstInterestRate),
+      secondInterestRate: Number(secondInterestRate),
+      thirdInterestRate: Number(thirdInterestRate),
+      productPrice: Number(productPrice),
+    };
+    if (campaign !== "0") {
+      calcDefaultData.campaign = Number(campaign);
+    }
 
-    $("#calculator").calculator({
-      minMonth: minMonth,
-      maxMonth: maxMonth,
-      stepMonth: stepMonth,
-      zeroMonth: zeroMonth + 1, // Increment so that passed month is inclusive
-      firstInterestRate: firstInterestRate,
-      secondInterestRate: secondInterestRate,
-      thirdInterestRate: thirdInterestRate,
-      productPrice: 1300, //test data because real store values are too small
-    });
+    console.log("Calc default data", calcDefaultData);
+
+    $("#calculator").calculator(calcDefaultData);
   });
 
   addProductAndRedirect.addEventListener("click", async (e) => {
