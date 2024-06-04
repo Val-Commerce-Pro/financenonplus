@@ -77,12 +77,15 @@ export const useShippingCost = ({
       shippingAddress.street !== shippingCostData.street ||
       shippingAddress.zipCode !== shippingCostData.zipCode
     ) {
-      setShippingCostData({
-        city: shippingAddress.city,
-        street: shippingAddress.street,
-        zipCode: shippingAddress.zipCode,
-      });
-      handleShippingCost();
+      const timeOutId = setTimeout(() => {
+        setShippingCostData({
+          city: shippingAddress.city,
+          street: shippingAddress.street,
+          zipCode: shippingAddress.zipCode,
+        });
+        handleShippingCost();
+      }, 500);
+      return () => clearTimeout(timeOutId);
     }
   }, [shippingAddress, handleShippingCost]);
 
