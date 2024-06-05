@@ -126,7 +126,7 @@ export default function Index() {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-start",
+          alignItems: "center",
           justifyContent: "flex-start",
           gap: "16px",
         }}

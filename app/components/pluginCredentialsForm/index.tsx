@@ -39,6 +39,14 @@ export const PluginCredentialsForm = ({
 
   console.log("credentilasConfig", credentilasConfig);
   const handleOnChange = (value: string, id: string) => {
+    if (id === "vendorId") {
+      setCredentilasConfig((prev) => ({
+        ...prev,
+        [id]: value,
+        clientId: value,
+      }));
+      return;
+    }
     setFormError(false);
     setCredentilasConfig((prev) => ({ ...prev, [id]: value }));
   };
@@ -75,7 +83,7 @@ export const PluginCredentialsForm = ({
     const updatedPluginData = { ...credentilasConfig, [name]: checked };
     setCredentilasConfig(updatedPluginData);
   };
-  //TODO, change the color to green like the finance app
+
   return (
     <Box
       background="bg-fill"
@@ -91,16 +99,13 @@ export const PluginCredentialsForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Credentials</h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
+          Merchant Credentials
+        </h2>
         <Switch
           name="appMode"
           handleOnChange={handleAppMode}
           checkboxValue={credentilasConfig.appMode}
-        />
-        <img
-          src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
-          alt="consors banner"
-          style={{ maxHeight: "80px", maxWidth: "160px" }}
         />
       </div>
       {credentilasConfig.appMode && (

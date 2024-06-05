@@ -114,7 +114,9 @@ export const PluginConfiguratorForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Configurator</h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
+          Calculator Setup
+        </h2>
         <div
           style={{
             display: "flex",
