@@ -37,18 +37,18 @@ export const PluginCredentialsForm = ({
       shop: pluginCredentialsData.shop,
     });
 
+  console.log("credentilasConfig", credentilasConfig);
   const handleOnChange = (value: string, id: string) => {
     setFormError(false);
     setCredentilasConfig((prev) => ({ ...prev, [id]: value }));
   };
 
-  const checkFormFilled = () => {
-    return Object.values(credentilasConfig).every((value) => value);
-  };
-
   const handleSave = () => {
-    const isFormFilled = checkFormFilled();
+    const isFormFilled = Object.values(credentilasConfig).every(
+      (value) => value,
+    );
 
+    console.log("handleSave, isFormFilled", isFormFilled);
     if (!isFormFilled) {
       setFormError(true);
       return;
@@ -83,7 +83,6 @@ export const PluginCredentialsForm = ({
       width="420px"
       borderRadius="300"
     >
-      <ui-title-bar title="Einstellungen"> </ui-title-bar>
       <div
         style={{
           display: "flex",
@@ -92,7 +91,7 @@ export const PluginCredentialsForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Consors BNPL</h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Credentials</h2>
         <Switch
           name="appMode"
           handleOnChange={handleAppMode}
@@ -163,8 +162,9 @@ export const PluginCredentialsForm = ({
                 </Badge>
               </div>
             )}
-            {clientDataOk === undefined && <div></div>}
-            {clientDataOk ? (
+            {clientDataOk === undefined ? (
+              <div></div>
+            ) : clientDataOk ? (
               <Badge size="medium" tone="success">
                 Credentials Success
               </Badge>
