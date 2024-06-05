@@ -41,7 +41,7 @@ export const TextField = ({
         max={max}
         min={min}
         pattern={pattern}
-        className={`h-[40px] w-full p-[6px] border rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 ${hidden ? "hidden" : "visible"}`}
+        className={`h-[40px] w-full p-[6px] border rounded-[6px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 ${hidden ? "hidden" : "visible"}`}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
         onKeyDown={(e) => e.key === "Enter" && handleKeyDown && handleKeyDown()}

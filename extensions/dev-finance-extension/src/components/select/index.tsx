@@ -38,7 +38,7 @@ export const Select = ({
         value={selectedValue}
         disabled={disabled}
         required={required}
-        className={`h-[40px] block w-full p-[6px] text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 ${hidden ? "hidden" : "visible"}`}
+        className={`h-[40px] block w-full p-[6px] text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 ${hidden ? "hidden" : "visible"}`}
       >
         <option disabled key={0}>
           {defaultText}

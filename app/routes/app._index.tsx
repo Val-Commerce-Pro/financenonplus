@@ -131,15 +131,28 @@ export default function Index() {
           gap: "16px",
         }}
       >
-        <PluginCredentialsForm
-          clientDataOk={clientDataOk}
-          pluginCredentialsData={pluginCredentialsData}
-        />
-        <PluginConfiguratorForm
-          clientDataOk={clientDataOk}
-          configuratorDataOk={configuratorDataOk}
-          pluginConfiguratorData={pluginConfiguratorData}
-        />
+        <div
+          style={{
+            height: "450px",
+          }}
+        >
+          <PluginCredentialsForm
+            clientDataOk={clientDataOk}
+            pluginCredentialsData={pluginCredentialsData}
+          />
+        </div>
+        <div
+          style={{
+            height: "450px",
+            alignSelf: "flex-start",
+          }}
+        >
+          <PluginConfiguratorForm
+            clientDataOk={clientDataOk}
+            configuratorDataOk={configuratorDataOk}
+            pluginConfiguratorData={pluginConfiguratorData}
+          />
+        </div>
       </div>
     </div>
   );

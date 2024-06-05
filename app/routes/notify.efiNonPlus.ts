@@ -28,7 +28,7 @@ export const action: ActionFunction = async ({ request }) => {
   const notificationData = await getEfiNotifications({ consorsOrderId });
   if (!notificationData?.shop) {
     return json(
-      { error: "Hash key not found in the database" },
+      { error: "Shop key not found in the database" },
       {
         status: 500,
         headers: {

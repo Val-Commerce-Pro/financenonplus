@@ -87,7 +87,7 @@ export const PluginConfiguratorForm = ({
   };
 
   useEffect(() => {
-    if (!configuratorDataOk) {
+    if (!clientDataOk) {
       const data = {
         shop: pluginConfiguratorData.shop,
         appMode: false,
@@ -97,7 +97,7 @@ export const PluginConfiguratorForm = ({
         method: "POST",
       });
     }
-  }, [configuratorDataOk, submit, pluginConfiguratorData.shop]);
+  }, [clientDataOk, submit, pluginConfiguratorData.shop]);
 
   return (
     <Box
@@ -219,22 +219,29 @@ export const PluginConfiguratorForm = ({
             {formError && (
               <div>
                 <Badge size="medium" tone="critical">
-                  All fields are required
+                  Alle Felder sind erforderlich
                 </Badge>
               </div>
             )}
-            {configuratorDataOk === undefined && <div></div>}
-            {configuratorDataOk ? (
+
+            {configuratorDataOk === undefined ? (
+              <div></div>
+            ) : !formError && configuratorDataOk ? (
               <Badge size="medium" tone="success">
-                Successfully saved
+                Erfolgreich gespeichert
               </Badge>
             ) : (
               <Badge size="medium" tone="attention">
-                Configurator Error
+                Konfigurationsfehler
               </Badge>
             )}
-            <Button onClick={handleSave} tone="success" variant="primary">
-              Save
+            <Button
+              onClick={handleSave}
+              tone="success"
+              variant="primary"
+              size="medium"
+            >
+              Speichern
             </Button>
           </div>
         </>

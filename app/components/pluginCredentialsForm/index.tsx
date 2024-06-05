@@ -163,19 +163,19 @@ export const PluginCredentialsForm = ({
             {formError && (
               <div>
                 <Badge size="medium" tone="critical">
-                  All fields are required
+                  Alle Felder sind erforderlich
                 </Badge>
               </div>
             )}
             {clientDataOk === undefined ? (
               <div></div>
-            ) : clientDataOk ? (
+            ) : !formError && clientDataOk ? (
               <Badge size="medium" tone="success">
-                Credentials Success
+                Erfolgreich gespeichert
               </Badge>
             ) : (
               <Badge size="medium" tone="attention">
-                Credentials Error
+                Konfigurationsfehler
               </Badge>
             )}
             {savingConfig ? (
@@ -190,8 +190,13 @@ export const PluginCredentialsForm = ({
                 />
               </div>
             ) : (
-              <Button onClick={handleSave} tone="success" variant="primary">
-                Save
+              <Button
+                onClick={handleSave}
+                tone="success"
+                variant="primary"
+                size="medium"
+              >
+                Speichern
               </Button>
             )}
           </div>
