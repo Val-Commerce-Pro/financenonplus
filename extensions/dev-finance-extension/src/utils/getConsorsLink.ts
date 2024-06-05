@@ -57,7 +57,7 @@ export const getConsorsLink = (
   };
 
   const consorsParams =
-    campaign && campaignDuration
+    campaign && campaignDuration && campaign !== "0"
       ? new URLSearchParams({
           ...defaultUrlParams,
           campaign,

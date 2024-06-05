@@ -90,6 +90,7 @@ export const PluginCredentialsForm = ({
       padding={{ md: "600" }}
       width="420px"
       borderRadius="300"
+      minWidth="100%"
     >
       <div
         style={{
@@ -157,7 +158,7 @@ export const PluginCredentialsForm = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: "10px",
+              marginTop: "16px",
             }}
           >
             {formError && (

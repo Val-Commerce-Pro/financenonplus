@@ -87,7 +87,10 @@ export const PluginConfiguratorForm = ({
   };
 
   useEffect(() => {
+    console.log("useEffect plugin Configurator", clientDataOk);
     if (!clientDataOk) {
+      console.log("passou do if");
+      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
       const data = {
         shop: pluginConfiguratorData.shop,
         appMode: false,
@@ -105,6 +108,7 @@ export const PluginConfiguratorForm = ({
       padding={{ md: "600" }}
       width="420px"
       borderRadius="300"
+      minWidth="100%"
     >
       <div
         style={{
@@ -213,7 +217,7 @@ export const PluginConfiguratorForm = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: "10px",
+              marginTop: "16px",
             }}
           >
             {formError && (
