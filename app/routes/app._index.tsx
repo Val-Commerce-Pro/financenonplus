@@ -99,22 +99,48 @@ export default function Index() {
   return (
     <div
       style={{
+        margin: "24px 0 0 24px",
+        maxWidth: "910px",
+        borderRadius: "6px",
         padding: "24px",
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        gap: "16px",
+        paddingTop: "12px",
+        backgroundColor: "#f1f1f1",
       }}
     >
-      <PluginCredentialsForm
-        clientDataOk={clientDataOk}
-        pluginCredentialsData={pluginCredentialsData}
-      />
-      <PluginConfiguratorForm
-        clientDataOk={clientDataOk}
-        configuratorDataOk={configuratorDataOk}
-        pluginConfiguratorData={pluginConfiguratorData}
-      />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          maxWidth: "100%",
+          marginBottom: "12px",
+        }}
+      >
+        <h1 style={{ fontSize: "28px", fontWeight: "bold" }}>Consors BNPL</h1>
+        <img
+          src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
+          alt="consors banner"
+          style={{ maxHeight: "150px", maxWidth: "250px" }}
+        />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          gap: "16px",
+        }}
+      >
+        <PluginCredentialsForm
+          clientDataOk={clientDataOk}
+          pluginCredentialsData={pluginCredentialsData}
+        />
+        <PluginConfiguratorForm
+          clientDataOk={clientDataOk}
+          configuratorDataOk={configuratorDataOk}
+          pluginConfiguratorData={pluginConfiguratorData}
+        />
+      </div>
     </div>
   );
 }

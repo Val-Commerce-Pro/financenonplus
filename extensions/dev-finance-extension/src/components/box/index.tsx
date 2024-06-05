@@ -14,7 +14,7 @@ export const Box = ({ children, title, toolTipContent, fill }: BoxProps) => {
     <div className={`w-full flex flex-col ${fill ? "h-full" : ""}`}>
       {title && (
         <div className="bg-[#2cb484] p-[16px] flex items-center justify-center rounded-t-lg">
-          <h2 className="text-white font-semibold text-[16px] text-center w-full">
+          <h2 className="text-white font-semibold text-[20px] text-center w-full">
             {title}
           </h2>
           {toolTipContent && (

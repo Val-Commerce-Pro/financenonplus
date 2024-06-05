@@ -1,15 +1,15 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Loading from "./components/loading";
-import { useGetCartData } from "./hooks/useGetCartData";
+// import { useGetCartData } from "./hooks/useGetCartData";
 import { useGetPluginConfData } from "./hooks/useGetPluginConfData";
-// import { mockCartItems } from "./mockData/mockData";
+import { mockCartItems } from "./mockData/mockData";
 import FinanceRequest from "./pages/financeRequest";
 
 function App() {
-  const shop = document.getElementById("shopDomain")?.textContent;
-  // const shop = "financenonplus.myshopify.com";
-  const cartData = useGetCartData();
-  // const cartData = mockCartItems;
+  // const shop = document.getElementById("shopDomain")?.textContent;
+  const shop = "financenonplus.myshopify.com";
+  // const cartData = useGetCartData();
+  const cartData = mockCartItems;
   const pluginConfData = useGetPluginConfData({ shop: shop ?? "" });
 
   // console.log("first pluginConfData", pluginConfData);
@@ -31,7 +31,7 @@ function App() {
               }
             />
           ) : (
-            <Route path="/pages/albis-leasing" element={<Loading />} />
+            <Route path="/pages/consors-efi" element={<Loading />} />
           )}
         </>
       </Routes>

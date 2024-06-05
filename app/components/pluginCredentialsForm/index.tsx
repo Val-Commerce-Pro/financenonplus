@@ -185,7 +185,9 @@ export const PluginCredentialsForm = ({
                 />
               </div>
             ) : (
-              <Button onClick={handleSave}>Save</Button>
+              <Button onClick={handleSave} tone="success" variant="primary">
+                Save
+              </Button>
             )}
           </div>
         </>

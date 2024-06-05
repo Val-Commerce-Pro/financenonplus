@@ -4,10 +4,12 @@ CREATE TABLE `ShopPluginConfigurator` (
     `shop` VARCHAR(191) NOT NULL,
     `appMode` BOOLEAN NOT NULL DEFAULT false,
     `minOrderValue` VARCHAR(191) NOT NULL,
-    `terms` VARCHAR(191) NOT NULL,
+    `period` VARCHAR(191) NOT NULL,
     `campaign` VARCHAR(191) NOT NULL,
     `interestRate` VARCHAR(191) NOT NULL,
     `campaignDuration` VARCHAR(191) NOT NULL,
+    `minPeriod` VARCHAR(191) NOT NULL,
+    `stepPeriod` VARCHAR(191) NOT NULL,
     `shopCredentialsId` INTEGER NOT NULL,
 
     UNIQUE INDEX `ShopPluginConfigurator_shop_key`(`shop`),

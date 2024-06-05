@@ -32,6 +32,7 @@ export const PluginConfiguratorForm = ({
   pluginConfiguratorData,
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
+  const isClientAllowedToUseAkitions = false;
   const submit = useSubmit();
   const [formError, setFormError] = useState(false);
   const [configuratorFormData, setConfiguratorFormData] =
@@ -39,7 +40,9 @@ export const PluginConfiguratorForm = ({
       shop: pluginConfiguratorData.shop,
       appMode: pluginConfiguratorData.appMode,
       minOrderValue: pluginConfiguratorData.minOrderValue,
-      terms: pluginConfiguratorData.terms,
+      period: pluginConfiguratorData.period,
+      minPeriod: pluginConfiguratorData.minPeriod,
+      stepPeriod: pluginConfiguratorData.stepPeriod,
       campaign: pluginConfiguratorData.campaign,
       interestRate: pluginConfiguratorData.interestRate,
       campaignDuration: pluginConfiguratorData.campaignDuration,
@@ -136,11 +139,6 @@ export const PluginConfiguratorForm = ({
             disabled={!clientDataOk}
           />
         </div>
-        <img
-          src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
-          alt="consors banner"
-          style={{ maxHeight: "80px", maxWidth: "160px" }}
-        />
       </div>
       {configuratorFormData.appMode && (
         <>
@@ -156,9 +154,25 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="terms"
-              label="Laufzeiten"
+              label="Laufzeiten Period"
               autoComplete="off"
-              value={configuratorFormData.terms}
+              value={configuratorFormData.period}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="terms"
+              label="mininum Period"
+              autoComplete="off"
+              value={configuratorFormData.minPeriod}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="terms"
+              label="Step Period"
+              autoComplete="off"
+              value={configuratorFormData.stepPeriod}
               onChange={handleOnChange}
               requiredIndicator
             />
@@ -170,23 +184,27 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
               requiredIndicator
             />
-            <Select
-              id="campaign"
-              label="Aktionszins"
-              options={aktionszinsOptions}
-              onChange={handleOnChange}
-              value={configuratorFormData.campaign}
-              requiredIndicator
-            />
-            <TextField
-              id="campaignDuration"
-              label="Monate mit Nullprozentfinanzierung"
-              type="number"
-              autoComplete="off"
-              value={configuratorFormData.campaignDuration}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
+            {isClientAllowedToUseAkitions && (
+              <>
+                <Select
+                  id="campaign"
+                  label="Aktionszins"
+                  options={aktionszinsOptions}
+                  onChange={handleOnChange}
+                  value={configuratorFormData.campaign}
+                  requiredIndicator
+                />
+                <TextField
+                  id="campaignDuration"
+                  label="Monate mit Nullprozentfinanzierung"
+                  type="number"
+                  autoComplete="off"
+                  value={configuratorFormData.campaignDuration}
+                  onChange={handleOnChange}
+                  requiredIndicator
+                />
+              </>
+            )}
           </BlockStack>
           <div
             style={{
@@ -213,7 +231,9 @@ export const PluginConfiguratorForm = ({
                 Configurator Error
               </Badge>
             )}
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave} tone="success" variant="primary">
+              Save
+            </Button>
           </div>
         </>
       )}

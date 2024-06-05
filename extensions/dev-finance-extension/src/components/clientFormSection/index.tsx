@@ -19,7 +19,7 @@ export const ClientForm = ({
 }: ClientFormProps) => {
   return (
     <>
-      <Box title="Angaben zum Geschäftsführer">
+      <Box title="Kundendaten">
         <div className="overflow-x-auto shadow-md sm:rounded-lg p-[12px] flex flex-col gap-[16px]">
           <Select
             handleChange={handleSelectChange}

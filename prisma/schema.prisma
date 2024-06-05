@@ -44,10 +44,12 @@ model ShopPluginConfigurator {
   shop                  String                @unique
   appMode               Boolean               @default(false)
   minOrderValue         String
-  terms                 String
+  period                String
   campaign              String
   interestRate          String
   campaignDuration      String
+  minPeriod             String
+  stepPeriod            String
   shopCredentialsId     Int                   @unique
   ShopPluginCredentials ShopPluginCredentials @relation(fields: [shopCredentialsId], references: [id])
 }
