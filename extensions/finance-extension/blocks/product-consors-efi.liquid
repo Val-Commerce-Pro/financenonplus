@@ -1,8 +1,5 @@
 
-<!-- jquery 3.3.1 - Don't add defer tag!!! -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 {{ 'consors-product.css' | asset_url | stylesheet_tag }}
-<script defer src="{{ 'calculator.js' | asset_url }}"></script>
 <script defer src="{{ 'consors-product.js' | asset_url }}"></script>
 <link rel="stylesheet" href="{{ 'calc.css' | asset_url }}">
 
@@ -27,9 +24,109 @@
   <div id="calcDrawerContainer" class="calc-drawer-container">
     <span id="inlineCalcCloseBtn" class="inline-calc-closeBtn">&times;</span>
     <div id="inlineCalcDrawerContent" class="inline-calc-drawer-content">
-      <div id="calculator"></div>
+      
+      <div id="calculator">
+        <div class="calculator">
+          <div class="calculator-wrapper">
+            <div class="calculator-title"> Ihr möglicher 
+              <span class="nowrap">Finanzierungsplan<sup>1</sup></span>
+            </div>
+          <div class="finance-amount">
+            <div class="finance-amount-label">Finanzierungsbetrag</div>
+            <div class="finance-amount-value">
+              <input class="autosize" value="00.00" title="Finanzierungsbetrag">
+              <span class="unit">&euro;</span>
+            </div>
+            <div class="ubernehmen-button">
+              <input class="btn btn-change-value submit" type="submit" value="Übernehmen">
+            </div>
+          </div>
+          <div class="duration">
+            <div class="duration-label"> GEWÜNSCHTE 
+            <span class="nowrap">ANZAHL AN RATEN</span>
+          </div>
+          <div class="duration-value">
+            <button class="prev-month">
+              <span class="arrow-icon left"/>
+              </button><button class="month">1</button>
+              <button class="month selected">2</button>
+              <button class="month">3</button>
+              <button class="next-month">
+                <span class="arrow-icon right"/>
+                </button>
+              </div>
+            </div>
+            <div class="more-months-switch">
+              <div class="more-month-label"> Zusätzliche Monatsraten anzeigen</div>
+              <div class="more-month-button-wrapper">
+                <div class="button">
+                  <div class="button-label">Nein</div>
+                  <div class="button-label on">Ja</div>
+                </div>
+              </div>
+            </div>
+            <div class="financial-box">
+              <div class="monthly-rate">
+                <div class="monthly-rate-label"> Monatliche Rate 
+                <span class="nowrap">für Ihren Einkauf</span>
+              </div>
+              <div class="monthly-rate-value-wrapper">
+                <span class="unit">&euro;</span>
+                <span class="monthly-rate-value">00,00</span>
+              </div>
+            </div><!-- less months -->
+            <div class="show-on-less-month">
+              <div class="interest-rate financial-box-detail">
+                <div class="interest-rate-label detail-label"> Sollzinssatz für diesen Einkauf 
+                <span class="nowrap"> für 
+                <span class="months">0</span> Monate (jährl., gebunden):</span>
+              </div>
+              <div class="interest-rate-value detail-value nowrap">0,00 %</div>
+            </div>
+            <div class="interest-value financial-box-detail">
+              <div class="interest-value-label detail-label"> Mögliche Sollzinsen <span class="nowrap"> für diesen Einkauf:</span>
+            </div>
+            <div class="interest-value-value detail-value nowrap">0,00 &euro;</div>
+          </div>
+        </div>
+        <!-- more month -->
+        <div class="show-on-more-month">
+          <div class="interest-rate financial-box-detail">
+            <div class="interest-rate-label detail-label"> Sollzinssatz für <span class="months">0</span> Monate (jährl., gebunden): </div>
+            <div class="interest-rate-value detail-value nowrap">0,00 %</div>
+          </div>
+          <div class="eff-interest-rate financial-box-detail">
+            <div class="detail-label">Effektiver Jahreszinssatz:</div>
+            <div class="eff-interest-rate-value detail-value nowrap">0,00 %</div>
+          </div>
+          <div class="amount financial-box-detail">
+            <div class="detail-label">Nettodarlehensbetrag:</div>
+            <div class="amount-value detail-value nowrap">0,00 €</div>
+          </div><div class="interest-value financial-box-detail">
+            <div class="detail-label">Sollzinsen:</div>
+            <div class="interest-value-value detail-value nowrap">0,00 %</div>
+          </div>
+          <div class="total financial-box-detail">
+            <div class="detail-label">Gesamtbetrag:</div>
+            <div class="total-value detail-value nowrap">0,00 €</div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div id="legal-text">
+  <div class="legal-text"><div class="show-on-more-month" style="display: none;">
+
+</div><div class="legal-1 show-on-less-month"> <sup></sup>,
+
+</div><div class="show-on-less-month"><strong><u></u></strong> <span class="campaign-interest-rate"></span>  <span class="campaign-duration"></span>
+
+</div><div class="show-on-less-month"><strong><u></u></strong>
+</div><div class="show-on-less-month">
+</div></div></div>
   </div>
+      </div>
+    </div>
+    </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
