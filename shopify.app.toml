@@ -3,7 +3,7 @@
 client_id = "a6c1a9acfc6859f61ffc9dbe192dc515"
 name = "financenonplus"
 handle = "financenonplus"
-application_url = "https://expand-examples-luggage-mode.trycloudflare.com"
+application_url = "https://financenonplus.cpro-server.de"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_draft_orders,write_orders,write_products"
 
 [auth]
 redirect_urls = [
-  "https://expand-examples-luggage-mode.trycloudflare.com/auth/callback",
-  "https://expand-examples-luggage-mode.trycloudflare.com/auth/shopify/callback",
-  "https://expand-examples-luggage-mode.trycloudflare.com/api/auth/callback"
+  "https://financenonplus.cpro-server.de/auth/callback",
+  "https://financenonplus.cpro-server.de/auth/shopify/callback",
+  "https://financenonplus.cpro-server.de/api/auth/callback"
 ]
 
 [webhooks]

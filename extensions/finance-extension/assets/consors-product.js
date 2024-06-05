@@ -104,7 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  const [minMonth, maxMonth, stepMonth] = terms.split(",");
+  // const [minMonth, maxMonth, stepMonth] = terms.split(",");
+  const minMonth = 12;
+  const maxMonth = 24;
+  const stepMonth = 6;
   const [firstInterestRate, secondInterestRate, thirdInterestRate] =
     interestRate.split(",");
 
