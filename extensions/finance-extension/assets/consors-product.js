@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     period_zero_interest: 24,
     period_step: 6,
     period_min: 6,
-    product_amount: 1500,
+    product_amount: productPrice/100,
     legal_text: `<div id="legal-text">
 <h2><sup>1</sup>Gesetzlicher Hinweistext</h2>
 <div class="legal-text"><div class="show-on-more-month" style="display: none;">
