@@ -89,7 +89,7 @@ export class ConsorsAPI {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log("res", res);
+    console.log("getClientIdByVendorId res", res);
     if (!res.ok) {
       return `Error fetching client ID response: ${res.statusText}`;
     }

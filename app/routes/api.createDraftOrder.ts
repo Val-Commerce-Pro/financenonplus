@@ -81,9 +81,6 @@ export const action: ActionFunction = async ({ request }) => {
     if (draftOrderData.customerid) {
       draftOrderInfo.customerId = `gid://shopify/Customer/${draftOrderData.customerid}`;
     }
-    // if (draftOrderData.mobile) {
-    //   draftOrderInfo.phone = draftOrderData.mobile;
-    // }
 
     const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
     console.log("draftOrderResponse", draftOrderResponse);
@@ -106,7 +103,6 @@ export const action: ActionFunction = async ({ request }) => {
       draftOrderResponseData.draftOrderCreate.draftOrder;
     const consorsOrderId = draftOrderName.replace(/[^\dA-Za-z]/g, "");
 
-    console.log("draftOrderId, draftOrderName", draftOrderId, draftOrderName);
     const currentEfiNotificationData = {
       draftOrderId,
       shop,

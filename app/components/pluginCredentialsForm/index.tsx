@@ -37,7 +37,6 @@ export const PluginCredentialsForm = ({
       shop: pluginCredentialsData.shop,
     });
 
-  console.log("credentilasConfig", credentilasConfig);
   const handleOnChange = (value: string, id: string) => {
     if (id === "vendorId") {
       setCredentilasConfig((prev) => ({
@@ -59,6 +58,7 @@ export const PluginCredentialsForm = ({
       setFormError(true);
       return;
     }
+    setFormError(false);
     setSavingConfig(true);
 
     const actionData: ShopPluginCredentialsData = {

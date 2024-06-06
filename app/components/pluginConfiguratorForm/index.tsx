@@ -48,8 +48,6 @@ export const PluginConfiguratorForm = ({
       campaignDuration: pluginConfiguratorData.campaignDuration,
     });
 
-  console.log("configuratorFormData", configuratorFormData);
-
   const checkFormFilled = () => {
     return Object.values(configuratorFormData).every((value) => value);
   };
@@ -72,6 +70,7 @@ export const PluginConfiguratorForm = ({
       setFormError(true);
       return;
     }
+    setFormError(false);
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",

@@ -32,8 +32,10 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
     !efiNotificationData.orderId ||
     !efiNotificationData.transactionId ||
     !validateCustomAttributes(cancellationData.note_attributes)
-  )
+  ) {
     return;
+  }
+
   const consorsClient = await getConsorsClient(shop);
   const bankResponse = await consorsClient?.cancelSubscription(
     efiNotificationData.transactionId,
