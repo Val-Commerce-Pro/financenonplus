@@ -11,6 +11,8 @@ async function addProductToCart() {
   const productId = document.getElementById("cf-product-id").textContent;
   const secureUrl = document.getElementById("cf-secure-url").textContent;
 
+  console.log("productId", productId);
+
   let formData = {
     items: [
       {
@@ -59,6 +61,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const secureUrl = document.getElementById("cf-secure-url").textContent;
   const productPrice = document.getElementById("cf-product-price").textContent;
   const cartPrice = document.getElementById("cf-cart-price").textContent;
+
+  console.log("productPrice", productPrice);
+  console.log("cartPrice", cartPrice);
 
   const { pluginConfigurator } = pluginConfData;
   const {

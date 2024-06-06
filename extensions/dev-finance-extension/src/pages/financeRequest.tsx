@@ -171,8 +171,11 @@ const FinanceRequest = ({
   // };
 
   return (
-    <>
-      <div className="max-w-[1280px] mx-auto px-[16px] pb-[20px]">
+    <div className="w-full">
+      <div className="max-w-[1120px] mx-auto px-[16px] pb-[20px]">
+        <div className="text-[36px] font-semibold mt-[16px] mb-[36px]">
+          Consors Finanz
+        </div>
         <SectionCartItems
           cartData={cartItems}
           handleUpdateItemQuantity={handleUpdateItemQuantity}
@@ -211,16 +214,15 @@ const FinanceRequest = ({
             </button>
           </div>
         </div>
-
-        {isModalOpen && (
-          <Modal
-            onClose={() => setIsModalOpen(false)}
-            onSubmit={handleFowardClientToConsors}
-            isLoading={isFinanceSubmitted}
-          />
-        )}
       </div>
-    </>
+      {isModalOpen && (
+        <Modal
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleFowardClientToConsors}
+          isLoading={isFinanceSubmitted}
+        />
+      )}
+    </div>
   );
 };
 

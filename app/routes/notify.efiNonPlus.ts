@@ -12,6 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
   const consorsOrderId = requestedURL.searchParams.get("order_id");
   const transactionId = requestedURL.searchParams.get("transaction_id");
   const creditAmount = requestedURL.searchParams.get("creditAmount");
+  console.log("consors requestedURL", requestedURL);
 
   if (!consorsOrderId || !status || !transactionId) {
     return json(

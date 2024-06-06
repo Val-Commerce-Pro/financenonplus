@@ -42,6 +42,8 @@ export const action: ActionFunction = async ({ request }) => {
     // hash,
   }: HandleConsorsStatusBody = data;
 
+  console.log("handle Consors Status data", data);
+
   const efiNotificationsData = await getEfiNotifications({
     consorsOrderId,
   });
