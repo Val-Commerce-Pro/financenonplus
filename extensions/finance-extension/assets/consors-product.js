@@ -55,34 +55,32 @@ async function getPluginConfData() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const pluginConfData = await getPluginConfData();
+  const extensionSection = document.getElementById("cf-product-section");
   const secureUrl = document.getElementById("cf-secure-url").textContent;
-  const addProductAndRedirect = document.getElementById(
-    "addProductAndRedirect",
-  );
-  const calculatorInitiator = document.getElementById(
-    "additional-calculator-text",
-  );
-  if (!pluginConfData.pluginConfigurator.appMode) {
-    calculatorInitiator.classList.add("HiddenInfo");
-  }
+  const productPrice = document.getElementById("cf-product-price").textContent;
+  const cartPrice = document.getElementById("cf-cart-price").textContent;
 
   const { pluginConfigurator } = pluginConfData;
   const {
-    shop,
+    // shop,
+    appMode,
     minOrderValue,
-    terms,
-    campaign,
+    period,
+    // campaign,
     interestRate,
     campaignDuration,
+    minPeriod,
+    stepPeriod,
   } = pluginConfigurator;
+
+  if (!appMode) {
+    extensionSection.classList.add("HiddenInfo");
+  }
+
   console.log("pluginConfigurator", pluginConfigurator);
 
-  const productPrice = document.getElementById("cf-product-price").textContent;
-
-  const cartPrice = document.getElementById("cf-cart-price").textContent;
-
   if ((parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue) {
-    document.getElementById("cf-product-section").classList.add("HiddenInfo");
+    extensionSection.classList.add("HiddenInfo");
   }
 
   document.body.addEventListener("dom-changed", async (e) => {
@@ -96,25 +94,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       parseInt(cartPrice.total_price) + parseInt(productPrice) / 100 <
       minOrderValue
     ) {
-      document.getElementById("cf-product-section").classList.add("HiddenInfo");
+      extensionSection.classList.add("HiddenInfo");
     } else {
-      document
-        .getElementById("cf-product-section")
-        .classList.remove("HiddenInfo");
+      extensionSection.classList.remove("HiddenInfo");
     }
   });
 
-  // const [minMonth, maxMonth, stepMonth] = terms.split(",");
-  const minMonth = 12;
-  const maxMonth = 24;
-  const stepMonth = 6;
+  const [firstPeriod, normalPeriod, maxPeriod] = period.split(",");
   const [firstInterestRate, secondInterestRate, thirdInterestRate] =
     interestRate.split(",");
 
   const calcDefaultData = {
-    period_min: Number(minMonth),
-    period: [Number(maxMonth)],
-    period_step: Number(stepMonth),
+    period_min: Number(minPeriod),
+    period: [Number(firstPeriod), Number(normalPeriod), Number(maxPeriod)],
+    period_step: Number(stepPeriod),
     period_zero_interest: Number(campaignDuration),
     rate: [
       Number(firstInterestRate),
@@ -124,10 +117,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     product_amount: Number(productPrice) / 100,
     selected_index: 1,
   };
-
-  if (campaign !== "0") {
-    calcDefaultData.campaign = Number(campaign);
-  }
 
   var finance_calculator = (function (value) {
     if (window.finance_calculator) {
@@ -549,7 +538,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     period_zero_interest: 24,
     period_step: 6,
     period_min: 6,
-    product_amount: productPrice/100,
+    product_amount: productPrice / 100,
     legal_text: `<div id="legal-text">
 <h2><sup>1</sup>Gesetzlicher Hinweistext</h2>
 <div class="legal-text"><div class="show-on-more-month" style="display: none;">

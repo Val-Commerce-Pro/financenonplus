@@ -9,6 +9,7 @@
 <div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
 <div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
+
 <div class="calculatorContainer" id="cf-product-section">
   <div class="separator">- oder -</div>
   <a id="addProductAndRedirect" class="button inanzierenBtn" href="https://{{ shop.permanent_domain }}/pages/consors-efi">👉 Jetzt Finanzieren</a>
@@ -130,6 +131,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // const extensionProductSection = document.getElementById("cf-product-section");
+    // const cartTotalPrice = document.getElementById("cf-cart-price").textContent;
+    // const productPrice = document.getElementById("cf-product-price").textContent;
+
     const openBtn = document.getElementById("openDrawerBtn");
     const overlay = document.getElementById("inlineCalcOverlay");
     const drawer = document.getElementById("calcDrawerContainer");
