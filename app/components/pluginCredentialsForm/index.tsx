@@ -114,7 +114,7 @@ export const PluginCredentialsForm = ({
           <BlockStack gap={"300"}>
             <TextField
               id="vendorId"
-              label="VendorID"
+              label="Händlernummer"
               autoComplete="off"
               value={credentilasConfig.vendorId}
               onChange={handleOnChange}
@@ -122,7 +122,7 @@ export const PluginCredentialsForm = ({
             />
             <TextField
               id="username"
-              label="Username"
+              label="Benutzername"
               autoComplete="off"
               value={credentilasConfig.username}
               onChange={handleOnChange}
@@ -130,7 +130,7 @@ export const PluginCredentialsForm = ({
             />
             <TextField
               id="passwort"
-              label="Password"
+              label="Passwort"
               autoComplete="off"
               value={credentilasConfig.passwort}
               onChange={handleOnChange}
@@ -146,7 +146,7 @@ export const PluginCredentialsForm = ({
             />
             <TextField
               id="hash"
-              label="Notification Hash Key"
+              label="Hash-Key (sofern vorhanden)"
               autoComplete="off"
               value={credentilasConfig.hash}
               onChange={handleOnChange}

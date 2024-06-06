@@ -160,15 +160,7 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="terms"
-              label="Laufzeiten Period"
-              autoComplete="off"
-              value={configuratorFormData.period}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
-            <TextField
-              id="terms"
-              label="mininum Period"
+              label="Mindestlaufzeit"
               autoComplete="off"
               value={configuratorFormData.minPeriod}
               onChange={handleOnChange}
@@ -176,7 +168,15 @@ export const PluginConfiguratorForm = ({
             />
             <TextField
               id="terms"
-              label="Step Period"
+              label="Maximallaufzeit"
+              autoComplete="off"
+              value={configuratorFormData.period}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
+            <TextField
+              id="terms"
+              label="Anzahl nächster Sprung in Monaten"
               autoComplete="off"
               value={configuratorFormData.stepPeriod}
               onChange={handleOnChange}
