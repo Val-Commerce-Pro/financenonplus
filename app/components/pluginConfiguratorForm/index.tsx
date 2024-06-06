@@ -81,7 +81,6 @@ export const PluginConfiguratorForm = ({
       width="420px"
       borderRadius="300"
     >
-      {/* <ui-title-bar title="Einstellungen"> </ui-title-bar> */}
       <div
         style={{
           display: "flex",
@@ -180,24 +179,27 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
               value={configuratorFormData.campaign}
             />
-            <TextField
-              id="campaignDuration"
-              label="Monate mit Nullprozentfinanzierung"
-              type="number"
-              autoComplete="off"
-              value={configuratorFormData.campaignDuration}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
+
             {isClientAllowedToUseAkitions && (
-              <Select
-                id="campaign"
-                label="Aktionszins"
-                options={aktionszinsOptions}
-                onChange={handleOnChange}
-                value={configuratorFormData.campaign}
-                requiredIndicator
-              />
+              <>
+                <Select
+                  id="campaign"
+                  label="Aktionszins"
+                  options={aktionszinsOptions}
+                  onChange={handleOnChange}
+                  value={configuratorFormData.campaign}
+                  requiredIndicator
+                />
+                <TextField
+                  id="campaignDuration"
+                  label="Monate mit Nullprozentfinanzierung"
+                  type="number"
+                  autoComplete="off"
+                  value={configuratorFormData.campaignDuration}
+                  onChange={handleOnChange}
+                  requiredIndicator
+                />
+              </>
             )}
           </BlockStack>
           <div
@@ -212,11 +214,11 @@ export const PluginConfiguratorForm = ({
               <div></div>
             ) : configuratorDataOk ? (
               <Badge size="medium" tone="success">
-                Successfully saved
+                Erfolgreich gespeichert
               </Badge>
             ) : (
               <Badge size="medium" tone="attention">
-                Configurator Error
+                Konfigurationsfehler
               </Badge>
             )}
             <Button onClick={handleSave}>Save</Button>

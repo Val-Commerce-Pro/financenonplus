@@ -165,7 +165,9 @@ export const PluginCredentialsForm = ({
             )}
             {clientDataOk === undefined ? (
               <div></div>
-            ) : !formError && clientDataOk ? (
+            ) : !formError ? (
+              <></>
+            ) : clientDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
               </Badge>

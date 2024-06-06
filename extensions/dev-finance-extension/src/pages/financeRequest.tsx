@@ -11,7 +11,7 @@ import { useShippingCost } from "../hooks/useShippingCost";
 import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
-import { getSubscriptions } from "../utils/getSubscriptions";
+
 import {
   clearCartData,
   deleteCartItem,
@@ -166,9 +166,9 @@ const FinanceRequest = ({
   );
   console.log("https://finanzieren..", consorsParams.toString());
 
-  const handleFakeClick = async () => {
-    await getSubscriptions(shopDomain, "102", "25");
-  };
+  // const handleGetSubscriptions = async () => {
+  //   await getSubscriptions(shopDomain, "102", "25");
+  // };
 
   return (
     <>
@@ -209,7 +209,6 @@ const FinanceRequest = ({
             >
               Jetzt finanzieren mit Consors Finanz
             </button>
-            <button onClick={handleFakeClick}>FAKE</button>
           </div>
         </div>
 
