@@ -53,7 +53,7 @@ export function checkNotifyHash(url: string) {
   }
   const [urlWithoutHash, providedHash] = parts;
   const calculatedHash = calculateHmacSha512(urlWithoutHash, hashKey);
-
+  console.log("in" + urlWithoutHash + "        " + calculatedHash)
   const valideNotify =
     calculatedHash.toLowerCase() === providedHash.toLowerCase();
 
