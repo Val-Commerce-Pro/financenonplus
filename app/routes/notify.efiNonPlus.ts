@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
   const credentialsData = await getShopPluginConfig(notificationData?.shop);
   console.log("credentialsData.hash", credentialsData?.hash);
   console.log("checkNotifyHash", checkNotifyHash(request.url));
-  checkNotifyHash2(request.url,   "12345678910");
+  // checkNotifyHash2(request.url,   "12345678910");
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
   //   return json(

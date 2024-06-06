@@ -19,7 +19,7 @@ export const SectionCartItems = ({
   handleDeleteCartItem,
   shippingPrice,
 }: SectionCartItemsProps) => {
-  const tableHeaders = ["Image", "Quantity", "TItle", "Price", "Actions"];
+  const tableHeaders = ["", "Anzahl", "Titel", "Preis", "Aktionen"];
   return (
     <Box title="Artikel aus dem Warenkorb">
       <div className="overflow-x-auto shadow-md sm:rounded-[8px]">
