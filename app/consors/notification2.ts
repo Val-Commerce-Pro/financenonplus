@@ -20,8 +20,12 @@ export function checkNotifyHash2(url: string, hashKey: string) {
   console.log("URL without hash:", urlWithoutHash);
 
   // Concatenate URL without hash and the hashKey
-  const message = urlWithoutHash + hashKey;
+  const message = urlWithoutHash;
   console.log("Message to be hashed:", message);
+
+  // Concatenate URL without hash and the hashKey
+  const messageHttps = message.replace("http", "https");
+  console.log("messageHttps to be hashed:", messageHttps);
 
   // Calculate the HMAC-SHA-512 hash
   const calculatedHash = calculateHmacSha512(message, hashKey);
