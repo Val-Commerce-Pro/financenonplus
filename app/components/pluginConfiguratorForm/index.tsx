@@ -32,6 +32,7 @@ export const PluginConfiguratorForm = ({
   pluginConfiguratorData,
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
+  const isClientAllowedToUseAkitions = false;
   const submit = useSubmit();
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
