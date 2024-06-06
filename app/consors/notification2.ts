@@ -23,17 +23,19 @@ export function checkNotifyHash2(url: string, hashKey: string) {
   const message = urlWithoutHash;
   console.log("Message to be hashed:", message);
 
-  // Concatenate URL without hash and the hashKey
-  const messageHttps = message.replace("http", "https");
-  console.log("messageHttps to be hashed:", messageHttps);
-
   // Calculate the HMAC-SHA-512 hash
-  const calculatedHash = calculateHmacSha512(messageHttps, hashKey);
+  const calculatedHash = calculateHmacSha512(message, hashKey);
   console.log("Calculated hash:", calculatedHash);
 
   // Compare the calculated hash with the provided hash
-  const validNotify =
-    calculatedHash.toLowerCase() === providedHash.toLowerCase();
+  var validNotify = calculatedHash.toLowerCase() === providedHash.toLowerCase();
+
+    if (!validNotify) {
+      const messageHttps = message.replace("http", "https");
+      const calculatedHashHttps = calculateHmacSha512(messageHttps, hashKey);
+      console.log("messageHttps to be hashed:", messageHttps);
+      validNotify = calculatedHashHttps.toLowerCase() === providedHash.toLowerCase();
+    }
 
   if (!validNotify) {
     console.error("2 2 if - Consors notify hash is incorrect for URL: ", url);
