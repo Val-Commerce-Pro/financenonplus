@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginCredentialsData } from "~/types/databaseInterfaces";
 import { Switch } from "../switch";
@@ -80,9 +80,33 @@ export const PluginCredentialsForm = ({
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     setFormError(false);
     const { name, checked } = e.target;
+
+    if (!checked) {
+      setCredentilasConfig((prev) => ({ ...prev, appMode: false }));
+
+      const data = {
+        shop: credentilasConfig.appMode,
+        appMode: false,
+        _action: "credentialsForm",
+      };
+      submit(data, {
+        method: "POST",
+      });
+    }
     const updatedPluginData = { ...credentilasConfig, [name]: checked };
     setCredentilasConfig(updatedPluginData);
   };
+
+  useEffect(() => {
+    console.log(
+      "useEffect plugin credetials appMode",
+      credentilasConfig.appMode,
+    );
+
+    if (!credentilasConfig.appMode) return;
+
+    console.log("passou do if");
+  }, [submit, credentilasConfig.shop, credentilasConfig.appMode]);
 
   return (
     <Box

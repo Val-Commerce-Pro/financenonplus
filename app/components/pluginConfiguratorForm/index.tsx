@@ -48,6 +48,8 @@ export const PluginConfiguratorForm = ({
       campaignDuration: pluginConfiguratorData.campaignDuration,
     });
 
+  console.log("configuratorFormData", configuratorFormData);
+
   const checkFormFilled = () => {
     return Object.values(configuratorFormData).every((value) => value);
   };
@@ -117,7 +119,9 @@ export const PluginConfiguratorForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Configurator</h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
+          Calculator Einstellungen
+        </h2>
         <div
           style={{
             display: "flex",
@@ -253,7 +257,14 @@ export const PluginConfiguratorForm = ({
                 Konfigurationsfehler
               </Badge>
             )}
-            <Button onClick={handleSave}>Speichern</Button>
+            <Button
+              onClick={handleSave}
+              tone="success"
+              variant="primary"
+              size="medium"
+            >
+              Speichern
+            </Button>
           </div>
         </>
       )}
