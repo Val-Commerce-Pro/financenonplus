@@ -133,7 +133,7 @@ export default function Index() {
       >
         <div
           style={{
-            height: "470px",
+            height: "500px",
           }}
         >
           <PluginCredentialsForm
@@ -143,7 +143,7 @@ export default function Index() {
         </div>
         <div
           style={{
-            height: "470px",
+            height: "500px",
             alignSelf: "flex-start",
           }}
         >

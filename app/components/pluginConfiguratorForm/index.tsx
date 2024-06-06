@@ -190,26 +190,24 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
               requiredIndicator
             />
+            <TextField
+              id="campaignDuration"
+              label="Monate mit Nullprozentfinanzierung"
+              type="number"
+              autoComplete="off"
+              value={configuratorFormData.campaignDuration}
+              onChange={handleOnChange}
+              requiredIndicator
+            />
             {isClientAllowedToUseAkitions && (
-              <>
-                <Select
-                  id="campaign"
-                  label="Aktionszins"
-                  options={aktionszinsOptions}
-                  onChange={handleOnChange}
-                  value={configuratorFormData.campaign}
-                  requiredIndicator
-                />
-                <TextField
-                  id="campaignDuration"
-                  label="Monate mit Nullprozentfinanzierung"
-                  type="number"
-                  autoComplete="off"
-                  value={configuratorFormData.campaignDuration}
-                  onChange={handleOnChange}
-                  requiredIndicator
-                />
-              </>
+              <Select
+                id="campaign"
+                label="Aktionszins"
+                options={aktionszinsOptions}
+                onChange={handleOnChange}
+                value={configuratorFormData.campaign}
+                requiredIndicator
+              />
             )}
           </BlockStack>
           <div
