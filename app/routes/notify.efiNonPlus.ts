@@ -39,14 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   const credentialsData = await getShopPluginConfig(notificationData?.shop);
   console.log("credentialsData.hash", credentialsData?.hash);
-   let valideNotify = checkNotifyHash(request.url)   // TODO: request.url might have wrong protocol ( http:// instead of https:// )
-  if(!valideNotify){
-    if(request.url.startsWith("http://")){
-      const modifiedUrl = "https"+request.url.substring("http".length)
-      valideNotify = checkNotifyHash(modifiedUrl)
-    }
-  }
-  console.log("valideNotify", valideNotify);
+  console.log("checkNotifyHash", checkNotifyHash(request.url));
   checkNotifyHash2(request.url, credentialsData?.hash ?? "");
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
