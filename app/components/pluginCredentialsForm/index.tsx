@@ -118,7 +118,6 @@ export const PluginCredentialsForm = ({
               autoComplete="off"
               value={credentilasConfig.vendorId}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
               id="username"
@@ -126,7 +125,6 @@ export const PluginCredentialsForm = ({
               autoComplete="off"
               value={credentilasConfig.username}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
               id="passwort"
@@ -134,7 +132,6 @@ export const PluginCredentialsForm = ({
               autoComplete="off"
               value={credentilasConfig.passwort}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
               id="apiKey"
@@ -142,7 +139,6 @@ export const PluginCredentialsForm = ({
               autoComplete="off"
               value={credentilasConfig.apiKey}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
               id="hash"
@@ -150,7 +146,6 @@ export const PluginCredentialsForm = ({
               autoComplete="off"
               value={credentilasConfig.hash}
               onChange={handleOnChange}
-              requiredIndicator
             />
           </BlockStack>
           <div

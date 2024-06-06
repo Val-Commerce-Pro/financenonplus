@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { InfoIcon } from "@shopify/polaris-icons";
 import type { LoaderResponseI } from "~/routes/app._index";
@@ -32,9 +32,7 @@ export const PluginConfiguratorForm = ({
   pluginConfiguratorData,
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
-  const isClientAllowedToUseAkitions = false;
   const submit = useSubmit();
-  const [formError, setFormError] = useState(false);
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
       shop: pluginConfiguratorData.shop,
@@ -55,22 +53,11 @@ export const PluginConfiguratorForm = ({
     { label: "3", value: "3" },
   ];
 
-  const checkFormFilled = () => {
-    return Object.values(configuratorFormData).every((value) => value);
-  };
-
   const handleOnChange = (value: string, id: string) => {
-    setFormError(false);
     setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
-    const isFormFilled = checkFormFilled();
-
-    if (!isFormFilled) {
-      setFormError(true);
-      return;
-    }
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",
@@ -86,30 +73,14 @@ export const PluginConfiguratorForm = ({
     setConfiguratorFormData(updatedPluginData);
   };
 
-  useEffect(() => {
-    console.log("useEffect plugin Configurator", clientDataOk);
-    if (!clientDataOk) {
-      console.log("passou do if");
-      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
-      const data = {
-        shop: pluginConfiguratorData.shop,
-        appMode: false,
-        _action: "configuratorForm",
-      };
-      submit(data, {
-        method: "POST",
-      });
-    }
-  }, [clientDataOk, submit, pluginConfiguratorData.shop]);
-
   return (
     <Box
       background="bg-fill"
       padding={{ md: "600" }}
       width="420px"
       borderRadius="300"
-      minWidth="100%"
     >
+      {/* <ui-title-bar title="Einstellungen"> </ui-title-bar> */}
       <div
         style={{
           display: "flex",
@@ -118,21 +89,18 @@ export const PluginConfiguratorForm = ({
           marginBottom: "10px",
         }}
       >
-        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
-          Calculator Einstellungen
-        </h2>
+        <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>Configurator</h2>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "10px",
             border: "1px soild rgba(0, 0, 0, 0.9)",
           }}
         >
           <Tooltip
             content={
-              "Der Calculator kann als App-Erweiterung auf der Produktdetailseite eingefügt werden. Die Händler-Anmeldedaten müssen dazu korrekt sein."
+              "This modulo can only be activated with the correct credentials in place."
             }
             borderRadius="100"
           >
@@ -141,10 +109,15 @@ export const PluginConfiguratorForm = ({
           <Switch
             name="appMode"
             handleOnChange={handleAppMode}
-            checkboxValue={configuratorFormData.appMode}
+            checkboxValue={true}
             disabled={!clientDataOk}
           />
         </div>
+        <img
+          src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
+          alt="consors banner"
+          style={{ maxHeight: "80px", maxWidth: "160px" }}
+        />
       </div>
       {configuratorFormData.appMode && (
         <>
@@ -156,7 +129,6 @@ export const PluginConfiguratorForm = ({
               autoComplete="off"
               value={configuratorFormData.minOrderValue.toString()}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
               id="minPeriod"
@@ -164,31 +136,48 @@ export const PluginConfiguratorForm = ({
               autoComplete="off"
               value={configuratorFormData.minPeriod}
               onChange={handleOnChange}
-              requiredIndicator
             />
             <TextField
-              id="period"
-              label="Maximallaufzeit"
-              autoComplete="off"
-              value={configuratorFormData.period}
-              onChange={handleOnChange}
-              requiredIndicator
-            />
-            <TextField
-              id="stepPeriod"
-              label="Anzahl nächster Sprung in Monaten"
+              id="terms"
+              label="Schrittgröße (in Monaten)"
               autoComplete="off"
               value={configuratorFormData.stepPeriod}
               onChange={handleOnChange}
-              requiredIndicator
+            />
+            <TextField
+              id="terms"
+              label={
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  Laufzeiten
+                  <Tooltip
+                    content={
+                      "Anzahl sollte gleich der Anzahl an Laufzeiten sein. Für z.B. 3 Laufzeiten sollten 3 Zinssätze vorhanden sein."
+                    }
+                    borderRadius="100"
+                  >
+                    <Icon source={InfoIcon} tone="base" />
+                  </Tooltip>
+                </div>
+              }
+              autoComplete="off"
+              value={configuratorFormData.period}
+              onChange={handleOnChange}
+              helpText="z.B. 12,60,72"
             />
             <TextField
               id="interestRate"
-              label="Zinssätze"
+              label={"Zinssätze"}
               autoComplete="off"
               value={configuratorFormData.interestRate}
               onChange={handleOnChange}
-              requiredIndicator
+              helpText="z.B. 9.0,9.3,9.6"
+            />
+            <Select
+              id="campaign"
+              label="Aktionszins"
+              options={aktionszinsOptions}
+              onChange={handleOnChange}
+              value={configuratorFormData.campaign}
             />
             <TextField
               id="campaignDuration"
@@ -215,36 +204,21 @@ export const PluginConfiguratorForm = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: "16px",
+              marginTop: "10px",
             }}
           >
-            {formError && (
-              <div>
-                <Badge size="medium" tone="critical">
-                  Alle Felder sind erforderlich
-                </Badge>
-              </div>
-            )}
-
             {configuratorDataOk === undefined ? (
               <div></div>
-            ) : !formError && configuratorDataOk ? (
+            ) : configuratorDataOk ? (
               <Badge size="medium" tone="success">
-                Erfolgreich gespeichert
+                Successfully saved
               </Badge>
             ) : (
               <Badge size="medium" tone="attention">
-                Konfigurationsfehler
+                Configurator Error
               </Badge>
             )}
-            <Button
-              onClick={handleSave}
-              tone="success"
-              variant="primary"
-              size="medium"
-            >
-              Speichern
-            </Button>
+            <Button onClick={handleSave}>Save</Button>
           </div>
         </>
       )}
