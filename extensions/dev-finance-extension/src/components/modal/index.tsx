@@ -8,13 +8,13 @@ type ModalProps = {
 };
 
 export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
-  const overlayModal = document.getElementById("fowardShadowModal");
-  const modalContainer = document.getElementById("fowardClientModal");
-  console.log("shadowModal, modalContainer", modalContainer, overlayModal);
-  if (overlayModal && modalContainer) {
-    document.body.appendChild(overlayModal);
-    document.body.appendChild(modalContainer);
-  }
+  // const overlayModal = document.getElementById("fowardShadowModal");
+  // const modalContainer = document.getElementById("fowardClientModal");
+  // console.log("shadowModal, modalContainer", modalContainer, overlayModal);
+  // if (overlayModal && modalContainer) {
+  //   document.body.appendChild(overlayModal);
+  //   document.body.appendChild(modalContainer);
+  // }
   // useEffect(() => {
   //   console.log(
   //     "useEffect overlayModal, modalContainer",
@@ -49,7 +49,8 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
             </p>
           ) : (
             <p>
-              Beim drücken auf "Senden" werden sie zur zur Finanzierung mit Consors Finanz weitergeleitet.
+              Beim drücken auf "Senden" werden sie zur zur Finanzierung mit
+              Consors Finanz weitergeleitet.
             </p>
           )}
         </div>

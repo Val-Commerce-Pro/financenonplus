@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { InfoIcon } from "@shopify/polaris-icons";
 import type { LoaderResponseI } from "~/routes/app._index";
@@ -33,6 +33,7 @@ export const PluginConfiguratorForm = ({
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
   const isClientAllowedToUseAkitions = false;
+  const [formError, setFormError] = useState(false);
   const submit = useSubmit();
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
@@ -47,6 +48,10 @@ export const PluginConfiguratorForm = ({
       campaignDuration: pluginConfiguratorData.campaignDuration,
     });
 
+  const checkFormFilled = () => {
+    return Object.values(configuratorFormData).every((value) => value);
+  };
+
   const aktionszinsOptions: AktionszinsOptionsI = [
     { label: "0", value: "0" },
     { label: "1", value: "1" },
@@ -55,10 +60,17 @@ export const PluginConfiguratorForm = ({
   ];
 
   const handleOnChange = (value: string, id: string) => {
+    setFormError(false);
     setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSave = () => {
+    const isFormFilled = checkFormFilled();
+
+    if (!isFormFilled) {
+      setFormError(true);
+      return;
+    }
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",
@@ -73,6 +85,22 @@ export const PluginConfiguratorForm = ({
     const updatedPluginData = { ...configuratorFormData, [name]: checked };
     setConfiguratorFormData(updatedPluginData);
   };
+
+  useEffect(() => {
+    console.log("useEffect plugin Configurator", clientDataOk);
+    if (!clientDataOk) {
+      console.log("passou do if");
+      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
+      const data = {
+        shop: pluginConfiguratorData.shop,
+        appMode: false,
+        _action: "configuratorForm",
+      };
+      submit(data, {
+        method: "POST",
+      });
+    }
+  }, [clientDataOk, submit, pluginConfiguratorData.shop]);
 
   return (
     <Box
@@ -212,16 +240,20 @@ export const PluginConfiguratorForm = ({
           >
             {configuratorDataOk === undefined ? (
               <div></div>
+            ) : formError ? (
+              <Badge size="medium" tone="attention">
+                Alle Felder sind erforderlich
+              </Badge>
             ) : configuratorDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
               </Badge>
             ) : (
-              <Badge size="medium" tone="attention">
+              <Badge size="medium" tone="critical">
                 Konfigurationsfehler
               </Badge>
             )}
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave}>Speichern</Button>
           </div>
         </>
       )}
