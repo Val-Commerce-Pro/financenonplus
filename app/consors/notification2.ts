@@ -28,7 +28,7 @@ export function checkNotifyHash2(url: string, hashKey: string) {
   console.log("messageHttps to be hashed:", messageHttps);
 
   // Calculate the HMAC-SHA-512 hash
-  const calculatedHash = calculateHmacSha512(message, hashKey);
+  const calculatedHash = calculateHmacSha512(messageHttps, hashKey);
   console.log("Calculated hash:", calculatedHash);
 
   // Compare the calculated hash with the provided hash
