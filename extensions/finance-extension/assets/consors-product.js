@@ -533,12 +533,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     return fc;
   })({
-    rate: [3.3, 6.6, 9.9],
-    period: [12, 60, 72],
-    period_zero_interest: 24,
-    period_step: 6,
-    period_min: 6,
-    product_amount: productPrice / 100,
+    rate: calcDefaultData.rate,
+    period: calcDefaultData.period,
+    period_zero_interest: calcDefaultData.period_zero_interest,
+    period_step: calcDefaultData.period_step,
+    period_min: calcDefaultData.period_min,
+    product_amount: calcDefaultData.product_amount,
     legal_text: `<div id="legal-text">
 <h2><sup>1</sup>Gesetzlicher Hinweistext</h2>
 <div class="legal-text"><div class="show-on-more-month" style="display: none;">
@@ -578,15 +578,6 @@ E-Mail) erfolgt. Der Widerruf ist zu richten an: BNP Paribas S.A.
 Niederlassung Deutschland, Wuhanstraße 5, 47051 Duisburg (Fax: 02 03/34 
 69 54-09; Tel.: 02 03/34 69 54-02; E- Mail: widerruf@consorsfinanz.de).</div></div></div>`,
   });
-
-  // rate: calcDefaultData.rate,
-  //   period: calcDefaultData.period,
-  //   period_zero_interest: calcDefaultData.period_zero_interest,
-  //   period_step: calcDefaultData.period_step,
-  //   period_min: calcDefaultData.period_min,
-  //   product_amount: calcDefaultData.product_amount,
-
-  //finance_calculator.update(calcDefaultData);
 
   addProductAndRedirect.addEventListener("click", async (e) => {
     await addProductToCart();
