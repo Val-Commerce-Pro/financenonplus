@@ -93,7 +93,7 @@ export const SectionCartItems = ({
                 <div className="flex gap-[2px] items-center justify-end">
                   <div className="group relative">
                     <IoIosInformationCircleOutline size={16} />
-                    <Tooltip text="Geben sie ihre Straße, Stadt und Postleitzahl an, damit die Versandkosten berechnet werden können." />
+                    <Tooltip text="Füllen sie die Felder Straße, Stadt und Postleitzahl an, damit die Versandkosten berechnet werden können." />
                   </div>
                   <span>Versandkosten</span>
                 </div>
@@ -113,7 +113,7 @@ export const SectionCartItems = ({
                 colSpan={3}
                 className="px-[24px] py-[16px] text-right font-medium text-gray-900"
               >
-                Total
+                Gesamtkosten
               </td>
               <td className="px-[24px] py-[16px] text-gray-500">
                 €

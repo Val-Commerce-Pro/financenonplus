@@ -71,7 +71,7 @@ export const ClientForm = ({
           <div className="grid grid-cols-2 gap-[8px]">
             <TextField
               name="street"
-              label="Street"
+              label="Straße"
               type="text"
               handleOnChange={handleInputChange}
               textFieldValue={clientFormData.street}
