@@ -9,10 +9,14 @@ import type {
 } from "~/types/databaseInterfaces";
 
 import { PluginConfiguratorForm } from "~/components/pluginConfiguratorForm";
-import { createOrUpdateShopPluginConfigurator } from "~/models/configuratorPlugin.server";
+import {
+  createOrUpdateShopPluginConfigurator,
+  updateShopPluginConfigurator,
+} from "~/models/configuratorPlugin.server";
 import {
   createOrUpdateShopPluginCredentials,
   getShopPluginConfig,
+  updateShopPluginCredentials,
 } from "~/models/credentialsPlugin.server";
 import { getLoaderResponse } from "~/utils/defaultResponse";
 import { getConsorsClient } from "../consors/consorsApi";
@@ -23,6 +27,19 @@ export const action: ActionFunction = async ({ request }) => {
   const { _action, ...values } = Object.fromEntries(formData);
 
   switch (_action) {
+    case "credentialsAppMode":
+      const appModeCredentialsActionForm = formatData(
+        values,
+        true,
+      ) as Partial<ShopPluginCredentialsData>;
+
+      const updatedCredentialsPluginBdData = await updateShopPluginCredentials(
+        appModeCredentialsActionForm,
+      );
+
+      return updatedCredentialsPluginBdData
+        ? null
+        : { error: "Error saving AppMode credentails form data" };
     case "credentialsForm":
       const credentialsActionForm = formatData(
         values,
@@ -37,6 +54,30 @@ export const action: ActionFunction = async ({ request }) => {
         ? null
         : { error: "Error saving client form data" };
 
+    case "configuratorAppMode":
+      const appModeConfiguratorActionForm = formatData(
+        values,
+        true,
+      ) as Partial<ShopPluginConfiguratorData>;
+
+      const currentCredentials = await getShopPluginConfig(
+        appModeConfiguratorActionForm.shop ?? "",
+      );
+      if (!currentCredentials)
+        return {
+          error: `Credentials not found for the provide shop ${appModeConfiguratorActionForm.shop}`,
+        };
+
+      const appModeConfiguratorPluginBdData =
+        await updateShopPluginConfigurator(
+          appModeConfiguratorActionForm,
+          currentCredentials.id,
+        );
+
+      return appModeConfiguratorPluginBdData
+        ? null
+        : { error: "Error saving calculator AppMode data" };
+
     case "configuratorForm":
       const configuratorActionForm = formatData(
         values,
@@ -48,7 +89,7 @@ export const action: ActionFunction = async ({ request }) => {
 
       return configuratorPluginBdData
         ? null
-        : { error: "Error saving client form data" };
+        : { error: "Error saving calculator form data" };
     default:
       return null;
   }

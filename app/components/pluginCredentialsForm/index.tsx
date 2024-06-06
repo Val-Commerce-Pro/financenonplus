@@ -85,13 +85,14 @@ export const PluginCredentialsForm = ({
       setCredentilasConfig((prev) => ({ ...prev, appMode: false }));
 
       const data = {
-        shop: credentilasConfig.appMode,
+        shop: credentilasConfig.shop,
         appMode: false,
-        _action: "credentialsForm",
+        _action: "credentialsAppMode",
       };
       submit(data, {
         method: "POST",
       });
+      return;
     }
     const updatedPluginData = { ...credentilasConfig, [name]: checked };
     setCredentilasConfig(updatedPluginData);
@@ -180,17 +181,14 @@ export const PluginCredentialsForm = ({
               marginTop: "16px",
             }}
           >
-            {formError && (
+            {clientDataOk === undefined ? (
+              <div></div>
+            ) : formError ? (
               <div>
                 <Badge size="medium" tone="critical">
                   Alle Felder sind erforderlich
                 </Badge>
               </div>
-            )}
-            {clientDataOk === undefined ? (
-              <div></div>
-            ) : !formError ? (
-              <></>
             ) : clientDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert

@@ -84,14 +84,25 @@ export const PluginConfiguratorForm = ({
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
+    if (!checked) {
+      setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
+
+      const data = {
+        shop: configuratorFormData.shop,
+        appMode: false,
+        _action: "configuratorAppMode",
+      };
+      submit(data, {
+        method: "POST",
+      });
+      return;
+    }
     const updatedPluginData = { ...configuratorFormData, [name]: checked };
     setConfiguratorFormData(updatedPluginData);
   };
 
   useEffect(() => {
-    console.log("useEffect plugin Configurator", clientDataOk);
     if (!clientDataOk) {
-      console.log("passou do if");
       setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
       const data = {
         shop: pluginConfiguratorData.shop,
@@ -141,7 +152,7 @@ export const PluginConfiguratorForm = ({
           <Switch
             name="appMode"
             handleOnChange={handleAppMode}
-            checkboxValue={true}
+            checkboxValue={configuratorFormData.appMode}
             disabled={!clientDataOk}
           />
         </div>
