@@ -101,7 +101,7 @@ export const PluginCredentialsForm = ({
         }}
       >
         <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
-          Merchant Credentials
+          Händler-Anmeldedaten
         </h2>
         <Switch
           name="appMode"

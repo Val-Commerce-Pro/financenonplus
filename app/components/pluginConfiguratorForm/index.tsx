@@ -119,7 +119,7 @@ export const PluginConfiguratorForm = ({
         }}
       >
         <h2 style={{ fontWeight: "bold", fontSize: "18px" }}>
-          Calculator Setup
+          Calculator Einstellungen
         </h2>
         <div
           style={{
@@ -132,7 +132,7 @@ export const PluginConfiguratorForm = ({
         >
           <Tooltip
             content={
-              "This modulo can only be activated with the correct credentials in place."
+              "Der Calculator kann als App-Erweiterung auf der Produktdetailseite eingefügt werden. Die Händler-Anmeldedaten müssen dazu korrekt sein."
             }
             borderRadius="100"
           >
