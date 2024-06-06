@@ -43,7 +43,7 @@ export const ClientForm = ({
             />
             <TextField
               name="lastName"
-              label="Familienname"
+              label="Nachname"
               type="text"
               handleOnChange={handleInputChange}
               textFieldValue={clientFormData.lastName}

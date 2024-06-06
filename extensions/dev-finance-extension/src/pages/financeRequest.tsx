@@ -207,7 +207,7 @@ const FinanceRequest = ({
               data-modal-toggle="static-modal"
               className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] w-[250px] hover:bg-[#5bb394] disabled:bg-gray-300 disabled:pointer-events-none"
             >
-              Senden
+              Jetzt finanzieren mit Consors Finanz
             </button>
             <button onClick={handleFakeClick}>FAKE</button>
           </div>

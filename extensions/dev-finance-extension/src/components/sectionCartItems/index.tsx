@@ -93,9 +93,9 @@ export const SectionCartItems = ({
                 <div className="flex gap-[2px] items-center justify-end">
                   <div className="group relative">
                     <IoIosInformationCircleOutline size={16} />
-                    <Tooltip text="Please provide the street, city, and zip code in order to calculate the shipping cost." />
+                    <Tooltip text="Geben sie ihre Straße, Stadt und Postleitzahl an, damit die Versandkosten berechnet werden können." />
                   </div>
-                  <span>Shipping Cost</span>
+                  <span>Versandkosten</span>
                 </div>
               </td>
               <td className="px-[24px] py-[16px] text-gray-500 flex items-center">

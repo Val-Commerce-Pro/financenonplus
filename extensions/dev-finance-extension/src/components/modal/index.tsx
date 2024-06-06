@@ -49,8 +49,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
             </p>
           ) : (
             <p>
-              By clicking on "Senden" you will be redirected to the Consors
-              Finance webpage, where you can submit a request for financing
+              Beim drücken auf "Senden" werden sie zur zur Finanzierung mit Consors Finanz weitergeleitet.
             </p>
           )}
         </div>
