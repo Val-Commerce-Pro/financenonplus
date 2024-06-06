@@ -62,7 +62,6 @@ export const PluginConfiguratorForm = ({
   ];
 
   const handleOnChange = (value: string, id: string) => {
-    setFormError(false);
     setConfiguratorFormData((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -85,6 +84,7 @@ export const PluginConfiguratorForm = ({
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
     if (!checked) {
+      setFormError(false);
       setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
 
       const data = {
@@ -143,7 +143,7 @@ export const PluginConfiguratorForm = ({
         >
           <Tooltip
             content={
-              "This modulo can only be activated with the correct credentials in place."
+              "Der Calculator kann als App-Erweiterung auf der Produktdetailseite eingefügt werden. Die Händler-Anmeldedaten müssen dazu korrekt sein."
             }
             borderRadius="100"
           >
@@ -156,11 +156,6 @@ export const PluginConfiguratorForm = ({
             disabled={!clientDataOk}
           />
         </div>
-        <img
-          src="https://cdn.shopify.com/s/files/1/0758/3137/8199/files/ConsorsFinanzLogo.png?v=1701077799"
-          alt="consors banner"
-          style={{ maxHeight: "80px", maxWidth: "160px" }}
-        />
       </div>
       {configuratorFormData.appMode && (
         <>
@@ -181,14 +176,14 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
             />
             <TextField
-              id="terms"
+              id="stepPeriod"
               label="Schrittgröße (in Monaten)"
               autoComplete="off"
               value={configuratorFormData.stepPeriod}
               onChange={handleOnChange}
             />
             <TextField
-              id="terms"
+              id="period"
               label={
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   Laufzeiten
@@ -215,14 +210,6 @@ export const PluginConfiguratorForm = ({
               onChange={handleOnChange}
               helpText="z.B. 9.0,9.3,9.6"
             />
-            <Select
-              id="campaign"
-              label="Aktionszins"
-              options={aktionszinsOptions}
-              onChange={handleOnChange}
-              value={configuratorFormData.campaign}
-            />
-
             {isClientAllowedToUseAkitions && (
               <>
                 <Select

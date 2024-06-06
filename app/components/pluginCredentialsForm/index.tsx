@@ -47,7 +47,6 @@ export const PluginCredentialsForm = ({
       }));
       return;
     }
-    setFormError(false);
     setCredentilasConfig((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -56,7 +55,6 @@ export const PluginCredentialsForm = ({
       (value) => value,
     );
 
-    console.log("handleSave, isFormFilled", isFormFilled);
     if (!isFormFilled) {
       setFormError(true);
       return;
@@ -78,10 +76,10 @@ export const PluginCredentialsForm = ({
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFormError(false);
     const { name, checked } = e.target;
 
     if (!checked) {
+      setFormError(false);
       setCredentilasConfig((prev) => ({ ...prev, appMode: false }));
 
       const data = {
@@ -185,7 +183,7 @@ export const PluginCredentialsForm = ({
               <div></div>
             ) : formError ? (
               <div>
-                <Badge size="medium" tone="critical">
+                <Badge size="medium" tone="attention">
                   Alle Felder sind erforderlich
                 </Badge>
               </div>
@@ -194,7 +192,7 @@ export const PluginCredentialsForm = ({
                 Erfolgreich gespeichert
               </Badge>
             ) : (
-              <Badge size="medium" tone="attention">
+              <Badge size="medium" tone="critical">
                 Konfigurationsfehler
               </Badge>
             )}
