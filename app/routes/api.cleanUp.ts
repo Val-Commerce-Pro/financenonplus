@@ -2,7 +2,7 @@ import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getEfiNotifications } from "~/models/consorsNotifications";
 import { deleteDraftOrder } from "~/shopify/graphql/deleteDraftOrder";
-import { getScheduledJob } from "../cronJobs";
+import { scheduleCleanUp } from "../cronJobs";
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
@@ -13,8 +13,8 @@ export const action: ActionFunction = async ({ request }) => {
   });
 
   if (!currentOrderData) {
-    return json(currentOrderData, {
-      status: 500,
+    return json(`consorsOrderId not found ${consorsOrderId}`, {
+      status: 400,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -23,11 +23,22 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (currentOrderData.orderId) {
     // Cancel the scheduled job for the consorsOrderId
-    const scheduledTask = getScheduledJob(consorsOrderId);
+    const scheduledTask = scheduleCleanUp(consorsOrderId);
     if (scheduledTask) {
       scheduledTask.cancel();
       console.log(
         `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
+      );
+      json(
+        {
+          message: `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
+        },
+        {
+          status: 200,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
       );
     }
   }
@@ -40,7 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     console.log("deleteDraftOrder", deleteDraftResponse.data);
     return json(
-      { message: "order deleted" },
+      { message: "draft order deleted" },
       {
         status: 200,
         headers: {
@@ -49,14 +60,4 @@ export const action: ActionFunction = async ({ request }) => {
       },
     );
   }
-
-  return json(
-    { message: "success" },
-    {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
-  );
 };

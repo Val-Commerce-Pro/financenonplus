@@ -20,10 +20,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     return;
 
   const consorsClient = await getConsorsClient(efiNotificationData.shop);
-  const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
-    efiNotificationData.transactionId,
-  );
-  console.log("bankResponse updateSubscriptionDeliveryStatus", bankResponse);
+  const bankResponse = await consorsClient?.updateSubscriptionWithPartnerData({
+    orderId: efiNotificationData.orderId,
+    transactionId: efiNotificationData.transactionId,
+  });
+  console.log("bankResponse updateSubscriptionWithPartnerData", bankResponse);
 
   // if (!transactionId) {
   //   return json(
@@ -38,7 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   // }
   return json(
     {
-      message: "updateSubscriptionDeliveryStatus Response",
+      message: "updateSubscriptionWithPartnerData Response",
       data: bankResponse,
     },
     {

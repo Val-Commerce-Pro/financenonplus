@@ -142,6 +142,7 @@ export class ConsorsAPI {
     const res = await fetch(consorsUrl, {
       method: "PUT",
       headers: {
+        Accept: "application/json",
         "x-api-key": this.authData.apiKey,
         "Content-Type": "application/json",
         Authorization: `Bearer ${consorsAuthToken}`,

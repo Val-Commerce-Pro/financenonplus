@@ -1,5 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { scheduleCleanUp } from "~/cronJobs";
 import { createEfiNotifications } from "~/models/consorsNotifications";
 
 import type {
@@ -118,6 +119,7 @@ export const action: ActionFunction = async ({ request }) => {
     };
 
     await createEfiNotifications(currentEfiNotificationData);
+    scheduleCleanUp(consorsOrderId);
 
     return json(
       { consorsOrderId },

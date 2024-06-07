@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json(
       { error: "Order Id, Status, or Transaction Id not found" },
       {
-        status: 500,
+        status: 400,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },

@@ -3,14 +3,14 @@ import schedule from "node-schedule";
 
 const scheduledJobs = new Map();
 
-export function scheduleAntragCheck(consorsOrderId) {
+export function scheduleCleanUp(consorsOrderId) {
   let job = null;
 
   async function performCheck() {
     console.log(`Checking details for consorsOrderId ${consorsOrderId}`);
     try {
       const response = await fetch(
-        `https://financenonplus.cpro-server.de/api/clearUnfinishedDrafts`,
+        `https://financenonplus.cpro-server.de/api/cleanUp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -30,7 +30,8 @@ export function scheduleAntragCheck(consorsOrderId) {
   }
 
   // Schedule the function to run after 2 hours and 30 minutes
-  const delay = 2.5 * 60 * 60 * 1000; // 2 hours and 30 minutes in milliseconds
+  // const delay = 2.5 * 60 * 60 * 1000; // 2 hours and 30 minutes in milliseconds
+  const delay = 2 * 60 * 1000; // 2 minutos
 
   const startJob = () => {
     job = schedule.scheduleJob(new Date(Date.now() + delay), performCheck);
