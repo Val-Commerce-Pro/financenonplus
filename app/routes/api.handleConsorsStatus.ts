@@ -1,6 +1,5 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import { getConsorsClient } from "~/consors/consorsApi";
-import { getScheduledJob } from "~/cronJobs";
 import {
   getEfiNotifications,
   updateEfiNotifications,
@@ -67,10 +66,6 @@ export const action: ActionFunction = async ({ request }) => {
       efiNotificationsData.shop,
       efiNotificationsData.draftOrderId,
     );
-    const backgroundCleanUp = getScheduledJob(
-      efiNotificationsData.consorsOrderId,
-    );
-    backgroundCleanUp.cancel();
     console.log("deletedDraftOrder", deletedDraftOrder);
   }
   if (status === "success") {

@@ -83,3 +83,27 @@ export async function getEfiNotifications(query: GetEfiNotifications) {
     return;
   }
 }
+
+export async function deleteEfiNotifications(query: GetEfiNotifications) {
+  if (!query.consorsOrderId && !query.orderId) {
+    throw new Error("Either consorsOrderId or orderId must be provided");
+  }
+
+  try {
+    let efiNotifications;
+
+    if (query.consorsOrderId) {
+      efiNotifications = await db.consorsEfiNotifications.delete({
+        where: { consorsOrderId: query.consorsOrderId },
+      });
+    } else if (query.orderId) {
+      efiNotifications = await db.consorsEfiNotifications.delete({
+        where: { orderId: query.orderId },
+      });
+    }
+    return efiNotifications;
+  } catch (err) {
+    console.error("error deleting getEfiNotifications", err);
+    return;
+  }
+}

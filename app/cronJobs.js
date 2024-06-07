@@ -31,7 +31,7 @@ export function scheduleCleanUp(consorsOrderId) {
 
   // Schedule the function to run after 2 hours and 30 minutes
   // const delay = 2.5 * 60 * 60 * 1000; // 2 hours and 30 minutes in milliseconds
-  const delay = 2 * 60 * 1000; // 2 minutos
+  const delay = 5 * 60 * 1000; // 5 minutos
 
   const startJob = () => {
     job = schedule.scheduleJob(new Date(Date.now() + delay), performCheck);

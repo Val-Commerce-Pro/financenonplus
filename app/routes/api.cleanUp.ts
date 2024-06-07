@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request }) => {
       console.log(
         `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
       );
-      json(
+      return json(
         {
           message: `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
         },
