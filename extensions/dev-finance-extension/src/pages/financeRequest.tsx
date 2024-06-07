@@ -12,6 +12,8 @@ import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 
+import { getSubscriptions } from "../utils/getSubscriptions";
+import { getTestRoute } from "../utils/getTestRoute";
 import {
   clearCartData,
   deleteCartItem,
@@ -39,7 +41,6 @@ const initialClientFormData = {
   email: customerData[7] ?? "",
 };
 
-/* TODO Fix debounce */
 const FinanceRequest = ({
   cartData,
   pluginConfData,
@@ -166,9 +167,12 @@ const FinanceRequest = ({
   );
   console.log("https://finanzieren..", consorsParams.toString());
 
-  // const handleGetSubscriptions = async () => {
-  //   await getSubscriptions(shopDomain, "102", "25");
-  // };
+  const handleGetSubscriptions = async () => {
+    await getSubscriptions(shopDomain, "102", "25");
+  };
+  const handleGetTestRoute = async () => {
+    await getTestRoute("D100");
+  };
 
   return (
     <div className="w-full">
@@ -210,7 +214,13 @@ const FinanceRequest = ({
               data-modal-toggle="static-modal"
               className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] w-[250px] hover:bg-[#5bb394] disabled:bg-gray-300 disabled:pointer-events-none"
             >
-              Jetzt finanzieren mit Consors Finanz
+              Finanzieren mit Consors Finanz
+            </button>
+            <button className="border-2" onClick={handleGetSubscriptions}>
+              Orders status overview
+            </button>
+            <button className="border-2" onClick={handleGetTestRoute}>
+              Change order Id
             </button>
           </div>
         </div>

@@ -200,6 +200,8 @@ export default function Index() {
 }
 
 /*
+ [] Fazer a traducao do que e o status success para o esperando por documentos ou algo mais informativo.talvez traduzir o erro tambem
+ 
   [] check function to update orderId from consors, by sending no orderID when the finance starts
   [] check what happens if I can cancel after I receive a accept
   [] What to do when the merchant cancel an order even after the request is accepted
