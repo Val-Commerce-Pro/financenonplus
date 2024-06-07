@@ -14,7 +14,6 @@ export const getSubscriptions = async (
     const requestUrl = `${backendUrl()}/api/getSubscriptions?${parameters}`;
 
     const response = await fetch(requestUrl, { method: "GET" });
-    console.log("response backend getSubscriptions", response);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

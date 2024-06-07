@@ -17,7 +17,17 @@ export const loader: LoaderFunction = async ({ request }) => {
     !efiNotificationData.orderId ||
     !efiNotificationData.transactionId
   )
-    return;
+    return json(
+      {
+        message: "orderId not found",
+      },
+      {
+        status: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
 
   const consorsClient = await getConsorsClient(efiNotificationData.shop);
   const bankResponse = await consorsClient?.updateSubscriptionWithPartnerData({
