@@ -1,6 +1,9 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getEfiNotifications } from "~/models/consorsNotifications";
+import {
+  deleteEfiNotifications,
+  getEfiNotifications,
+} from "~/models/consorsNotifications";
 import { deleteDraftOrder } from "~/shopify/graphql/deleteDraftOrder";
 import { scheduleCleanUp } from "../cronJobs";
 
@@ -26,9 +29,8 @@ export const action: ActionFunction = async ({ request }) => {
     const scheduledTask = scheduleCleanUp(consorsOrderId);
     if (scheduledTask) {
       scheduledTask.cancel();
-      console.log(
-        `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
-      );
+      const deletedNotification = await deleteEfiNotifications(consorsOrderId);
+      console.log("deletedNotification", deletedNotification);
       return json(
         {
           message: `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
