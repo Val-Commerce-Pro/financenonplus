@@ -22,7 +22,7 @@ export function scheduleCleanUp(consorsOrderId) {
       if (data.complete) {
         if (job) job.cancel();
         scheduledJobs.delete(consorsOrderId);
-        console.log(`Task completed for Antrag ${consorsOrderId}`);
+        console.log(`Job completed ConsorsOrderId ${consorsOrderId}`);
       }
     } catch (error) {
       console.error("Failed to call API:", error);

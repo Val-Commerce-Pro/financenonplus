@@ -84,7 +84,6 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     const draftOrderResponse = await createDraftOrder(shop, draftOrderInfo);
-    console.log("draftOrderResponse", draftOrderResponse);
 
     const { data: draftOrderResponseData }: { data?: DraftOrderResponse } =
       draftOrderResponse;

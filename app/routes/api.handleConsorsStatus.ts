@@ -1,5 +1,4 @@
 import { json, type ActionFunction } from "@remix-run/node";
-import { getConsorsClient } from "~/consors/consorsApi";
 import {
   getEfiNotifications,
   updateEfiNotifications,
@@ -60,7 +59,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   if (
     status === "error" &&
-    ["DECLINED", "TIMEOUT", "INCOMPLETE", "BAD_REQUEST"].includes(statusDetail)
+    ["TIMEOUT", "INCOMPLETE", "BAD_REQUEST"].includes(statusDetail)
   ) {
     const deletedDraftOrder = await deleteDraftOrder(
       efiNotificationsData.shop,
@@ -68,7 +67,10 @@ export const action: ActionFunction = async ({ request }) => {
     );
     console.log("deletedDraftOrder", deletedDraftOrder);
   }
-  if (status === "success") {
+  if (
+    status === "success" ||
+    (status === "error" && ["DECLINED"].includes(statusDetail))
+  ) {
     const newOrderResponse = await completeDraftOrder(
       efiNotificationsData.shop,
       efiNotificationsData.draftOrderId,
@@ -82,22 +84,20 @@ export const action: ActionFunction = async ({ request }) => {
       !completeDraftOrderData.draftOrderComplete.draftOrder ||
       !completeDraftOrderData.draftOrderComplete.draftOrder.order
     ) {
-      return json(completeDraftOrderData, {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
+      return json(
+        {
+          error: `completeDraftOrder error response ${completeDraftOrderData}`,
         },
-      });
+        {
+          status: 500,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
     }
     const { id: orderId, name: orderName } =
       completeDraftOrderData.draftOrderComplete.draftOrder.order;
-
-    const consorsClient = await getConsorsClient(efiNotificationsData.shop);
-
-    await consorsClient?.updateSubscriptionWithPartnerData({
-      orderId: efiNotificationsData.orderId,
-      transactionId: efiNotificationsData.transactionId,
-    });
 
     const updatedEfiNotificationsData = await updateEfiNotifications({
       status,
@@ -111,7 +111,7 @@ export const action: ActionFunction = async ({ request }) => {
     await addNoteToOrder(
       efiNotificationsData.shop,
       orderId,
-      createNoteMessage(status),
+      createNoteMessage(status, undefined, statusDetail),
     );
     if (!updatedEfiNotificationsData) {
       return json(updatedEfiNotificationsData, {

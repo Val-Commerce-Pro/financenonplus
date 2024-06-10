@@ -1,11 +1,7 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-// import { checkNotifyHash } from "~/consors/notification";
-import { checkNotifyHash2 } from "~/consors/notification2";
-import { getEfiNotifications } from "~/models/consorsNotifications";
-import { getShopPluginConfig } from "~/models/credentialsPlugin.server";
 
-export const action: ActionFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);
   const status = requestedURL.searchParams.get("status");
   const statusDetail = requestedURL.searchParams.get("status_detail");
@@ -26,22 +22,23 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const notificationData = await getEfiNotifications({ consorsOrderId });
-  if (!notificationData?.shop) {
-    return json(
-      { error: "Shop key not found in the database" },
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      },
-    );
-  }
-  const credentialsData = await getShopPluginConfig(notificationData?.shop);
-  console.log("credentialsData.hash", credentialsData?.hash);
+  /* Hash Code */
+  // const notificationData = await getEfiNotifications({ consorsOrderId });
+  // if (!notificationData?.shop) {
+  //   return json(
+  //     { error: "Shop key not found in the database" },
+  //     {
+  //       status: 500,
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     },
+  //   );
+  // }
+  // const credentialsData = await getShopPluginConfig(notificationData?.shop);
+  // console.log("credentialsData.hash", credentialsData?.hash);
   //console.log("checkNotifyHash", checkNotifyHash(request.url));
-  checkNotifyHash2(request.url, "12345678910");
+  // checkNotifyHash2(request.url, "12345678910");
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {
   //   return json(

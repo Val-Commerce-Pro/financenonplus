@@ -11,6 +11,16 @@ export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { consorsOrderId } = data;
 
+  console.log("CleanUp route rendered, ", data);
+  if (!data) {
+    return json(`consorsOrderId not found ${consorsOrderId}`, {
+      status: 400,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  }
+
   const currentOrderData = await getEfiNotifications({
     consorsOrderId,
   });
@@ -29,8 +39,6 @@ export const action: ActionFunction = async ({ request }) => {
     const scheduledTask = scheduleCleanUp(consorsOrderId);
     if (scheduledTask) {
       scheduledTask.cancel();
-      const deletedNotification = await deleteEfiNotifications(consorsOrderId);
-      console.log("deletedNotification", deletedNotification);
       return json(
         {
           message: `Scheduled task for consorsOrderId ${consorsOrderId} has been canceled.`,
@@ -50,6 +58,8 @@ export const action: ActionFunction = async ({ request }) => {
       currentOrderData.shop,
       currentOrderData.draftOrderId,
     );
+    const deletedNotification = await deleteEfiNotifications(consorsOrderId);
+    console.log("deletedNotification", deletedNotification);
 
     console.log("deleteDraftOrder", deleteDraftResponse.data);
     return json(

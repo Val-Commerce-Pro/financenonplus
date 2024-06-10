@@ -116,9 +116,6 @@ export const loader: LoaderFunction = async ({
 
   const clientAuth = await consorsClient.jwt();
 
-  // const clientIdByVendorId = await consorsClient.getClientIdByVendorId();
-  // console.log("clientIdByVendorId", clientIdByVendorId);
-
   return getLoaderResponse({
     pluginCredentialsData: credentials,
     pluginConfiguratorData: ShopPluginConfigurator,
@@ -189,7 +186,7 @@ export default function Index() {
           }}
         >
           <PluginConfiguratorForm
-            clientDataOk={clientDataOk}
+            clientDataOk={!pluginCredentialsData.appMode ? false : clientDataOk}
             configuratorDataOk={configuratorDataOk}
             pluginConfiguratorData={pluginConfiguratorData}
           />
@@ -207,3 +204,15 @@ export default function Index() {
   [] What to do when the merchant cancel an order even after the request is accepted
   [] Fix valitade hash notification function
 */
+
+/*
+tests
+ [] IF the credentials app mode is desable the app should not be visible.
+ [] Create a regular order with a customer who have a store accont 
+ [] Create a regular order with a customer who have not a store accont 
+ [] Create a regular order and dont finisih the process at consors 
+ [] Create a regular order and cancel the order 
+ [] Create a regular order and fulfillment the order 
+
+  [] fix endpoint to update orderId
+ */

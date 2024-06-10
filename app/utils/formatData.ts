@@ -43,6 +43,7 @@ export function createNoteMessage(
   action?: string,
   erroMsg?: string,
 ): string {
-  if (!action) return `Consors EFI client request, current status: ${status}`;
+  if (!action)
+    return `Consors EFI client request, current status: ${status}. ${erroMsg ?? ""}`;
   return `Consors EFI has been notified of the ${action} request, current status: ${status}. ${erroMsg ?? ""}`;
 }
