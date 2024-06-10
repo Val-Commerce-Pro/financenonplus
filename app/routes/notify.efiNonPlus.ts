@@ -1,7 +1,7 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);
   const status = requestedURL.searchParams.get("status");
   const statusDetail = requestedURL.searchParams.get("status_detail");

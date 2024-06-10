@@ -179,7 +179,7 @@ export const PluginCredentialsForm = ({
               marginTop: "16px",
             }}
           >
-            {clientDataOk === undefined ? (
+            {!savingConfig || clientDataOk === undefined ? (
               <div></div>
             ) : formError ? (
               <div>
