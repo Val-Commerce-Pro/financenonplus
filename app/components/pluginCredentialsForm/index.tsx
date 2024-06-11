@@ -88,14 +88,7 @@ export const PluginCredentialsForm = ({
   };
 
   useEffect(() => {
-    console.log(
-      "useEffect plugin credetials appMode",
-      credentilasConfig.appMode,
-    );
-
     if (!credentilasConfig.appMode) return;
-
-    console.log("passou do if");
   }, [submit, credentilasConfig.shop, credentilasConfig.appMode]);
 
   return (

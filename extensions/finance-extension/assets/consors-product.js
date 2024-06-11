@@ -34,6 +34,7 @@ async function addProductToCart() {
     throw new Error(`HTTP error: Status: ${response.status}`);
   }
   const data = await response.json();
+  console.log("porudct data", data);
   return data;
 }
 
@@ -83,6 +84,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   console.log("pluginConfigurator", pluginConfigurator);
+
+  console.log("cartPrice", parseInt(cartPrice));
+  console.log("productPrice", parseInt(productPrice));
+  console.log("minOrderValue", minOrderValue);
+  console.log(
+    "total calc",
+    (parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue,
+  );
 
   if ((parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue) {
     extensionSection.classList.add("HiddenInfo");

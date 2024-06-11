@@ -1,5 +1,6 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import {
+  deleteEfiNotifications,
   getEfiNotifications,
   updateEfiNotifications,
 } from "~/models/consorsNotifications";
@@ -59,18 +60,24 @@ export const action: ActionFunction = async ({ request }) => {
   }
   if (
     status === "error" &&
-    ["TIMEOUT", "INCOMPLETE", "BAD_REQUEST"].includes(statusDetail)
+    ["DECLINED", "TIMEOUT", "INCOMPLETE", "BAD_REQUEST"].includes(statusDetail)
   ) {
-    const deletedDraftOrder = await deleteDraftOrder(
+    await deleteDraftOrder(
       efiNotificationsData.shop,
       efiNotificationsData.draftOrderId,
     );
-    console.log("deletedDraftOrder", deletedDraftOrder);
+    await deleteEfiNotifications({ consorsOrderId });
+    return json(
+      { message: status, statusDetails: statusDetail },
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
   }
-  if (
-    status === "success" ||
-    (status === "error" && ["DECLINED"].includes(statusDetail))
-  ) {
+  if (status === "success") {
     const newOrderResponse = await completeDraftOrder(
       efiNotificationsData.shop,
       efiNotificationsData.draftOrderId,
