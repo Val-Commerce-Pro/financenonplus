@@ -12,6 +12,8 @@ import { DraftOrderResponse } from "../types/shopifyResponses";
 import { LineItem, createEfiDraftOrder } from "../utils/createEfiDraftOrder";
 import { getConsorsLink } from "../utils/getConsorsLink";
 
+import { TiArrowBackOutline } from "react-icons/ti";
+
 import { getSubscriptions } from "../utils/getSubscriptions";
 import { getTestRoute } from "../utils/getTestRoute";
 import {
@@ -201,9 +203,12 @@ const FinanceRequest = ({
               data-modal-target="static-modal"
               id="modal-button"
               data-modal-toggle="static-modal"
-              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[250px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[200px] hover:bg-orange-500 disabled:bg-gray-300 disabled:pointer-events-none"
             >
-              Zurück
+              <div className="flex items-center justify-center ">
+                <TiArrowBackOutline className="inline-block" size={24} />
+                Zurück
+              </div>
             </button>
             <button
               onClick={() => setIsModalOpen(true)}
@@ -212,7 +217,7 @@ const FinanceRequest = ({
               data-modal-target="static-modal"
               id="modal-button"
               data-modal-toggle="static-modal"
-              className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] w-[250px] hover:bg-[#5bb394] disabled:bg-gray-300 disabled:pointer-events-none"
+              className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] hover:bg-[#52a489] disabled:bg-gray-300 disabled:pointer-events-none"
             >
               Finanzieren mit Consors Finanz
             </button>

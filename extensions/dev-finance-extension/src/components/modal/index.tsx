@@ -8,25 +8,6 @@ type ModalProps = {
 };
 
 export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
-  // const overlayModal = document.getElementById("fowardShadowModal");
-  // const modalContainer = document.getElementById("fowardClientModal");
-  // console.log("shadowModal, modalContainer", modalContainer, overlayModal);
-  // if (overlayModal && modalContainer) {
-  //   document.body.appendChild(overlayModal);
-  //   document.body.appendChild(modalContainer);
-  // }
-  // useEffect(() => {
-  //   console.log(
-  //     "useEffect overlayModal, modalContainer",
-  //     modalContainer,
-  //     overlayModal,
-  //   );
-  //   if (overlayModal && modalContainer) {
-  //     document.body.appendChild(overlayModal);
-  //     document.body.appendChild(modalContainer);
-  //   }
-  // }, [overlayModal, modalContainer]);
-  /* modal go to the body and render the content as a child */
   return (
     <div
       id="fowardShadowModal"
@@ -58,7 +39,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="h-[48px] px-[16px] text-[14px] font-medium text-gray-200 bg-gray-800 border border-gray-600 rounded-[8px] hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 disabled:bg-gray-600"
+            className="w-[100px] h-[48px] px-[16px] text-[14px] font-medium text-gray-200 bg-gray-800 border border-gray-600 rounded-[8px] hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 disabled:bg-gray-600"
           >
             Abbrechen
           </button>
@@ -67,7 +48,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
               onSubmit(e);
             }}
             disabled={isLoading}
-            className="h-[48px] px-[16px] text-[14px] font-medium text-white bg-[#2cb484] rounded-[8px] hover:bg-[#559880] focus:outline-none focus:ring-4 focus:bg-[#468871] disabled:bg-gray-600"
+            className="w-[100px] h-[48px] px-[16px] text-[14px] font-medium text-white bg-[#2cb484] rounded-[8px] hover:bg-[#559880] focus:outline-none focus:ring-4 focus:bg-[#468871] disabled:bg-gray-600"
           >
             {isLoading ? <Spinner /> : "Senden"}
           </button>

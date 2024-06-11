@@ -16,7 +16,7 @@ export const PluginCredentialsForm = ({
   pluginCredentialsData,
 }: PluginCredentialsFormProps) => {
   const submit = useSubmit();
-  const [savingConfig, setSavingConfig] = useState(false);
+
   const [formError, setFormError] = useState(false);
   const [credentilasConfig, setCredentilasConfig] =
     useState<ShopPluginCredentialsData>({
@@ -52,7 +52,6 @@ export const PluginCredentialsForm = ({
       return;
     }
     setFormError(false);
-    setSavingConfig(true);
 
     const actionData: ShopPluginCredentialsData = {
       ...credentilasConfig,
@@ -171,7 +170,7 @@ export const PluginCredentialsForm = ({
               marginTop: "16px",
             }}
           >
-            {!savingConfig || clientDataOk === undefined ? (
+            {clientDataOk === undefined ? (
               <div></div>
             ) : formError ? (
               <div>

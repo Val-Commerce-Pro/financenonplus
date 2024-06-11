@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { getConsorsClient } from "~/consors/consorsApi";
-import type { ErrorConsorsSubscription } from "~/consors/types/apiTypes";
+// import type { ErrorConsorsSubscription } from "~/consors/types/apiTypes";
 import { getEfiNotifications } from "~/models/consorsNotifications";
 import { createNoteMessage } from "~/utils/formatData";
 import { validateCustomAttributes } from "~/utils/validateData";
@@ -45,8 +45,8 @@ export async function webhook_ordersFulfillment(
   // if (!bankResponse?.ok) {
   //   return { error: true, menssage: bankResponse };
   // }
-  const bankResponseData: ErrorConsorsSubscription | string =
-    await bankResponse?.json();
+  // const bankResponseData: ErrorConsorsSubscription | string =
+  const bankResponseData = await bankResponse?.json();
   console.log("bankResponseData", bankResponseData);
   const noteMessage =
     typeof bankResponseData === "string"

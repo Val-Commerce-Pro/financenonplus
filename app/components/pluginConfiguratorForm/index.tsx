@@ -34,7 +34,6 @@ export const PluginConfiguratorForm = ({
 }: PluginConfiguratorFormProps) => {
   const isClientAllowedToUseAkitions = false;
   const [formError, setFormError] = useState(false);
-  const [displayBanner, setDisplayBanner] = useState(false);
   const submit = useSubmit();
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
@@ -240,7 +239,7 @@ export const PluginConfiguratorForm = ({
               marginTop: "10px",
             }}
           >
-            {!displayBanner || configuratorDataOk === undefined ? (
+            {configuratorDataOk === undefined ? (
               <div></div>
             ) : formError ? (
               <Badge size="medium" tone="attention">
@@ -256,10 +255,7 @@ export const PluginConfiguratorForm = ({
               </Badge>
             )}
             <Button
-              onClick={() => {
-                handleSave();
-                setDisplayBanner(true);
-              }}
+              onClick={handleSave}
               tone="success"
               variant="primary"
               size="medium"
