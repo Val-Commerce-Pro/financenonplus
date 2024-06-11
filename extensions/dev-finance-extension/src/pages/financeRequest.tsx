@@ -216,12 +216,14 @@ const FinanceRequest = ({
             >
               Finanzieren mit Consors Finanz
             </button>
-            <button className="border-2" onClick={handleGetSubscriptions}>
-              Orders status overview
-            </button>
-            <button className="border-2" onClick={handleGetTestRoute}>
-              Change order Id
-            </button>
+            <div id="testButtons" className="hidden">
+              <button className="border-2" onClick={handleGetSubscriptions}>
+                Orders status overview
+              </button>
+              <button className="border-2" onClick={handleGetTestRoute}>
+                Change order Id
+              </button>
+            </div>
           </div>
         </div>
       </div>

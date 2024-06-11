@@ -42,11 +42,11 @@ export async function webhook_ordersFulfillment(
     efiNotificationData.transactionId,
   );
   console.log("bankResponse updateSubscriptionDeliveryStatus", bankResponse);
-  if (!bankResponse?.ok) {
-    return { error: true, menssage: bankResponse };
-  }
+  // if (!bankResponse?.ok) {
+  //   return { error: true, menssage: bankResponse };
+  // }
   const bankResponseData: ErrorConsorsSubscription | string =
-    await bankResponse.json();
+    await bankResponse?.json();
   console.log("bankResponseData", bankResponseData);
   const noteMessage =
     typeof bankResponseData === "string"

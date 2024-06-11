@@ -1,12 +1,5 @@
 import { useSubmit } from "@remix-run/react";
-import {
-  Badge,
-  BlockStack,
-  Box,
-  Button,
-  Spinner,
-  TextField,
-} from "@shopify/polaris";
+import { Badge, BlockStack, Box, Button, TextField } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import type { LoaderResponseI } from "~/routes/app._index";
@@ -50,8 +43,8 @@ export const PluginCredentialsForm = ({
   };
 
   const handleSave = () => {
-    const isFormFilled = Object.values(credentilasConfig).every(
-      (value) => value,
+    const isFormFilled = Object.entries(credentilasConfig).every(
+      ([key, value]) => key === "hash" || !!value,
     );
 
     if (!isFormFilled) {
@@ -72,7 +65,6 @@ export const PluginCredentialsForm = ({
     submit(data, {
       method: "POST",
     });
-    setSavingConfig(false);
   };
 
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -196,27 +188,14 @@ export const PluginCredentialsForm = ({
                 Konfigurationsfehler
               </Badge>
             )}
-            {savingConfig ? (
-              <div
-                style={{
-                  marginRight: "25px",
-                }}
-              >
-                <Spinner
-                  size="small"
-                  accessibilityLabel="Loading Saving data"
-                />
-              </div>
-            ) : (
-              <Button
-                onClick={handleSave}
-                tone="success"
-                variant="primary"
-                size="medium"
-              >
-                Speichern
-              </Button>
-            )}
+            <Button
+              onClick={handleSave}
+              tone="success"
+              variant="primary"
+              size="medium"
+            >
+              Speichern
+            </Button>
           </div>
         </>
       )}
