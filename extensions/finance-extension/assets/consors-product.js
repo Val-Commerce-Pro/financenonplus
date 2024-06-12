@@ -75,7 +75,7 @@ async function getPluginConfData() {
 document.addEventListener("DOMContentLoaded", async () => {
   const pluginConfData = await getPluginConfData();
   const extensionSection = document.getElementById("cf-product-section");
-  const productPrice = await _getCurrentProduct();
+  const productPrice = (await _getCurrentProduct()).price * 100;
   const cartPrice = document.getElementById("cf-cart-price").textContent;
 
   const { pluginConfigurator } = pluginConfData;
