@@ -1,12 +1,3 @@
-const observer = new MutationObserver((list) => {
-  const evt = new CustomEvent("dom-changed", { detail: list });
-  document.body.dispatchEvent(evt);
-});
-observer.observe(document.body, {
-  attributes: true,
-  childList: true,
-});
-
 async function getPluginConfData() {
   // const shop = document.getElementById("shopDomain")?.textContent;
   const shop = "financenonplus.myshopify.com";
@@ -37,21 +28,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   ) {
     document.getElementById("ah-cart-redirect").style.display = "none";
   }
-
-  document.body.addEventListener("dom-changed", async (e) => {
-    const cartPrice = await fetch("cart.js")
-      .then((response) => {
-        return response.json();
-      })
-      .catch((error) => console.error("Error fetching cart data:", error)); //document.getElementById("cf-cart-price").textContent;
-
-    if (
-      parseInt(cartPrice.total_price) / 100 <
-      pluginConfData.pluginConfigurator.minOrderValue
-    ) {
-      document.getElementById("ah-cart-redirect").style.display = "none";
-    } else {
-      document.getElementById("ah-cart-redirect").style.display = "flex";
-    }
-  });
 });

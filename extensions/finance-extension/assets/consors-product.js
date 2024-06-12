@@ -1,22 +1,38 @@
-const observer = new MutationObserver((list) => {
-  const evt = new CustomEvent("dom-changed", { detail: list });
-  document.body.dispatchEvent(evt);
+/** Listener for dynamically setting the correct variantId */
+var firstTimeUrl = document.URL;
+var variantId = document.getElementById("cf-product-id").textContent;
+
+document.addEventListener("change", function () {
+  var currentPageUrl = document.URL;
+  var url = new URL(currentPageUrl);
+  var isVariantUrl = url.searchParams.get("variant");
+  currentPageUrl = isVariantUrl ? currentPageUrl : isVariantUrl;
+  if (currentPageUrl && firstTimeUrl != currentPageUrl) {
+    firstTimeUrl = currentPageUrl;
+    variantId = isVariantUrl;
+  }
 });
-observer.observe(document.body, {
-  attributes: true,
-  childList: true,
-});
+
+async function _getCurrentProduct() {
+  const url = `https://${window.location.host + window.location.pathname}.json`;
+
+  let response = await fetch(url);
+
+  let { product } = await response.json();
+  const foundVariant = product.variants.find(
+    (variant) => variant.id == variantId,
+  );
+
+  return foundVariant;
+}
 
 async function addProductToCart() {
-  const productId = document.getElementById("cf-product-id").textContent;
   const secureUrl = document.getElementById("cf-secure-url").textContent;
-
-  console.log("productId", productId);
 
   let formData = {
     items: [
       {
-        id: Number(productId),
+        id: Number(variantId),
         quantity: 1,
       },
     ],
@@ -59,12 +75,8 @@ async function getPluginConfData() {
 document.addEventListener("DOMContentLoaded", async () => {
   const pluginConfData = await getPluginConfData();
   const extensionSection = document.getElementById("cf-product-section");
-  const secureUrl = document.getElementById("cf-secure-url").textContent;
-  const productPrice = document.getElementById("cf-product-price").textContent;
+  const productPrice = await _getCurrentProduct();
   const cartPrice = document.getElementById("cf-cart-price").textContent;
-
-  console.log("productPrice", productPrice);
-  console.log("cartPrice", cartPrice);
 
   const { pluginConfigurator } = pluginConfData;
   const {
@@ -83,36 +95,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     extensionSection.classList.add("HiddenInfo");
   }
 
-  console.log("pluginConfigurator", pluginConfigurator);
-
-  console.log("cartPrice", parseInt(cartPrice));
-  console.log("productPrice", parseInt(productPrice));
-  console.log("minOrderValue", minOrderValue);
-  console.log(
-    "total calc",
-    (parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue,
-  );
-
   if ((parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue) {
     extensionSection.classList.add("HiddenInfo");
   }
-
-  document.body.addEventListener("dom-changed", async (e) => {
-    const cartPrice = await fetch(secureUrl + "/cart.js")
-      .then((response) => {
-        return response.json();
-      })
-      .catch((error) => console.error("Error fetching cart data:", error));
-
-    if (
-      parseInt(cartPrice.total_price) + parseInt(productPrice) / 100 <
-      minOrderValue
-    ) {
-      extensionSection.classList.add("HiddenInfo");
-    } else {
-      extensionSection.classList.remove("HiddenInfo");
-    }
-  });
 
   const [firstPeriod, normalPeriod, maxPeriod] = period.split(",");
   const [firstInterestRate, secondInterestRate, thirdInterestRate] =

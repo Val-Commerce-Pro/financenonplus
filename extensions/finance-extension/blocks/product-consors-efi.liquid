@@ -3,7 +3,7 @@
 <script defer src="{{ 'consors-product.js' | asset_url }}"></script>
 <link rel="stylesheet" href="{{ 'calc.css' | asset_url }}">
 
-<div hidden id="cf-product-id" class="HiddenInfo">{{ product.variants[0].id }}</div>
+<div hidden id="cf-product-id" class="HiddenInfo">{{ product.selected_or_first_available_variant.id }}</div>
 <div hidden id="cf-secure-url" class="HiddenInfo">{{ shop.secure_url }}</div>
 <div hidden id="cf-product-price" class="albisHiddenInfo">{{ product.price }}</div>
 <div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
