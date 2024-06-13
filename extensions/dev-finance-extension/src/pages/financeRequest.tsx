@@ -21,6 +21,7 @@ import {
   deleteCartItem,
   updateCartData,
 } from "../utils/shopifyAjaxApi";
+import { Tooltip } from "../components/tooltip";
 
 type FinanceRequestProps = {
   cartData: ShoppingCart;
@@ -77,7 +78,6 @@ const FinanceRequest = ({
       clientFormData.email,
     );
 
-    console.log("isValidMail", clientFormData.email, isValidMail);
     const isMinOrderValue =
       cartItems.total_price / 100 >=
       Number(pluginConfData.pluginConfigurator.minOrderValue);
@@ -205,7 +205,7 @@ const FinanceRequest = ({
           />
         </div>
         <div className="mt-[20px]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between relative">
             <button
               onClick={() => navigate(-1)}
               type="button"
@@ -219,17 +219,26 @@ const FinanceRequest = ({
                 Zurück
               </div>
             </button>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              type="button"
-              disabled={!isSendenBtnEnable()}
-              data-modal-target="static-modal"
-              id="modal-button"
-              data-modal-toggle="static-modal"
-              className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] hover:bg-[#52a489] disabled:bg-gray-300 disabled:pointer-events-none"
-            >
-              Finanzieren mit Consors Finanz
-            </button>
+            <span className="group absolute right-0">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                type="button"
+                disabled={!isSendenBtnEnable()}
+                data-modal-target="static-modal"
+                id="modal-button"
+                data-modal-toggle="static-modal"
+                className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] hover:bg-[#52a489] disabled:bg-gray-300 disabled:pointer-events-none"
+              >
+                Finanzieren mit Consors Finanz
+              </button>
+              {!isSendenBtnEnable() ? (
+                <Tooltip
+                  text={`Füllen Sie alle Felder aus, achten Sie auf eine korrekte Email und beachten Sie den Mindestbestellwert von ${pluginConfData.pluginConfigurator.minOrderValue}€.`}
+                />
+              ) : (
+                <></>
+              )}
+            </span>
             <div id="testButtons" className="hidden">
               <button className="border-2" onClick={handleGetSubscriptions}>
                 Orders status overview
