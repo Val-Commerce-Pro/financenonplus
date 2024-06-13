@@ -10,10 +10,9 @@
 <div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
 <div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
-{% if product.available and product.selected_or_first_available_variant.available %}
-<div class="calculatorContainer" id="cf-product-section">
+<div class="calculatorContainer {% unless product.available and product.selected_or_first_available_variant.available %} HiddenInfo{% endunless %}" id="cf-product-section">
   <div class="separator">- oder -</div>
-  <a id="addProductAndRedirect" class="button finanzierenBtn">👉 Jetzt Finanzieren</a>
+  <button id="addProductAndRedirect" class="button finanzierenBtn">👉 Jetzt Finanzieren</button>
   <div class="product--financing">
     <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45"><br>
     Finanzieren Sie bequem mit Consors Finanz.<br>
@@ -21,7 +20,6 @@
       <button class="btn-reset inlineBtn" id="openDrawerBtn">hier</button>
   </div>
 </div>
-{% endif %}
 
   <div id="inlineCalcOverlay" class="inline-calc-overlay"></div>
   <div id="calcDrawerContainer" class="calc-drawer-container">

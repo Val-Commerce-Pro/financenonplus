@@ -95,14 +95,15 @@ async function getPluginConfData() {
 document.addEventListener("DOMContentLoaded", async () => {
   const pluginConfData = await getPluginConfData();
   const extensionSection = document.getElementById("cf-product-section");
-  const productPrice = (await _getCurrentVariant()).price * 100;
-  const cartPrice = document.getElementById("cf-cart-price").textContent;
+  const productPrice = (await _getCurrentVariant()).price;
+  const addProductAndRedirect = document.getElementById(
+    "addProductAndRedirect",
+  );
 
   const { pluginConfigurator } = pluginConfData;
   const {
     // shop,
     appMode,
-    minOrderValue,
     period,
     // campaign,
     interestRate,
@@ -112,10 +113,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   } = pluginConfigurator;
 
   if (!appMode) {
-    extensionSection.classList.add("HiddenInfo");
-  }
-
-  if ((parseInt(cartPrice) + parseInt(productPrice)) / 100 < minOrderValue) {
     extensionSection.classList.add("HiddenInfo");
   }
 
@@ -598,7 +595,7 @@ Niederlassung Deutschland, Wuhanstraße 5, 47051 Duisburg (Fax: 02 03/34
 69 54-09; Tel.: 02 03/34 69 54-02; E- Mail: widerruf@consorsfinanz.de).</div></div></div>`,
   });
 
-  addProductAndRedirect?.addEventListener("click", async (e) => {
+  addProductAndRedirect.addEventListener("click", async (e) => {
     await addProductToCart();
   });
 });
