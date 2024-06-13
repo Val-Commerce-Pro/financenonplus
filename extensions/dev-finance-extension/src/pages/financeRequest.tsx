@@ -73,10 +73,13 @@ const FinanceRequest = ({
     setClientFormData((prev) => ({ ...prev, [name]: value }));
   }, 500);
   const isSendenBtnEnable = () => {
+    const isMinOrderValue =
+      cartItems.total_price / 100 >=
+      Number(pluginConfData.pluginConfigurator.minOrderValue);
     const allFieldsFilled = Object.values({
       ...clientFormData,
     }).every((field) => field.trim() !== "");
-    return allFieldsFilled;
+    return allFieldsFilled && isMinOrderValue;
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
