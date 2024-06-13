@@ -73,6 +73,11 @@ const FinanceRequest = ({
     setClientFormData((prev) => ({ ...prev, [name]: value }));
   }, 500);
   const isSendenBtnEnable = () => {
+    const isValidMail = /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/.test(
+      clientFormData.email,
+    );
+
+    console.log("isValidMail", clientFormData.email, isValidMail);
     const isMinOrderValue =
       cartItems.total_price / 100 >=
       Number(pluginConfData.pluginConfigurator.minOrderValue);
@@ -80,7 +85,7 @@ const FinanceRequest = ({
       ...clientFormData,
       shippingPrice,
     }).every((field) => field.trim() !== "");
-    return allFieldsFilled && isMinOrderValue;
+    return allFieldsFilled && isMinOrderValue && isValidMail;
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
