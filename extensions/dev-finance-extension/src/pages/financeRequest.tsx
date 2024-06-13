@@ -78,6 +78,7 @@ const FinanceRequest = ({
       Number(pluginConfData.pluginConfigurator.minOrderValue);
     const allFieldsFilled = Object.values({
       ...clientFormData,
+      shippingPrice,
     }).every((field) => field.trim() !== "");
     return allFieldsFilled && isMinOrderValue;
   };
@@ -128,7 +129,7 @@ const FinanceRequest = ({
     try {
       setIsFinanceSubmitted(true);
 
-      const lineItems: LineItem[] = cartData.items.map((item) => ({
+      const lineItems: LineItem[] = cartItems.items.map((item) => ({
         variantId: `gid://shopify/ProductVariant/${item.id}`,
         quantity: item.quantity,
       }));
@@ -148,7 +149,7 @@ const FinanceRequest = ({
 
       const consorsParams = getConsorsLink(
         { ...clientFormData, city, street, zipCode },
-        cartData.total_price + Number(shippingPrice) * 100,
+        cartItems.total_price + Number(shippingPrice) * 100,
         consorsOrderId,
         pluginConfData,
         shopDomain,
@@ -165,7 +166,7 @@ const FinanceRequest = ({
   };
   const consorsParams = getConsorsLink(
     { ...clientFormData, city, street, zipCode },
-    cartData.total_price + Number(shippingPrice) * 100,
+    cartItems.total_price + Number(shippingPrice) * 100,
     "consorsOrderId",
     pluginConfData,
     shopDomain,

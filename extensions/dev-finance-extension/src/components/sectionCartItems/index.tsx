@@ -93,7 +93,7 @@ export const SectionCartItems = ({
                 <div className="flex gap-[2px] items-center justify-end">
                   <div className="group relative">
                     <IoIosInformationCircleOutline size={16} />
-                    <Tooltip text="Füllen sie die Felder Straße, Stadt und Postleitzahl an, damit die Versandkosten berechnet werden können." />
+                    <Tooltip text="Füllen sie die Felder Straße, Stadt und Postleitzahl aus, damit die Versandkosten berechnet werden können." />
                   </div>
                   <span>Versandkosten</span>
                 </div>
