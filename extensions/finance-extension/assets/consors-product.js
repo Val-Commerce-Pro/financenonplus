@@ -1,8 +1,10 @@
 /** Listener for dynamically setting the correct variantId */
 var firstTimeUrl = document.URL;
-var variantId = document.getElementById("cf-product-id").textContent;
+var variantId = document.getElementById("cf-variant-id").textContent;
+var cfSection = document.getElementById("cf-product-section");
+const productId = document.getElementById("cf-product-id").textContent;
 
-document.addEventListener("change", function () {
+document.addEventListener("change", async function () {
   var currentPageUrl = document.URL;
   var url = new URL(currentPageUrl);
   var isVariantUrl = url.searchParams.get("variant");
@@ -10,15 +12,33 @@ document.addEventListener("change", function () {
   if (currentPageUrl && firstTimeUrl != currentPageUrl) {
     firstTimeUrl = currentPageUrl;
     variantId = isVariantUrl;
+    const foundVariant = await _getCurrentVariant();
+    console.log("foundVariant", foundVariant);
+    if (!foundVariant.available) {
+      cfSection.classList.add("HiddenInfo");
+    } else {
+      cfSection.classList.remove("HiddenInfo");
+    }
   }
 });
 
-async function _getCurrentProduct() {
-  const url = `https://${window.location.host + window.location.pathname}.json`;
+async function getProductById(id) {
+  const handle = (
+    await fetch(
+      `/search/suggest.json?q=id:${id}&resources[type]=product&limit=1`,
+    )
+      .then((response) => response.json())
+      .then((response) => response.resources.results.products.shift())
+  ).handle;
 
-  let response = await fetch(url);
+  return await fetch(`/products/${handle}.js`).then((response) =>
+    response.json(),
+  );
+}
 
-  let { product } = await response.json();
+async function _getCurrentVariant() {
+  const product = await getProductById(productId);
+
   const foundVariant = product.variants.find(
     (variant) => variant.id == variantId,
   );
@@ -49,8 +69,9 @@ async function addProductToCart() {
   if (!response.ok) {
     throw new Error(`HTTP error: Status: ${response.status}`);
   }
+
   const data = await response.json();
-  console.log("porudct data", data);
+  window.location.replace(`${secureUrl}/pages/consors-efi`);
   return data;
 }
 
@@ -75,7 +96,7 @@ async function getPluginConfData() {
 document.addEventListener("DOMContentLoaded", async () => {
   const pluginConfData = await getPluginConfData();
   const extensionSection = document.getElementById("cf-product-section");
-  const productPrice = (await _getCurrentProduct()).price * 100;
+  const productPrice = (await _getCurrentVariant()).price * 100;
   const cartPrice = document.getElementById("cf-cart-price").textContent;
 
   const { pluginConfigurator } = pluginConfData;
@@ -578,7 +599,7 @@ Niederlassung Deutschland, Wuhanstraße 5, 47051 Duisburg (Fax: 02 03/34
 69 54-09; Tel.: 02 03/34 69 54-02; E- Mail: widerruf@consorsfinanz.de).</div></div></div>`,
   });
 
-  addProductAndRedirect.addEventListener("click", async (e) => {
+  addProductAndRedirect?.addEventListener("click", async (e) => {
     await addProductToCart();
   });
 });
