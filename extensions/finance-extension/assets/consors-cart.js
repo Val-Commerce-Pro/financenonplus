@@ -1,6 +1,5 @@
 async function getPluginConfData() {
-  // const shop = document.getElementById("shopDomain")?.textContent;
-  const shop = "financenonplus.myshopify.com";
+  const shop = document.getElementById("shopDomain")?.textContent;
   try {
     const parameters = new URLSearchParams({ shop });
     const requestUrl = `https://financenonplus.cpro-server.de/api/getPluginConfData?${parameters}`;
