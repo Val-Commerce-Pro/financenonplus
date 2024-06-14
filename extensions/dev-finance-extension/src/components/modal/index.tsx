@@ -19,7 +19,7 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
       >
         <div className="flex justify-between items-center border-b border-gray-600 pb-[16px] mb-[16px]">
           <h3 className="text-[20px] font-semibold text-white">
-            Consors EFI Request
+            Finanzierung by Consors Finanz
           </h3>
         </div>
         <div className="mb-[16px] text-left text-gray-200">
@@ -30,8 +30,8 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
             </p>
           ) : (
             <p>
-              Beim drücken auf "Senden" werden sie zur zur Finanzierung mit
-              Consors Finanz weitergeleitet.
+              Mit Klick auf „Jetzt kaufen“ werden Ihre personenbezogenen Daten
+              an Consors Finanz für die Kreditprüfung weitergeleitet.
             </p>
           )}
         </div>
@@ -48,9 +48,9 @@ export const Modal = ({ onSubmit, onClose, isLoading = false }: ModalProps) => {
               onSubmit(e);
             }}
             disabled={isLoading}
-            className="w-[100px] h-[48px] px-[16px] text-[14px] font-medium text-white bg-[#2cb484] rounded-[8px] hover:bg-[#559880] focus:outline-none focus:ring-4 focus:bg-[#468871] disabled:bg-gray-600"
+            className="max-w-[150px] h-[48px] px-[16px] text-[14px] font-medium text-white bg-[#2cb484] rounded-[8px] hover:bg-[#559880] focus:outline-none focus:ring-4 focus:bg-[#468871] disabled:bg-gray-600"
           >
-            {isLoading ? <Spinner /> : "Senden"}
+            {isLoading ? <Spinner /> : "Jetzt kaufen"}
           </button>
         </div>
       </div>

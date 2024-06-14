@@ -14,6 +14,7 @@ import { getConsorsLink } from "../utils/getConsorsLink";
 
 import { TiArrowBackOutline } from "react-icons/ti";
 
+import { Tooltip } from "../components/tooltip";
 import { getSubscriptions } from "../utils/getSubscriptions";
 import { getTestRoute } from "../utils/getTestRoute";
 import {
@@ -21,7 +22,6 @@ import {
   deleteCartItem,
   updateCartData,
 } from "../utils/shopifyAjaxApi";
-import { Tooltip } from "../components/tooltip";
 
 type FinanceRequestProps = {
   cartData: ShoppingCart;
@@ -229,7 +229,7 @@ const FinanceRequest = ({
                 data-modal-toggle="static-modal"
                 className="text-white font-bold bg-[#2cb484] rounded-md p-[12px] hover:bg-[#52a489] disabled:bg-gray-300 disabled:pointer-events-none"
               >
-                Finanzieren mit Consors Finanz
+                Jetzt kaufen
               </button>
               {!isSendenBtnEnable() ? (
                 <Tooltip

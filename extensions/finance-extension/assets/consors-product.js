@@ -572,27 +572,13 @@ Für andere und künftige Verfügungen (Folgeverfügungen) beträgt der
 veränderliche Sollzinssatz (jährlich) 17,43 % (falls Sie bereits einen 
 Kreditrahmen bei uns haben, kann der tatsächliche veränderliche 
 Sollzinssatz abweichen). Für Folgeverfügungen müssen Sie monatliche 
-Teilzahlungen in der von Ihnen gewählten Höhe, mind. aber 2,5% der 
+Teilzahlungen in der von Ihnen gewählten Höhe, mind. aber 3% der 
 jeweils höchsten, auf volle 100 € gerundeten Sollsaldos der 
 Folgeverfügungen (mind. 9 €) leisten. Zahlungen für Folgeverfügungen 
 werden erst auf verzinste Folgeverfügungen angerechnet, bei 
 unterschiedlichen Zinssätzen zuerst auf die höher verzinsten.</div><div class="show-on-less-month">Angaben
-zugleich repräsentatives Beispiel gem. § 17 Abs. 4 PAngV. Gültig für 
-Kunden ab 18 Jahren mit Wohnsitz in Deutschland, gültigem 
-Personalausweis oder Reisepass (Nicht-EU-Bürger i.V.m. gültigem 
-Aufenthaltstitel), gültiger EC-Karte auf eigenen Namen und 
-Mindestnettoeinkommen von 450 € (ohne Kindergeld). Selbständige: 
-Finanzierung nur für private Zwecke, mind. 24 Monate Selbständigkeit. 
-Ggfs. wird ein aktueller Gehalts-/Einkommensnachweis benötigt. 
-Vermittlung erfolgt ausschließlich für den Kreditgeber BNP Paribas S.A. 
-Niederlassung Deutschland, Rüdesheimer Straße 1, 80686 München. 
-Widerrufsrecht: Der Darlehensnehmer kann seine Vertragserklärung 
-innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Zur Wahrung 
-der Widerrufsfrist genügt die rechtzeitige Absendung des Widerrufs, wenn
-die Erklärung auf einem dauerhaften Datenträger (z.B. Brief, Telefax, 
-E-Mail) erfolgt. Der Widerruf ist zu richten an: BNP Paribas S.A. 
-Niederlassung Deutschland, Wuhanstraße 5, 47051 Duisburg (Fax: 02 03/34 
-69 54-09; Tel.: 02 03/34 69 54-02; E- Mail: widerruf@consorsfinanz.de).</div></div></div>`,
+zugleich repräsentatives Beispiel gem. § 17 Abs. 4 PAngV. Gültig für Kunden ab 18 Jahren mit Wohnsitz in Deutschland,
+gültigem Personalausweis oder Reisepass (Nicht-EU-Bürger i.V.m. gültigem Aufenthaltstitel), gültiger EC-Karte auf eigenen Namen und Mindestnettoeinkommen von 538 € (ohne Kindergeld). Selbständige: Finanzierung nur für private Zwecke, mind. 24 Monate Selbständigkeit. Ggfs. wird ein aktueller Gehalts-/Einkommensnachweis benötigt. Vermittlung erfolgt ausschließlich für den Kreditgeber BNP Paribas S.A. Niederlassung Deutschland, Rüdesheimer Straße 1, 80686 München. Widerrufsrecht: Der Darlehensnehmer kann seine Vertragserklärung innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Zur Wahrung der Widerrufsfrist genügt die rechtzeitige Absendung des Widerrufs, wenn die Erklärung auf einem dauerhaften Datenträger (z.B. Brief, Telefax, E-Mail) erfolgt. Der Widerruf ist zu richten an: BNP Paribas S.A. Niederlassung Deutschland, Wuhanstraße 5, 47051 Duisburg (Fax: 02 03/34 69 54-09; Tel.: 02 03/34 69 54-02; E- Mail: widerruf@consorsfinanz.de).</div></div></div>`,
   });
 
   addProductAndRedirect.addEventListener("click", async (e) => {
