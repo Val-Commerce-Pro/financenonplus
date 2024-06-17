@@ -133,7 +133,7 @@ export class ConsorsAPI {
   async updateSubscriptionWithPartnerData(
     updateOrderIdData: UpdateSubscriptionDeliveryStatus,
   ) {
-    const { orderId, transactionId } = updateOrderIdData;
+    const { orderName, transactionId } = updateOrderIdData;
     const clientId = this.authData.vendorId;
     const consorsUrl = `${this.BASE_URL}/ratanet-api/cfg/subscription/${clientId}/transaction/partnerdata?version=${this.CONSORS_API_VERSION}`;
 
@@ -142,13 +142,12 @@ export class ConsorsAPI {
     const res = await fetch(consorsUrl, {
       method: "PUT",
       headers: {
-        Accept: "application/json",
         "x-api-key": this.authData.apiKey,
         "Content-Type": "application/json",
         Authorization: `Bearer ${consorsAuthToken}`,
       },
       body: JSON.stringify({
-        subscriptionIdentifierExternal: orderId,
+        subscriptionIdentifierExternal: orderName,
         transactionId,
       }),
     });

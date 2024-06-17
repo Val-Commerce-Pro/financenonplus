@@ -35,10 +35,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   console.log("current efiNotificationData", efiNotificationData);
   const consorsClient = await getConsorsClient(efiNotificationData.shop);
   const bankResponse = await consorsClient?.updateSubscriptionWithPartnerData({
-    orderId: efiNotificationData.orderId,
+    orderName: efiNotificationData.orderName,
     transactionId: efiNotificationData.transactionId,
   });
-  console.log("bankResponse updateSubscriptionWithPartnerData", bankResponse);
+  console.log("bankResponse", bankResponse);
+  const bankResponseData = await bankResponse?.json();
+  console.log("bankResponse Data", bankResponseData);
 
   // if (!transactionId) {
   //   return json(

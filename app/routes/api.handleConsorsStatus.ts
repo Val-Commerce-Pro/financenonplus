@@ -118,7 +118,11 @@ export const action: ActionFunction = async ({ request }) => {
     await addNoteToOrder(
       efiNotificationsData.shop,
       orderId,
-      createNoteMessage(status, undefined, statusDetail),
+      createNoteMessage(
+        status === "success" ? "Waiting_For_Documents" : status,
+        undefined,
+        statusDetail,
+      ),
     );
     if (!updatedEfiNotificationsData) {
       return json(updatedEfiNotificationsData, {

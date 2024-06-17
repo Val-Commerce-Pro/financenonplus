@@ -15,8 +15,8 @@ import { getConsorsLink } from "../utils/getConsorsLink";
 import { TiArrowBackOutline } from "react-icons/ti";
 
 import { Tooltip } from "../components/tooltip";
-import { getSubscriptions } from "../utils/getSubscriptions";
-import { getTestRoute } from "../utils/getTestRoute";
+// import { getSubscriptions } from "../utils/getSubscriptions";
+// import { getTestRoute } from "../utils/getTestRoute";
 import {
   clearCartData,
   deleteCartItem,
@@ -178,12 +178,12 @@ const FinanceRequest = ({
   );
   console.log("https://finanzieren..", consorsParams.toString());
 
-  const handleGetSubscriptions = async () => {
-    await getSubscriptions(shopDomain, "102", "25");
-  };
-  const handleGetTestRoute = async () => {
-    await getTestRoute("D100");
-  };
+  // const handleGetSubscriptions = async () => {
+  //   await getSubscriptions(shopDomain, "110", "25");
+  // };
+  // const handleGetTestRoute = async () => {
+  //   await getTestRoute("D129");
+  // };
 
   return (
     <div className="w-full">
@@ -239,14 +239,14 @@ const FinanceRequest = ({
                 <></>
               )}
             </span>
-            <div id="testButtons" className="hidden">
+            {/* <div id="testButtons" className="hidden">
               <button className="border-2" onClick={handleGetSubscriptions}>
                 Orders status overview
               </button>
               <button className="border-2" onClick={handleGetTestRoute}>
                 Change order Id
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
