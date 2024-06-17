@@ -195,24 +195,3 @@ export default function Index() {
     </div>
   );
 }
-
-/*
- [] Fazer a traducao do que e o status success para o esperando por documentos ou algo mais informativo.talvez traduzir o erro tambem
- 
-  [] check function to update orderId from consors, by sending no orderID when the finance starts
-  [] check what happens if I can cancel after I receive a accept
-  [] What to do when the merchant cancel an order even after the request is accepted
-  [] Fix valitade hash notification function
-*/
-
-/*
-tests
- [] IF the credentials app mode is desable the app should not be visible.
- [] Create a regular order with a customer who have a store accont 
- [] Create a regular order with a customer who have not a store accont 
- [] Create a regular order and dont finisih the process at consors 
- [] Create a regular order and cancel the order 
- [] Create a regular order and fulfillment the order 
-
-  [] fix endpoint to update orderId
- */

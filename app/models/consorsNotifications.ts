@@ -64,7 +64,7 @@ export async function getEfiNotifications(query: GetEfiNotifications) {
   if (!query.consorsOrderId && !query.orderId) {
     throw new Error("Either consorsOrderId or orderId must be provided");
   }
-
+  console.log("getEfiNotifications query", query);
   try {
     let efiNotifications;
 

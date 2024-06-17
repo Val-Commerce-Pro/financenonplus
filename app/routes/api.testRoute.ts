@@ -9,9 +9,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   // const shop = requestedURL.searchParams.get("shop");
   const orderId = requestedURL.searchParams.get("orderId");
 
+  console.log("orderId", orderId);
+
   const efiNotificationData = await getEfiNotifications({
     consorsOrderId: orderId ?? "",
   });
+  console.log("current efiNotificationData", efiNotificationData);
   if (
     !efiNotificationData ||
     !efiNotificationData.orderId ||
