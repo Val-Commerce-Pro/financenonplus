@@ -17,8 +17,10 @@
     <img class="financing--logo" src="{{'Consors_Finanz_Logo.png' | asset_url}}" alt="Consors Finanz Logo" width="200" height="45"><br>
     Bezahlen Sie schnell und unkompliziert in kleinen Monatsraten.
 Die Vermittlung erfolgt ausschließlich für den Kreditgeber BNP Paribas S.A. Niederlassung Deutschland, Rüdesheimer Straße 1, 80686 München<br>
+{% if product.price >= 5400 %}    
       <span id="additional-calculator-text">Weitere Informationen finden sie </span>
       <button class="btn-reset inlineBtn" id="openDrawerBtn">hier</button>
+{% endif %}
   </div>
 </div>
 
