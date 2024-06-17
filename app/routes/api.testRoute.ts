@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const orderId = requestedURL.searchParams.get("orderId");
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: orderId ?? "",
+    consorsOrderId: orderId ?? "",
   });
   if (
     !efiNotificationData ||
@@ -29,6 +29,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     );
 
+  console.log("current efiNotificationData", efiNotificationData);
   const consorsClient = await getConsorsClient(efiNotificationData.shop);
   const bankResponse = await consorsClient?.updateSubscriptionWithPartnerData({
     orderId: efiNotificationData.orderId,
