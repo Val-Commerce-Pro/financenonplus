@@ -45,7 +45,6 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
   }
   const bankResponseData: ErrorConsorsSubscription | string =
     await bankResponse.json();
-  console.log("bankResponseData cancelSubscription", bankResponseData);
   const noteMessage =
     typeof bankResponseData === "string"
       ? bankResponseData

@@ -11,7 +11,6 @@ export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { consorsOrderId } = data;
 
-  console.log("CleanUp route rendered, ", data);
   if (!data) {
     return json(`consorsOrderId not found ${consorsOrderId}`, {
       status: 400,
@@ -54,14 +53,12 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   if (!currentOrderData.orderId) {
-    const deleteDraftResponse = await deleteDraftOrder(
+    await deleteDraftOrder(
       currentOrderData.shop,
       currentOrderData.draftOrderId,
     );
-    const deletedNotification = await deleteEfiNotifications(consorsOrderId);
-    console.log("deletedNotification", deletedNotification);
+    await deleteEfiNotifications(consorsOrderId);
 
-    console.log("deleteDraftOrder", deleteDraftResponse.data);
     return json(
       { message: "draft order deleted" },
       {

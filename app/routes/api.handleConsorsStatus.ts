@@ -42,8 +42,6 @@ export const action: ActionFunction = async ({ request }) => {
     // hash,
   }: HandleConsorsStatusBody = data;
 
-  console.log("ROUTE handle Consors Status data", data);
-
   const efiNotificationsData = await getEfiNotifications({
     consorsOrderId,
   });
@@ -134,11 +132,10 @@ export const action: ActionFunction = async ({ request }) => {
     }
   }
   if (status === "accepted") {
-    const markedAsPaid = await orderMarkAsPaid(
+    await orderMarkAsPaid(
       efiNotificationsData.shop,
       efiNotificationsData.orderId ?? "",
     );
-    console.log("markedAsPaid", markedAsPaid);
   }
   return json(
     { message: "Success" },

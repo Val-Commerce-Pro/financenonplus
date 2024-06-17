@@ -6,16 +6,10 @@ export const getTestRoute = async (orderId: string) => {
     const requestUrl = `${backendUrl()}/api/testRoute?${parameters}`;
 
     const response = await fetch(requestUrl, { method: "GET" });
-    console.log("test route response - ", response);
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const updateSubscriptionDeliveryStatus = await response.json();
-    console.log(
-      "updateSubscriptionDeliveryStatus data",
-      updateSubscriptionDeliveryStatus,
-    );
 
     return updateSubscriptionDeliveryStatus;
   } catch (error) {

@@ -8,7 +8,6 @@ export const action: ActionFunction = async ({ request }) => {
   const consorsOrderId = requestedURL.searchParams.get("order_id");
   const transactionId = requestedURL.searchParams.get("transaction_id");
   const creditAmount = requestedURL.searchParams.get("creditAmount");
-  console.log("consors requestedURL", requestedURL);
 
   if (!consorsOrderId || !status || !transactionId) {
     return json(
@@ -36,8 +35,7 @@ export const action: ActionFunction = async ({ request }) => {
   //   );
   // }
   // const credentialsData = await getShopPluginConfig(notificationData?.shop);
-  // console.log("credentialsData.hash", credentialsData?.hash);
-  //console.log("checkNotifyHash", checkNotifyHash(request.url));
+  // );
   // checkNotifyHash2(request.url, "12345678910");
 
   // if (!checkNotifyHash(request.url, credentialsData?.hash ?? "")) {

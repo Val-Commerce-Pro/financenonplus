@@ -41,13 +41,8 @@ export async function webhook_ordersFulfillment(
   const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
     efiNotificationData.transactionId,
   );
-  console.log("bankResponse updateSubscriptionDeliveryStatus", bankResponse);
-  // if (!bankResponse?.ok) {
-  //   return { error: true, menssage: bankResponse };
-  // }
-  // const bankResponseData: ErrorConsorsSubscription | string =
+
   const bankResponseData = await bankResponse?.json();
-  console.log("bankResponseData", bankResponseData);
   const noteMessage =
     typeof bankResponseData === "string"
       ? bankResponseData

@@ -89,7 +89,6 @@ export class ConsorsAPI {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log("getClientIdByVendorId res", res);
     if (!res.ok) {
       return `Error fetching client ID response: ${res.statusText}`;
     }
@@ -151,13 +150,10 @@ export class ConsorsAPI {
         transactionId,
       }),
     });
-    console.log("updateSubscriptionWithPartnerData response ", res);
     if (!res.ok) {
       console.log(`HTTP error! Status: ${res.status}`);
       return;
     }
-    const newConsorsOrderData = await res?.json();
-    console.log("newConsorsOrderData", newConsorsOrderData);
 
     return res;
   }
@@ -167,8 +163,6 @@ export class ConsorsAPI {
     const consorsUrl = `https://api.consorsfinanz.de/ratanet-api/cfg/subscription/deliverystatus/${clientId}/${transactionId}/partnerdata?version=${this.CONSORS_API_VERSION}`;
 
     const consorsAuthToken = await this.jwt();
-
-    console.log("updateSubscriptionDeliveryStatus consorsUrl", consorsUrl);
 
     const res = await fetch(consorsUrl, {
       method: "PUT",

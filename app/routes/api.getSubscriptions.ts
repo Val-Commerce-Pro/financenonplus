@@ -9,10 +9,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const page = requestedURL.searchParams.get("page");
   const size = requestedURL.searchParams.get("size");
 
-  console.log("page", page);
-  console.log("size", size);
-  console.log("shop", shop);
-
   if (!shop || !page || !size) {
     return json(
       { error: "Shop not provided" },

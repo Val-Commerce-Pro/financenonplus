@@ -169,14 +169,6 @@ const FinanceRequest = ({
       setIsFinanceSubmitted(false);
     }
   };
-  const consorsParams = getConsorsLink(
-    { ...clientFormData, city, street, zipCode },
-    cartItems.total_price + Number(shippingPrice) * 100,
-    "consorsOrderId",
-    pluginConfData,
-    shopDomain,
-  );
-  console.log("https://finanzieren..", consorsParams.toString());
 
   // const handleGetSubscriptions = async () => {
   //   await getSubscriptions(shopDomain, "110", "25");

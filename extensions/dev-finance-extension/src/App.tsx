@@ -7,13 +7,8 @@ import FinanceRequest from "./pages/financeRequest";
 
 function App() {
   const shop = document.getElementById("shopDomain")?.textContent;
-  // const shop = "financenonplus.myshopify.com";
   const cartData = useGetCartData();
-  // const cartData = mockCartItems;
   const pluginConfData = useGetPluginConfData({ shop: shop ?? "" });
-
-  // console.log("first pluginConfData", pluginConfData);
-  // console.log("first cartData", cartData);
 
   return (
     <Router>

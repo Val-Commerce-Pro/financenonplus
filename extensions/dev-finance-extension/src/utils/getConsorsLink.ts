@@ -67,7 +67,5 @@ export const getConsorsLink = (
           ...defaultUrlParams,
         });
 
-  console.log("https://finanzieren..", consorsParams.toString());
-
   return consorsParams;
 };

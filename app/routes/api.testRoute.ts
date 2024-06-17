@@ -9,12 +9,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   // const shop = requestedURL.searchParams.get("shop");
   const orderId = requestedURL.searchParams.get("orderId");
 
-  console.log("orderId", orderId);
-
   const efiNotificationData = await getEfiNotifications({
     consorsOrderId: orderId ?? "",
   });
-  console.log("current efiNotificationData", efiNotificationData);
   if (
     !efiNotificationData ||
     !efiNotificationData.orderId ||
@@ -32,15 +29,13 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     );
 
-  console.log("current efiNotificationData", efiNotificationData);
   const consorsClient = await getConsorsClient(efiNotificationData.shop);
   const bankResponse = await consorsClient?.updateSubscriptionWithPartnerData({
     orderName: efiNotificationData.orderName,
     transactionId: efiNotificationData.transactionId,
   });
-  console.log("bankResponse", bankResponse);
   const bankResponseData = await bankResponse?.json();
-  console.log("bankResponse Data", bankResponseData);
+  console.log("bankResponseData", bankResponseData);
 
   // if (!transactionId) {
   //   return json(

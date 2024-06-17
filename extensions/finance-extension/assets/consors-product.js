@@ -13,7 +13,6 @@ document.addEventListener("change", async function () {
     firstTimeUrl = currentPageUrl;
     variantId = isVariantUrl;
     const foundVariant = await _getCurrentVariant();
-    console.log("foundVariant", foundVariant);
     if (!foundVariant.available) {
       cfSection.classList.add("HiddenInfo");
     } else {
