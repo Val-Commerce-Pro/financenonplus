@@ -70,7 +70,7 @@ export const action: ActionFunction = async ({ request }) => {
         status,
         creditAmount,
       });
-      fetch("https://financenonplus.cpro-server.de/api/handleConsorsStatus", {
+      fetch(`${process.env.SHOPIFY_APP_URL}/api/handleConsorsStatus`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,

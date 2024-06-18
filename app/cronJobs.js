@@ -10,7 +10,7 @@ export function scheduleCleanUp(consorsOrderId) {
     console.log(`Checking details for consorsOrderId ${consorsOrderId}`);
     try {
       const response = await fetch(
-        `https://financenonplus.cpro-server.de/api/cleanUp`,
+        `${process.env.SHOPIFY_APP_URL}/api/cleanUp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
