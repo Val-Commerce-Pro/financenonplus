@@ -7,7 +7,7 @@
 <div hidden id="cf-product-id" class="HiddenInfo">{{ product.id }}</div>
 <div hidden id="cf-secure-url" class="HiddenInfo">{{ shop.secure_url }}</div>
 <div hidden id="cf-product-price" class="albisHiddenInfo">{{ product.price }}</div>
-<div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.domain }}</div>
+<div hidden id="cf-shop-domain" class="HiddenInfo">{{ shop.permanent_domain }}</div>
 <div hidden id="cf-cart-price" class="HiddenInfo">{{ cart.total_price }}</div>
 
 <div class="calculatorContainer {% unless product.available and product.selected_or_first_available_variant.available %} HiddenInfo{% endunless %}" id="cf-product-section">
