@@ -6,7 +6,7 @@ import type {
 export type GetLoaderResponse = {
   pluginCredentialsData?: ShopPluginCredentialsData | null;
   pluginConfiguratorData?: ShopPluginConfiguratorData | null;
-  clientDataOk?: boolean | null;
+  clientDataOk?: boolean;
   configuratorDataOk?: boolean | null;
   shop: string;
 };
@@ -39,7 +39,7 @@ export const getLoaderResponse = ({
       campaign: pluginConfiguratorData?.campaign ?? "0",
       campaignDuration: pluginConfiguratorData?.campaignDuration ?? "0",
     },
-    clientDataOk: clientDataOk ?? undefined,
+    clientDataOk,
     configuratorDataOk: pluginConfiguratorData
       ? !!pluginConfiguratorData
       : undefined,

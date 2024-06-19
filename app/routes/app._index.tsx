@@ -119,7 +119,7 @@ export const loader: LoaderFunction = async ({
   return getLoaderResponse({
     pluginCredentialsData: credentials,
     pluginConfiguratorData: ShopPluginConfigurator,
-    clientDataOk: !!clientAuth,
+    clientDataOk: clientAuth ? !!clientAuth : undefined,
     shop: session.shop,
   });
 };

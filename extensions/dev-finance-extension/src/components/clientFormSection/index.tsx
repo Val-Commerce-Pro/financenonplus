@@ -32,7 +32,7 @@ export const ClientForm = ({
             ]}
             required
           />
-          <div className="grid grid-cols-2 gap-[8px]">
+          <div className="grid m-0 grid-cols-2 gap-[8px]">
             <TextField
               name="firstName"
               label="Vorname"
@@ -50,7 +50,7 @@ export const ClientForm = ({
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-[8px]">
+          <div className="grid m-0 grid-cols-2 gap-[8px]">
             <TextField
               name="email"
               label="E-Mail"
@@ -68,7 +68,7 @@ export const ClientForm = ({
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-[8px]">
+          <div className="grid m-0 grid-cols-2 gap-[8px]">
             <TextField
               name="street"
               label="Straße"
@@ -86,7 +86,7 @@ export const ClientForm = ({
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-[8px]">
+          <div className="grid m-0 grid-cols-2 gap-[8px]">
             <TextField
               name="zipCode"
               label="Postleitzahl"

@@ -21,19 +21,27 @@ const orderCancel = z.object({
 export async function webhook_ordersCancel(shop: string, payload: unknown) {
   console.log("ordersCancel rended");
   const data = payload?.valueOf();
-  const cancellationData = orderCancel.parse(data);
-  console.log("parseResult - ", cancellationData);
+  const parsedCancellationData = orderCancel.parse(data);
+  if (!parsedCancellationData) {
+    return {
+      message: "orderId not found or note_attributes not matching",
+      data: parsedCancellationData,
+    };
+  } else console.log("parseResult - ", parsedCancellationData);
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: cancellationData.admin_graphql_api_id,
+    orderId: parsedCancellationData.admin_graphql_api_id,
   });
   if (
     !efiNotificationData ||
     !efiNotificationData.orderId ||
     !efiNotificationData.transactionId ||
-    !validateCustomAttributes(cancellationData.note_attributes)
+    !validateCustomAttributes(parsedCancellationData.note_attributes)
   ) {
-    return;
+    return {
+      message: "orderId not found or note_attributes not matching",
+      data: efiNotificationData,
+    };
   }
 
   const consorsClient = await getConsorsClient(shop);
@@ -41,7 +49,7 @@ export async function webhook_ordersCancel(shop: string, payload: unknown) {
     efiNotificationData.transactionId,
   );
   if (!bankResponse?.ok) {
-    return { error: true, menssage: bankResponse };
+    return { message: "Consors cancelSubscription Failed", data: bankResponse };
   }
   const bankResponseData: ErrorConsorsSubscription | string =
     await bankResponse.json();

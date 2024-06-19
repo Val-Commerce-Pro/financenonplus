@@ -36,12 +36,15 @@ const initialClientFormData = {
   salutation: "HERR",
   firstName: customerData[1] ?? "",
   lastName: customerData[2] ?? "",
-  // street: customerData[3]?.replace(/\d+/g, "") ?? "",
   housenumber: customerData[3]?.replace(/\D/g, "") ?? "",
-  // zipCode: customerData[4] ?? "",
-  // city: customerData[5] ?? "",
   mobile: customerData[6] ?? "",
   email: customerData[7] ?? "",
+};
+
+const initialDebouncedFieldsData = {
+  street: customerData[3]?.replace(/\d+/g, "") ?? "",
+  zipCode: customerData[4] ?? "",
+  city: customerData[5] ?? "",
 };
 
 const FinanceRequest = ({
@@ -51,19 +54,17 @@ const FinanceRequest = ({
 }: FinanceRequestProps) => {
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
-  const [street, setStreet] = useState(
-    customerData[3]?.replace(/\d+/g, "") ?? "",
+  const [debouncedFields, setDebouncedFields] = useState(
+    initialDebouncedFieldsData,
   );
-  const [zipCode, setZipCode] = useState(customerData[4] ?? "");
-  const [city, setCity] = useState(customerData[5] ?? "");
+  console.log("debouncedFields", debouncedFields);
+  const [isSendenBtnDisabled, setIsSendenBtnDisabled] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
   const shippingPrice = useShippingCost({
     cartData,
     shippingAddress: {
-      city,
-      street,
-      zipCode,
+      ...debouncedFields,
     },
     shopDomain,
   });
@@ -71,34 +72,38 @@ const FinanceRequest = ({
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
   const debouncedSetField = useDebounce((name: string, value: string) => {
-    setClientFormData((prev) => ({ ...prev, [name]: value }));
+    setDebouncedFields((prev) => ({ ...prev, [name]: value }));
   }, 500);
+
+  const isSendenBtnDebounced = useDebounce(() => isSendenBtnEnable(), 500);
+
   const isSendenBtnEnable = () => {
-    const isValidMail = /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/.test(
-      clientFormData.email,
-    );
+    console.log("isSendenBtnEnable render");
+    const regexIsValidMail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+    const isValidMail = regexIsValidMail.test(clientFormData.email);
 
     const isMinOrderValue =
       cartItems.total_price / 100 >=
       Number(pluginConfData.pluginConfigurator.minOrderValue);
-    const allFieldsFilled = Object.values({
+
+    const allFieldsFilledData = {
       ...clientFormData,
+      ...debouncedFields,
       shippingPrice,
-    }).every((field) => field.trim() !== "");
-    return allFieldsFilled && isMinOrderValue && isValidMail;
+    };
+    console.log("allFieldsFilledData", allFieldsFilledData);
+    const allFieldsFilled = Object.values(allFieldsFilledData).every(
+      (field) => field.trim() !== "",
+    );
+    setIsSendenBtnDisabled(
+      allFieldsFilled && isMinOrderValue && isValidMail ? false : true,
+    );
+    return;
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    isSendenBtnDebounced();
     const { name, value } = event.target;
-
-    if (name === "street") {
-      setStreet(value);
-    } else if (name === "zipCode") {
-      setZipCode(value);
-    } else if (name === "city") {
-      setCity(value);
-    }
-
     if (["street", "zipCode", "city"].includes(name)) {
       debouncedSetField(name, value);
     } else {
@@ -141,9 +146,7 @@ const FinanceRequest = ({
       const draftOrderResponse: DraftOrderResponse = await createEfiDraftOrder(
         {
           ...clientFormData,
-          city,
-          street,
-          zipCode,
+          ...debouncedFields,
         },
         lineItems,
         shopDomain,
@@ -153,7 +156,7 @@ const FinanceRequest = ({
       const { consorsOrderId } = draftOrderResponse;
 
       const consorsParams = getConsorsLink(
-        { ...clientFormData, city, street, zipCode },
+        { ...clientFormData, ...debouncedFields },
         cartItems.total_price + Number(shippingPrice) * 100,
         consorsOrderId,
         pluginConfData,
@@ -191,7 +194,7 @@ const FinanceRequest = ({
         />
         <div className="mt-[20px]">
           <ClientForm
-            clientFormData={{ ...clientFormData, city, street, zipCode }}
+            clientFormData={{ ...clientFormData, ...debouncedFields }}
             handleInputChange={handleInputChange}
             handleSelectChange={handleSelectChange}
           />
@@ -215,7 +218,7 @@ const FinanceRequest = ({
               <button
                 onClick={() => setIsModalOpen(true)}
                 type="button"
-                disabled={!isSendenBtnEnable()}
+                disabled={isSendenBtnDisabled}
                 data-modal-target="static-modal"
                 id="modal-button"
                 data-modal-toggle="static-modal"
@@ -223,7 +226,7 @@ const FinanceRequest = ({
               >
                 Jetzt kaufen
               </button>
-              {!isSendenBtnEnable() ? (
+              {isSendenBtnDisabled ? (
                 <Tooltip
                   text={`Füllen Sie alle Felder aus, achten Sie auf eine korrekte Email und beachten Sie den Mindestbestellwert von ${pluginConfData.pluginConfigurator.minOrderValue}€.`}
                 />

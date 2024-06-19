@@ -23,26 +23,41 @@ export async function webhook_ordersFulfillment(
 ) {
   console.log("ordersFulfillment rended");
   const data = payload?.valueOf();
-  const fulfilledDataObj = orderFulfilled.parse(data);
-  console.log("fulfilledDataObj parsed - ", fulfilledDataObj);
+  const parsedFulfilledData = orderFulfilled.parse(data);
+
+  if (!parsedFulfilledData) {
+    return {
+      message: "orderId not found or note_attributes not matching",
+      data: parsedFulfilledData,
+    };
+  } else console.log("parseResult - ", parsedFulfilledData);
 
   const efiNotificationData = await getEfiNotifications({
-    orderId: fulfilledDataObj.admin_graphql_api_id,
+    orderId: parsedFulfilledData.admin_graphql_api_id,
   });
   if (
     !efiNotificationData ||
     !efiNotificationData.orderId ||
     !efiNotificationData.transactionId ||
-    !validateCustomAttributes(fulfilledDataObj.note_attributes)
-  )
-    return;
+    !validateCustomAttributes(parsedFulfilledData.note_attributes)
+  ) {
+    return {
+      message: "orderId not found or note_attributes not matching",
+      data: efiNotificationData,
+    };
+  }
 
   const consorsClient = await getConsorsClient(shop);
   const bankResponse = await consorsClient?.updateSubscriptionDeliveryStatus(
     efiNotificationData.transactionId,
   );
-
-  const bankResponseData = await bankResponse?.json();
+  if (!bankResponse?.ok) {
+    return {
+      message: "Consors updateSubscriptionDeliveryStatus Failed",
+      data: bankResponse,
+    };
+  }
+  const bankResponseData = await bankResponse.json();
   const noteMessage =
     typeof bankResponseData === "string"
       ? bankResponseData
