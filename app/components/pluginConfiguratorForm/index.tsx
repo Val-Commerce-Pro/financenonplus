@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { InfoIcon } from "@shopify/polaris-icons";
 import type { LoaderResponseI } from "~/routes/app._index";
@@ -33,7 +33,7 @@ export const PluginConfiguratorForm = ({
   configuratorDataOk,
 }: PluginConfiguratorFormProps) => {
   const isClientAllowedToUseAkitions = false;
-  const [formError, setFormError] = useState(false);
+  const [displayBanner, setDisplayBanner] = useState(false);
   const submit = useSubmit();
   const [configuratorFormData, setConfiguratorFormData] =
     useState<ShopPluginConfiguratorData>({
@@ -48,9 +48,11 @@ export const PluginConfiguratorForm = ({
       campaignDuration: pluginConfiguratorData.campaignDuration,
     });
 
-  const checkFormFilled = () => {
-    return Object.values(configuratorFormData).every((value) => value);
-  };
+  const isSaveBtnEnable = useMemo(() => {
+    return Object.values(configuratorFormData).every((value) =>
+      typeof value === "string" ? value !== "" : value !== false,
+    );
+  }, [configuratorFormData]);
 
   const aktionszinsOptions: AktionszinsOptionsI = [
     { label: "0", value: "0" },
@@ -64,13 +66,7 @@ export const PluginConfiguratorForm = ({
   };
 
   const handleSave = () => {
-    const isFormFilled = checkFormFilled();
-
-    if (!isFormFilled) {
-      setFormError(true);
-      return;
-    }
-    setFormError(false);
+    setDisplayBanner(true);
     const data = {
       ...configuratorFormData,
       _action: "configuratorForm",
@@ -83,7 +79,7 @@ export const PluginConfiguratorForm = ({
   const handleAppMode = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = e.target;
     if (!checked) {
-      setFormError(false);
+      setDisplayBanner(false);
       setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
 
       const data = {
@@ -102,6 +98,7 @@ export const PluginConfiguratorForm = ({
 
   useEffect(() => {
     if (!clientDataOk) {
+      setDisplayBanner(false);
       setConfiguratorFormData((prev) => ({ ...prev, appMode: false }));
       const data = {
         shop: pluginConfiguratorData.shop,
@@ -239,12 +236,8 @@ export const PluginConfiguratorForm = ({
               marginTop: "10px",
             }}
           >
-            {configuratorDataOk === undefined ? (
+            {!displayBanner || configuratorDataOk === undefined ? (
               <div></div>
-            ) : formError ? (
-              <Badge size="medium" tone="attention">
-                Alle Felder sind erforderlich
-              </Badge>
             ) : configuratorDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
@@ -259,6 +252,7 @@ export const PluginConfiguratorForm = ({
               tone="success"
               variant="primary"
               size="medium"
+              disabled={isSaveBtnEnable}
             >
               Speichern
             </Button>

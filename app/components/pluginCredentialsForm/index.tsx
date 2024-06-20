@@ -1,7 +1,7 @@
 import { useSubmit } from "@remix-run/react";
 import { Badge, BlockStack, Box, Button, TextField } from "@shopify/polaris";
 import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { LoaderResponseI } from "~/routes/app._index";
 import type { ShopPluginCredentialsData } from "~/types/databaseInterfaces";
 import { Switch } from "../switch";
@@ -17,7 +17,7 @@ export const PluginCredentialsForm = ({
 }: PluginCredentialsFormProps) => {
   const submit = useSubmit();
 
-  const [formError, setFormError] = useState(false);
+  const [displayBanner, setDisplayBanner] = useState(false);
   const [credentilasConfig, setCredentilasConfig] =
     useState<ShopPluginCredentialsData>({
       username: pluginCredentialsData.username,
@@ -29,6 +29,12 @@ export const PluginCredentialsForm = ({
       passwort: pluginCredentialsData.passwort,
       shop: pluginCredentialsData.shop,
     });
+
+  const isSaveBtnEnable = useMemo(() => {
+    return Object.entries(credentilasConfig).every(
+      ([key, value]) => key === "hash" || !!value,
+    );
+  }, [credentilasConfig]);
 
   const handleOnChange = (value: string, id: string) => {
     if (id === "vendorId") {
@@ -43,15 +49,7 @@ export const PluginCredentialsForm = ({
   };
 
   const handleSave = () => {
-    const isFormFilled = Object.entries(credentilasConfig).every(
-      ([key, value]) => key === "hash" || !!value,
-    );
-
-    if (!isFormFilled) {
-      setFormError(true);
-      return;
-    }
-    setFormError(false);
+    setDisplayBanner(true);
 
     const actionData: ShopPluginCredentialsData = {
       ...credentilasConfig,
@@ -70,7 +68,7 @@ export const PluginCredentialsForm = ({
     const { name, checked } = e.target;
 
     if (!checked) {
-      setFormError(false);
+      setDisplayBanner(false);
       setCredentilasConfig((prev) => ({ ...prev, appMode: false }));
 
       const data = {
@@ -163,14 +161,8 @@ export const PluginCredentialsForm = ({
               marginTop: "16px",
             }}
           >
-            {clientDataOk === undefined ? (
+            {!displayBanner || clientDataOk === undefined ? (
               <div></div>
-            ) : formError ? (
-              <div>
-                <Badge size="medium" tone="attention">
-                  Alle Felder sind erforderlich
-                </Badge>
-              </div>
             ) : clientDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
@@ -185,6 +177,7 @@ export const PluginCredentialsForm = ({
               tone="success"
               variant="primary"
               size="medium"
+              disabled={isSaveBtnEnable}
             >
               Speichern
             </Button>

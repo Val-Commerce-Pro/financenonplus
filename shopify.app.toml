@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "a6c1a9acfc6859f61ffc9dbe192dc515"
-name = "Consors Finanzierung Commerce-Pro"
+name = "CP - Consors Finanzierung"
 handle = "financenonplus"
 application_url = "https://financenonplus.cpro-server.de"
 embedded = true

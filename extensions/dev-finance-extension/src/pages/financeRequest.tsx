@@ -39,9 +39,6 @@ const initialClientFormData = {
   housenumber: customerData[3]?.replace(/\D/g, "") ?? "",
   mobile: customerData[6] ?? "",
   email: customerData[7] ?? "",
-};
-
-const initialDebouncedFieldsData = {
   street: customerData[3]?.replace(/\d+/g, "") ?? "",
   zipCode: customerData[4] ?? "",
   city: customerData[5] ?? "",
@@ -54,20 +51,14 @@ const FinanceRequest = ({
 }: FinanceRequestProps) => {
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
-  const [debouncedFields, setDebouncedFields] = useState(
-    initialDebouncedFieldsData,
-  );
-  console.log("debouncedFields", debouncedFields);
+  const [debouncedFields, setDebouncedFields] = useState({
+    street: initialClientFormData.street,
+    zipCode: initialClientFormData.zipCode,
+    city: initialClientFormData.city,
+  });
   const [isSendenBtnDisabled, setIsSendenBtnDisabled] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
-  const shippingPrice = useShippingCost({
-    cartData,
-    shippingAddress: {
-      ...debouncedFields,
-    },
-    shopDomain,
-  });
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
@@ -75,7 +66,19 @@ const FinanceRequest = ({
     setDebouncedFields((prev) => ({ ...prev, [name]: value }));
   }, 500);
 
-  const isSendenBtnDebounced = useDebounce(() => isSendenBtnEnable(), 500);
+  const isSendenBtnDebounced = useDebounce(() => isSendenBtnEnable(), 300);
+
+  const debouncedShippingAddress = {
+    street: debouncedFields.street,
+    zipCode: debouncedFields.zipCode,
+    city: debouncedFields.city,
+  };
+
+  const shippingPrice = useShippingCost({
+    cartData,
+    shippingAddress: debouncedShippingAddress,
+    shopDomain,
+  });
 
   const isSendenBtnEnable = () => {
     console.log("isSendenBtnEnable render");
@@ -88,7 +91,6 @@ const FinanceRequest = ({
 
     const allFieldsFilledData = {
       ...clientFormData,
-      ...debouncedFields,
       shippingPrice,
     };
     console.log("allFieldsFilledData", allFieldsFilledData);
@@ -106,9 +108,8 @@ const FinanceRequest = ({
     const { name, value } = event.target;
     if (["street", "zipCode", "city"].includes(name)) {
       debouncedSetField(name, value);
-    } else {
-      setClientFormData({ ...clientFormData, [name]: value });
     }
+    setClientFormData({ ...clientFormData, [name]: value });
   };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -144,10 +145,7 @@ const FinanceRequest = ({
         quantity: item.quantity,
       }));
       const draftOrderResponse: DraftOrderResponse = await createEfiDraftOrder(
-        {
-          ...clientFormData,
-          ...debouncedFields,
-        },
+        clientFormData,
         lineItems,
         shopDomain,
         customerData[0],
@@ -156,7 +154,7 @@ const FinanceRequest = ({
       const { consorsOrderId } = draftOrderResponse;
 
       const consorsParams = getConsorsLink(
-        { ...clientFormData, ...debouncedFields },
+        clientFormData,
         cartItems.total_price + Number(shippingPrice) * 100,
         consorsOrderId,
         pluginConfData,
@@ -194,7 +192,7 @@ const FinanceRequest = ({
         />
         <div className="mt-[20px]">
           <ClientForm
-            clientFormData={{ ...clientFormData, ...debouncedFields }}
+            clientFormData={clientFormData}
             handleInputChange={handleInputChange}
             handleSelectChange={handleSelectChange}
           />
