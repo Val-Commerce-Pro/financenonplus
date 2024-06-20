@@ -238,9 +238,9 @@ export const PluginConfiguratorForm = ({
               marginTop: "10px",
             }}
           >
-            {!displayBanner || configuratorDataOk === undefined ? (
+            {configuratorDataOk === undefined ? (
               <div></div>
-            ) : configuratorDataOk ? (
+            ) : displayBanner && configuratorDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
               </Badge>

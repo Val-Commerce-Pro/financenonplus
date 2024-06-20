@@ -163,9 +163,9 @@ export const PluginCredentialsForm = ({
               marginTop: "16px",
             }}
           >
-            {!displayBanner || clientDataOk === undefined ? (
+            {clientDataOk === undefined ? (
               <div></div>
-            ) : clientDataOk ? (
+            ) : displayBanner && clientDataOk ? (
               <Badge size="medium" tone="success">
                 Erfolgreich gespeichert
               </Badge>
