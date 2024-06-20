@@ -5,7 +5,6 @@ import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
 
 import { ClientForm } from "../components/clientFormSection";
 import { Modal } from "../components/modal";
-import { useDebounce } from "../hooks/useDebouncedCallback";
 import { PluginConfigI } from "../hooks/useGetPluginConfData";
 import { useShippingCost } from "../hooks/useShippingCost";
 import { DraftOrderResponse } from "../types/shopifyResponses";
@@ -51,32 +50,19 @@ const FinanceRequest = ({
 }: FinanceRequestProps) => {
   const navigate = useNavigate();
   const [clientFormData, setClientFormData] = useState(initialClientFormData);
-  const [debouncedFields, setDebouncedFields] = useState({
-    street: initialClientFormData.street,
-    zipCode: initialClientFormData.zipCode,
-    city: initialClientFormData.city,
-  });
-  const [isSendenBtnDisabled, setIsSendenBtnDisabled] = useState(true);
+  console.log("clientFormData", clientFormData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFinanceSubmitted, setIsFinanceSubmitted] = useState(false);
 
   const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
 
-  const debouncedSetField = useDebounce((name: string, value: string) => {
-    setDebouncedFields((prev) => ({ ...prev, [name]: value }));
-  }, 500);
-
-  const isSendenBtnDebounced = useDebounce(() => isSendenBtnEnable(), 300);
-
-  const debouncedShippingAddress = {
-    street: debouncedFields.street,
-    zipCode: debouncedFields.zipCode,
-    city: debouncedFields.city,
-  };
-
   const shippingPrice = useShippingCost({
     cartData,
-    shippingAddress: debouncedShippingAddress,
+    shippingAddress: {
+      street: clientFormData.street,
+      zipCode: clientFormData.zipCode,
+      city: clientFormData.city,
+    },
     shopDomain,
   });
 
@@ -84,10 +70,12 @@ const FinanceRequest = ({
     console.log("isSendenBtnEnable render");
     const regexIsValidMail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
     const isValidMail = regexIsValidMail.test(clientFormData.email);
+    if (!isValidMail) return false;
 
     const isMinOrderValue =
       cartItems.total_price / 100 >=
       Number(pluginConfData.pluginConfigurator.minOrderValue);
+    if (!isMinOrderValue) return false;
 
     const allFieldsFilledData = {
       ...clientFormData,
@@ -97,18 +85,13 @@ const FinanceRequest = ({
     const allFieldsFilled = Object.values(allFieldsFilledData).every(
       (field) => field.trim() !== "",
     );
-    setIsSendenBtnDisabled(
-      allFieldsFilled && isMinOrderValue && isValidMail ? false : true,
-    );
-    return;
+    return allFieldsFilled && isMinOrderValue && isValidMail;
   };
 
+  const isSendenBtnDisabled = isSendenBtnEnable();
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    isSendenBtnDebounced();
     const { name, value } = event.target;
-    if (["street", "zipCode", "city"].includes(name)) {
-      debouncedSetField(name, value);
-    }
     setClientFormData({ ...clientFormData, [name]: value });
   };
 
