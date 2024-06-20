@@ -36,6 +36,8 @@ export const PluginCredentialsForm = ({
     );
   }, [credentilasConfig]);
 
+  console.log("isSaveBtnEnable credentials", isSaveBtnEnable);
+
   const handleOnChange = (value: string, id: string) => {
     if (id === "vendorId") {
       setCredentilasConfig((prev) => ({
@@ -177,7 +179,7 @@ export const PluginCredentialsForm = ({
               tone="success"
               variant="primary"
               size="medium"
-              disabled={isSaveBtnEnable}
+              disabled={!isSaveBtnEnable}
             >
               Speichern
             </Button>

@@ -54,6 +54,8 @@ export const PluginConfiguratorForm = ({
     );
   }, [configuratorFormData]);
 
+  console.log("isSaveBtnEnable configurator", isSaveBtnEnable);
+
   const aktionszinsOptions: AktionszinsOptionsI = [
     { label: "0", value: "0" },
     { label: "1", value: "1" },
@@ -252,7 +254,7 @@ export const PluginConfiguratorForm = ({
               tone="success"
               variant="primary"
               size="medium"
-              disabled={isSaveBtnEnable}
+              disabled={!isSaveBtnEnable}
             >
               Speichern
             </Button>
