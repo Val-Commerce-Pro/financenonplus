@@ -199,7 +199,7 @@ const FinanceRequest = ({
               <button
                 onClick={() => setIsModalOpen(true)}
                 type="button"
-                disabled={isSendenBtnDisabled}
+                disabled={!isSendenBtnDisabled}
                 data-modal-target="static-modal"
                 id="modal-button"
                 data-modal-toggle="static-modal"
@@ -207,7 +207,7 @@ const FinanceRequest = ({
               >
                 Jetzt kaufen
               </button>
-              {isSendenBtnDisabled ? (
+              {!isSendenBtnDisabled ? (
                 <Tooltip
                   text={`Füllen Sie alle Felder aus, achten Sie auf eine korrekte Email und beachten Sie den Mindestbestellwert von ${pluginConfData.pluginConfigurator.minOrderValue}€.`}
                 />
