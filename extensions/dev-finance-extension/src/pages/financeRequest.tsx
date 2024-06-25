@@ -188,7 +188,7 @@ const FinanceRequest = ({
               data-modal-target="static-modal"
               id="modal-button"
               data-modal-toggle="static-modal"
-              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[200px] hover:bg-orange-500 disabled:bg-gray-300 disabled:pointer-events-none"
+              className="text-white font-bold bg-orange-400 rounded-md p-[12px] hover:bg-orange-500 disabled:bg-gray-300 disabled:pointer-events-none"
             >
               <div className="flex items-center justify-center ">
                 <TiArrowBackOutline className="inline-block" size={24} />
